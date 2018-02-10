@@ -1,3 +1,4 @@
+
 #
 # ──────────────────────────────────────────────── II ──────
 #   :::::: I N F O : :  :   :    :     :        :          :
@@ -16,6 +17,11 @@
              "Versions/Current/Resources/airport -I | " +
              "sed -e \"s/^ *SSID: //p\" -e d"
     volume : "osascript -e 'output volume of (get volume settings)'"
+    cpu : "ps -A -o %cpu | awk '{s+=$1} END {printf(\"%.2f\",s/8);}'"
+    mem : "ps -A -o %mem | awk '{s+=$1} END {print s \"%\"}' "
+    hdd : "df -hl | awk '{s+=$5} END {print s \"%\"}'"
+    date  : "date +\"%a %d %b\""
+    focus : "/usr/local/bin/chunkc tiling::query --window owner"
 
   #
   # ─── COLORS ─────────────────────────────────────────────────────────────────
@@ -36,16 +42,23 @@
   #
 
   command: "echo " +
-           #{}"$(#{ commands.battery }):::" +
-           "$(#{ commands.time }):::"
-           #{}"$(#{ commands.wifi }):::" +
-           #{}"$(#{ commands.volume }):::"
+           "$(#{ commands.battery }):::" +
+           "$(#{ commands.time }):::" +
+           "$(#{ commands.wifi }):::" +
+           "$(#{ commands.volume }):::" +
+           "$(#{ commands.cpu }):::" +
+           "$(#{ commands.mem }):::" +
+           "$(#{ commands.hdd }):::" +
+           "$(#{ commands.date }):::" +
+           "$(#{ commands.focus }):::"
+
+
 
   #
   # ─── REFRESH ────────────────────────────────────────────────────────────────
   #
 
-  refreshFrequency: 1000
+  refreshFrequency: 1028
 
   #
   # ─── RENDER ─────────────────────────────────────────────────────────────────
@@ -54,22 +67,53 @@
   render: ( ) ->
     """
     <link rel="stylesheet" href="./font-awesome/font-awesome.min.css" />
+    <div class="container" id="main">
+      <div class="container" id="left">
+        <div class="cpu">
+          <i class="fa fa-spinner"></i>
+          <span class="cpu-output"></span>
+        </div>
+        <div class="mem">
+          <i class="fas fa-server"></i>
+          <span class="mem-output"></span>
+        </div>
+        <div class="hdd">
+          <i class="fas fa-hdd"></i>
+            <span class="hdd-output"></span>
+        </div>
+      </div>
 
-    <div class="volume">
-      <span class="volume-icon"></span>
-      <span class="volume-output"></span>
-    </div>
-    <div class="wifi">
-      <i class="fa fa-wifi"></i>
-      <span class="wifi-output"></span>
-    </div>
-    <div class="battery">
-      <span class="battery-icon"></span>
-      <span class="battery-output"></span>
-    </div>
-    <div class="time">
-      <i class="fa fa-clock-o"></i>
-      <span class="time-output"></span>
+      <div class="container" id="center">
+        <div class="window">
+          <i class="fa fa-window-maximize"></i>
+          <span class="window-output"></span>
+        </div>
+      </div>
+
+      <div class="container" id="right">
+        <div class="volume">
+          <span class="volume-icon"></span>
+          <span class="volume-output"></span>
+        </div>
+        <div class="wifi">
+          <i class="fa fa-wifi"></i>
+          <span class="wifi-output"></span>
+        </div>
+        <div class="battery">
+          <span class="battery-icon"></span>
+          <span class="battery-output"></span>
+        </div>
+        <div class="time">
+          <i class="far fa-clock"></i>
+          <span class="time-output"></span>
+        </div>
+        <div class="date">
+          <i class="far fa-calendar-alt"></i>
+          <span class="date-output"></span>
+        </div>
+
+      </div>
+
     </div>
     """
 
@@ -80,12 +124,30 @@
   update: ( output ) ->
     output = output.split( /:::/g )
 
-    time   = output[ 0 ]
+    battery = output[ 0 ]
+    time   = output[ 1 ]
+    wifi = output[ 2 ]
+    volume = output[ 3 ]
+    cpu = output[ 4 ]
+    mem = output[ 5 ]
+    hdd = output[ 6 ]
+    date = output[ 7 ]
+    focus = output[ 8 ]
+
 
     $( ".time-output" )    .text( "#{ time }" )
+    $( ".date-output" )    .text( "#{ date }" )
+    $( ".battery-output") .text("#{ battery }")
+    $( ".wifi-output") .text("#{ wifi }")
+    $( ".volume-output") .text("#{ volume }")
+    $( ".cpu-output") .text("#{ cpu }")
+    $( ".mem-output") .text("#{ mem }")
+    $( ".hdd-output") .text("#{ hdd }")
+    $( ".window-output" ).text( "#{ focus }" )
 
-    #@handleBattery( Number( battery.replace( /%/g, "" ) ) )
-    #@handleVolume( Number( volume ) )
+
+    @handleBattery( Number( battery.replace( /%/g, "" ) ) )
+    @handleVolume( Number( volume ) )
 
   #
   # ─── HANDLE BATTERY ─────────────────────────────────────────────────────────
@@ -93,11 +155,11 @@
 
   handleBattery: ( percentage ) ->
     batteryIcon = switch
-      when percentage <=  12 then "fa-battery-0"
-      when percentage <=  25 then "fa-battery-1"
-      when percentage <=  50 then "fa-battery-2"
-      when percentage <=  75 then "fa-battery-3"
-      when percentage <= 100 then "fa-battery-4"
+      when percentage <=  12 then "fa-battery-empty"
+      when percentage <=  25 then "fa-battery-quarter"
+      when percentage <=  50 then "fa-battery-half"
+      when percentage <=  75 then "fa-battery-three-quarters"
+      when percentage <= 100 then "fa-battery-full"
     $( ".battery-icon" ).html( "<i class=\"fa #{ batteryIcon }\"></i>" )
 
   #
@@ -124,17 +186,58 @@
       color: #{ colors.white }
     .volume
       color: #{ colors.cyan }
+    .cpu
+      color: #{ colors.white }
+    .mem
+      color: #{ colors.red }
+    .hdd
+      color: #{ colors.magenta}
+    .date
+      color: #{ colors.green }
+    .up
+      color: #{ colors.green }
+    .down
+      color: #{ colors.red }
+    .window
+      color: #{ colors.white }
+    .battery,.time,.wifi,.volume,.cpu,.mem,.hdd,.date
+      margin-right:24px
 
-    display: flex
-    div
-      margin-right: 15px
+    top: 16px
+    left: 16px
 
-    top: 26px
-    right: 100px
     font-family: 'Menlo'
     font-size: 12px
     font-smoothing: antialiasing
     z-index: 0
+    display: flex
+
+    .container
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      border-radius:4px
+      padding:3px
+      background-color: #{ colors.black }
+
+
+    #main
+      padding:4px
+      width:1640px
+
+    #left
+      width:50%
+      justify-content: flex-start
+
+    #center
+      width:50%
+      display:block
+      text-align:center
+
+    #right
+      width:50%
+      justify-content:flex-end
+
   """
 
 # ──────────────────────────────────────────────────────────────────────────────
