@@ -111,7 +111,7 @@
   # ─── RENDER ─────────────────────────────────────────────────────────────────
   #
 
-  update: ( output ) ->
+  update: ( output, domEl ) ->
     output = output.split( /:::/g )
 
     battery = output[ 0 ]
@@ -133,34 +133,28 @@
     $( ".mem-output") .text("#{ mem }")
     $( ".hdd-output") .text("#{ hdd }")
 
-
-    @handleBattery( Number( battery.replace( /%/g, "" ) ) )
-    @handleVolume( Number( volume ) )
-
-  #
-  # ─── HANDLE BATTERY ─────────────────────────────────────────────────────────
-  #
-
-  handleBattery: ( percentage ) ->
-    batteryIcon = switch
-      when percentage <=  12 then "fa-battery-empty"
-      when percentage <=  25 then "fa-battery-quarter"
-      when percentage <=  50 then "fa-battery-half"
-      when percentage <=  75 then "fa-battery-three-quarters"
-      when percentage <= 100 then "fa-battery-full"
-    $( ".battery-icon" ).html( "<i class=\"fa #{ batteryIcon }\"></i>" )
+    @handleSysmon( domEl, Number( cpu ), '.cpu' )
+    @handleSysmon( domEl, Number( mem.replace( /%/g, "") ), '.mem' )
+    @handleSysmon( domEl, Number( hdd.replace( /%/g, "") ), '.hdd' )
 
   #
-  # ─── HANDLE VOLUME ──────────────────────────────────────────────────────────
+  # ─── COLOR SYSMON –─────────────────────────────────────────────────────────
   #
+  handleSysmon: ( domEl, sysmon, monid ) ->
+    div = $(domEl)
 
-  handleVolume: ( volume ) ->
-    volumeIcon = switch
-      when volume ==   0 then "fa-volume-off"
-      when volume <=  50 then "fa-volume-down"
-      when volume <= 100 then "fa-volume-up"
-    $( ".volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
-
+    if sysmon <= 10
+      div.find(monid).css('color', colors.white )
+    else if sysmon <= 20
+      div.find(monid).css('color', colors.cyan )
+    else if sysmon <= 40
+      div.find(monid).css('color', colors.blue )
+    else if sysmon <= 50
+      div.find(monid).css('color', colors.green )
+    else if sysmon <= 75
+      div.find(monid).css('color', colors.yellow )
+    else
+      div.find(monid).css('color', colors.red )
   #
   # ─── STYLE ──────────────────────────────────────────────────────────────────
   #
