@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>albumName</key>
+	<string>Legends: Inhale</string>
+	<key>artistName</key>
+	<string>Koan</string>
+	<key>coverURL</key>
+	<string>/supernerd.widget/lib/cover329.png</string>
+	<key>currentPosition</key>
+	<string>195</string>
+	<key>isLoved</key>
+	<string>false</string>
+	<key>oldFilename</key>
+	<string>/Users/riccardofadiga/Library/Application Support/Übersicht/widgets/supernerd.widget/lib/cover329.png</string>
+	<key>songChanged</key>
+	<string>false</string>
+	<key>songDuration</key>
+	<string>555</string>
+	<key>songName</key>
+	<string>Wandering Minestrel</string>
+</dict>
+</plist>

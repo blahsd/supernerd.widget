@@ -35,3 +35,8 @@ git clone https://github.com/blahsd/supernerd.widget $HOME/Library/Application\ 
 Supernerd is the only bar replacement that employs one single widget to display all of the informations you need. Since everybody else does it differently, it might be a bad idea, but I don't really know why, so I don't care. At any rate, having it this way probably reduces over head, and most importantly makes it super easy to theme, because you only have to edit one file's CSS which then applies to all of the widgets.
 
 Supernerds ships themed with the colours of the [Snazzy](https://github.com/sindresorhus/hyper-snazzy) theme (which I recommend).
+
+# Credits
+* [herbischoff/nerbar.widget](https://github.com/herrbischoff/nerdbar.widget): most of the original styling
+* [Pe8er/playbox.widget](https://github.com/Pe8er/Playbox.widget): the script that fetches information from iTunes, which I recklessly mutilated for use with supernerd
+* [syndresorhus/hyper-snazzy](https://github.com/sindresorhus/hyper-snazzy): I copied the sweet colors from here

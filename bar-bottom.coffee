@@ -1,7 +1,6 @@
-
 #
 # ──────────────────────────────────────────────── I ───────
-#   :::::: S U P E R N E R D
+#   :::::: S U P E R N E R D – BOTTOM
 # ──────────────────────────────────────────────────────────
 #
 
@@ -21,7 +20,6 @@
     mem : "ps -A -o %mem | awk '{s+=$1} END {print s \"%\"}' "
     hdd : "df -hl | awk '{s+=$5} END {print s \"%\"}'"
     date  : "date +\"%a %d %b\""
-    focus : "/usr/local/bin/chunkc tiling::query --window owner"
 
   #
   # ─── COLORS ─────────────────────────────────────────────────────────────────
@@ -49,8 +47,7 @@
            "$(#{ commands.cpu }):::" +
            "$(#{ commands.mem }):::" +
            "$(#{ commands.hdd }):::" +
-           "$(#{ commands.date }):::" +
-           "$(#{ commands.focus }):::"
+           "$(#{ commands.date }):::"
 
 
 
@@ -58,7 +55,7 @@
   # ─── REFRESH ────────────────────────────────────────────────────────────────
   #
 
-  refreshFrequency: 1028
+  refreshFrequency:5012
 
   #
   # ─── RENDER ─────────────────────────────────────────────────────────────────
@@ -69,6 +66,28 @@
     <link rel="stylesheet" href="./font-awesome/font-awesome.min.css" />
     <div class="container" id="main">
       <div class="container" id="left">
+      <div class="home">
+        <i class="fas fa-home"></i>
+        ~/
+      </div>
+        <div class="browser">
+          <i class="far fa-compass"></i>
+          Browser
+        </div>
+        <div class="mail">
+          <i class="far fa-envelope"></i>
+          Mail
+        </div>
+        <div class="messages">
+          <i class="far fa-comments"></i>
+          Messages
+        </div>
+      </div>
+
+      <div class="container" id="center">
+      </div>
+
+      <div class="container" id="right">
         <div class="cpu">
           <i class="fa fa-spinner"></i>
           <span class="cpu-output"></span>
@@ -81,35 +100,6 @@
           <i class="fas fa-hdd"></i>
             <span class="hdd-output"></span>
         </div>
-      </div>
-
-      <div class="container" id="center">
-        <div class="window">
-          <i class="fa fa-window-maximize"></i>
-          <span class="window-output"></span>
-        </div>
-      </div>
-
-      <div class="container" id="right">
-        <div class="volume">
-          <span class="volume-icon"></span>
-          <span class="volume-output"></span>
-        </div>
-        <div class="wifi">
-          <i class="fa fa-wifi"></i>
-          <span class="wifi-output"></span>
-        </div>
-        <div class="battery">
-          <span class="battery-icon"></span>
-          <span class="battery-output"></span>
-        </div>
-        <div class="time">
-          <i class="far fa-clock"></i>
-          <span class="time-output"></span>
-        </div>
-        <div class="date">
-          <i class="far fa-calendar-alt"></i>
-          <span class="date-output"></span>
         </div>
 
       </div>
@@ -132,7 +122,6 @@
     mem = output[ 5 ]
     hdd = output[ 6 ]
     date = output[ 7 ]
-    focus = output[ 8 ]
 
 
     $( ".time-output" )    .text( "#{ time }" )
@@ -143,7 +132,6 @@
     $( ".cpu-output") .text("#{ cpu }")
     $( ".mem-output") .text("#{ mem }")
     $( ".hdd-output") .text("#{ hdd }")
-    $( ".window-output" ).text( "#{ focus }" )
 
 
     @handleBattery( Number( battery.replace( /%/g, "" ) ) )
@@ -200,10 +188,17 @@
       color: #{ colors.red }
     .window
       color: #{ colors.white }
-    .battery,.time,.wifi,.volume,.cpu,.mem,.hdd,.date
-      margin-right:24px
+    .messages
+      color: #{ colors.green }
+    .mail
+      color: #{ colors.cyan }
+    .browser
+      color: #{ colors.blue }
+    .home
+      color: #{ colors.white }
 
-    top: 16px
+
+    bottom: 4px
     left: 16px
 
     font-family: 'Menlo'
@@ -211,6 +206,9 @@
     font-smoothing: antialiasing
     z-index: 0
     display: flex
+
+    i
+      margin-left:16px
 
     .container
       display: flex;
@@ -239,5 +237,13 @@
       justify-content:flex-end
 
   """
+  #
+  # ─── HANDLE CLICKS ──────────────────────────────────────────────────────────
+  #
+  afterRender: (domEl) ->
+    $(domEl).on 'click', '.home', => @run "open ~"
+    $(domEl).on 'click', '.browser', => @run "open /Applications/Safari.app"
+    $(domEl).on 'click', '.mail', => @run "open /Applications/Mail.app"
+    $(domEl).on 'click', '.messages', => @run "open /Applications/WhatsApp.app"
 
 # ──────────────────────────────────────────────────────────────────────────────
