@@ -66,50 +66,93 @@ refreshFrequency: 128
 
 render: ( ) ->
   """
-  <link rel="stylesheet" href="./font-awesome/font-awesome.min.css" />
-  <div class="container" id="main">
-    <div class="container" id="left">
-      <div class="music">
-        <i class="fab fa-itunes-note"></i>
-        <span class="infoPlaceholder">iTunes</span>
-        <span class="artist"></span>-
-        <span class="song"></span>
-        <span class="infoPlaceholder">Stopped</span>
+  <div id="main">
+    <div class="bar" id="top">
+
+      <div class="container" id="left">
+        <div class="widg" id="music">
+          <i class="fab fa-itunes-note"></i>
+          <span class="infoPlaceholder">iTunes</span>
+          <span class="artist"></span>-
+          <span class="song"></span>
+          <span class="infoPlaceholder">Stopped</span>
+        </div>
       </div>
-    </div>
 
     <div class="container" id="center">
-      <div class="window">
+      <div class="widg" id="window">
         <i class="fa fa-window-maximize"></i>
         <span class="window-output"></span>
       </div>
     </div>
 
     <div class="container" id="right">
-      <div class="volume">
+      <div class="widg" id="volume">
         <span class="volume-icon"></span>
         <span class="volume-output"></span>
       </div>
-      <div class="wifi">
+      <div class="widg" id="wifi">
         <i class="fa fa-wifi"></i>
         <span class="wifi-output"></span>
       </div>
-      <div class="battery">
+      <div class="widg" id="battery">
         <span class="battery-icon"></span>
         <span class="battery-output"></span>
       </div>
-      <div class="time">
+      <div class="widg" id="time">
         <i class="far fa-clock"></i>
         <span class="time-output"></span>
       </div>
-      <div class="date">
+      <div class="widg" id="date">
         <i class="far fa-calendar-alt"></i>
         <span class="date-output"></span>
       </div>
+    </div>
+  </div>
 
+  <div class="bar" id="bottom">
+
+    <div class="container" id="left">
+      <div class="widg" id="home">
+        <i class="fas fa-home"></i>
+        ~/
+      </div>
+      <div class="widg" id="browser">
+        <i class="far fa-compass"></i>
+        Browser
+      </div>
+      <div class="widg" id="mail">
+        <i class="far fa-envelope"></i>
+        Mail
+      </div>
+      <div class="widg" id="messages">
+        <i class="far fa-comments"></i>
+        Messages
+      </div>
+    </div>
+
+    <div class="container" id="center">
+    <br/>
+    </div>
+
+    <div class="container" id="right">
+      <div class="widg" id="cpu">
+        <i class="fa fa-spinner"></i>
+        <span class="cpu-output"></span>
+      </div>
+      <div class="widg" id="mem">
+        <i class="fas fa-server"></i>
+        <span class="mem-output"></span>
+      </div>
+
+      <div class="widg" id="hdd">
+        <i class="fas fa-hdd"></i>
+          <span class="hdd-output"></span>
+      </div>
     </div>
 
   </div>
+</div>
   """
 
 #
@@ -209,67 +252,49 @@ afterRender: (domEl) ->
 #
 
 style: """
-  .battery
-    color: #{ colors.green }
-  .time
-    color: #{ colors.white }
-  .wifi
-    color: #{ colors.white }
-  .volume
-    color: #{ colors.cyan }
-  .date
-    color: #{ colors.white }
-  .up
-    color: #{ colors.green }
-  .down
-    color: #{ colors.red }
-  .window
-    color: #{ colors.white }
-    overflow: hidden
-    text-overflow: ellipsis
-    white-space: nowrap
+#volume
+  color: #{ colors.cyan }
+#music
+  color: #{ colors.green }
 
-    height: 14px
-  .music
-    color: #{ colors.green }
-  .battery,.time,.wifi,.volume,.cpu,.mem,.hdd,.date
-    margin-right:24px
+font-family: 'Menlo'
+font-size: 12px
+font-smoothing: antialiasing
+color: #{ colors.white }
+width:100%
 
-  top: 4px
-  left: 16px
+.bar
+  background-color: #{ colors.black }
+  border-radius:4px
+  margin:8px
+  padding-left:24px
+  padding-right:24px
 
-  font-family: 'Menlo'
-  font-size: 12px
-  font-smoothing: antialiasing
-  z-index: 0
-  display: flex
+.bar:after
+  content: "";
+  display: table;
+  clear: both;
 
-  .container
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    border-radius:4px
-    padding:3px
-    background-color: #{ colors.black }
+#bottom
+  margin-top:58%
 
+.container
+  float: left;
+  width: 33.33%
+  display:flex
 
-  #main
-    padding:4px
-    width:1640px
+#left
+  justify-content:flex-start
 
-  #left
-    width:50%
-    justify-content: flex-start
+#right
+  justify-content:flex-end
 
-  #center
-    width:50%
-    display:block
-    text-align:center
+#center
+  display:block
+  text-align:center
 
-  #right
-    width:50%
-    justify-content:flex-end
-
+.widg
+  margin:8px
 """
 
 # ──────────────────────────────────────────────────────────────────────────────
