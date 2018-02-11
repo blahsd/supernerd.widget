@@ -163,14 +163,16 @@ update: ( output, domEl ) ->
   $( ".artist" ).text( "#{ artist }" )
 
 
-  @handleBattery( Number( battery.replace( /%/g, "" ) ) )
+  @handleBattery( domEl, Number( battery.replace( /%/g, "" ) ) )
   @handleVolume( Number( volume ) )
 
 #
 # ─── HANDLE BATTERY ─────────────────────────────────────────────────────────
 #
 
-handleBattery: ( percentage ) ->
+handleBattery: ( domEl, percentage ) ->
+  div = $( domEl )
+
   batteryIcon = switch
     when percentage <=  12 then "fa-battery-empty"
     when percentage <=  25 then "fa-battery-quarter"
@@ -179,6 +181,12 @@ handleBattery: ( percentage ) ->
     when percentage <= 100 then "fa-battery-full"
   $( ".battery-icon" ).html( "<i class=\"fa #{ batteryIcon }\"></i>" )
 
+  if percentage >= 20
+    div.find('.battery').css('color', colors.green )
+  else if percentage >= 10
+    div.find('.battery').css('color', colors.yellow )
+  else
+    div.find('.battery').css('color', colors.red )
 #
 # ─── HANDLE VOLUME ─────────────────────────────────────────────────────────
 #
@@ -209,14 +217,8 @@ style: """
     color: #{ colors.white }
   .volume
     color: #{ colors.cyan }
-  .cpu
-    color: #{ colors.white }
-  .mem
-    color: #{ colors.red }
-  .hdd
-    color: #{ colors.magenta}
   .date
-    color: #{ colors.green }
+    color: #{ colors.white }
   .up
     color: #{ colors.green }
   .down

@@ -20,6 +20,7 @@
     mem : "ps -A -o %mem | awk '{s+=$1} END {print s \"%\"}' "
     hdd : "df -hl | awk '{s+=$5} END {print s \"%\"}'"
     date  : "date +\"%a %d %b\""
+    playing: "osascript ~/dev/supernerd/lib/get-current-track.applescript"
 
   #
   # ─── COLORS ─────────────────────────────────────────────────────────────────
