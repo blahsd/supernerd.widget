@@ -134,15 +134,23 @@ render: ( ) ->
       </div>
       <div class="widg" id="browser">
         <i class="far fa-compass"></i>
-        Browser
+        web
       </div>
       <div class="widg" id="mail">
         <i class="far fa-envelope"></i>
-        Mail
+        mail
       </div>
       <div class="widg" id="messages">
         <i class="far fa-comments"></i>
-        Messages
+        msg
+      </div>
+      <div class="widg" id="terminal">
+        <i class="far fa-terminal"></i>
+        zsh
+      </div>
+      <div class="widg" id="editor">
+        <i class="far fa-code"></i>
+        atom
       </div>
     </div>
 
@@ -311,7 +319,10 @@ style: """
   color: #{ colors.cyan }
 #messages
   color: #{ colors.green }
-
+#terminal
+  color: #{ colors.yellow }
+#editor
+  color: #{ colors.red }
 
 if #{options.theme} == snazzy
   font-family: 'Menlo'
@@ -355,7 +366,7 @@ if #{options.theme} == snazzy
 
 else if #{options.theme} == pro
     font-family: 'Menlo'
-    font-size: 10px
+    font-size: 12px
     font-smoothing: antialiasing
     color: #{ colors.white }
     width:100%
@@ -394,14 +405,15 @@ else if #{options.theme} == pro
 
     .widg
       margin:4px
-      margin-right:16px
-      margin-left:8px
+      margin-right:8px
+      margin-left:4px
 
     .desk
       opacity:0.5
 
     .desk.active
       opacity:1
+
 
 """
 
