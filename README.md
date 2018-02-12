@@ -2,7 +2,7 @@
 
 Menu bar 'replacement' for  [Übersicht](http://tracesof.net/uebersicht/). Originally built-up over herbischoff/[nerbar.widget](https://github.com/herrbischoff/nerdbar.widget). Nerdbar is amazing, supernerd sucks pretty bad. However, nerbar relied on kwm, while I'm now using [chunkwm](https://github.com/koekeishiya/chunkwm), its spiritual successor, which breaks a lot of nerdbar's functions. Also, supernerd looks *pretty damn sweet*.
 
-![supernerd_img](./scrot.png)
+![supernerd_img](./screenshot.png)
 
 Right now I'm making this just for my own use but feel free to contribute and or recommend changes. Pull requests very welcome.
 
