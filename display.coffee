@@ -27,7 +27,7 @@ commands =
   playing: "osascript -e 'tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
   ismuted : "osascript -e 'output muted of (get volume settings)'"
   ischarging : "sh ./scripts/ischarging.sh"
-
+  activedesk : "echo $(/usr/local/bin/chunkc tiling::query -d id)"
 #
 # ─── COLORS ─────────────────────────────────────────────────────────────────
 #
@@ -44,12 +44,12 @@ colors =
     white:   "#eff0eb"
   else if options.theme == 'pro'
     black:   "#101010"
-    red:     "#d14f49"
-    green:   "#c6a77b"
-    yellow:  "#bf997a"
-    blue:    "#b57a6b"
-    magenta: "#d15f49"
-    cyan:    "#d17d60"
+    red:     "#D17D60"
+    green:   "#9ABA77"
+    yellow:  "#BAB777"
+    blue:    "#77ADBA"
+    magenta: "#BA77B2"
+    cyan:    "#77BAAD"
     white:   "#8f8f8f"
 
 #
@@ -68,13 +68,15 @@ command: "echo " +
          "$(#{ commands.focus }):::" +
          "$(#{ commands.playing }):::" +
          "$(#{ commands.ismuted }):::" +
-         "$(#{ commands.ischarging }):::"
+         "$(#{ commands.ischarging }):::" +
+         "$(#{ commands.activedesk }):::"
+
 
 #
 # ─── REFRESH ────────────────────────────────────────────────────────────────
 #
 
-refreshFrequency: 12800
+refreshFrequency: 256
 
 #
 # ─── RENDER ─────────────────────────────────────────────────────────────────
@@ -145,7 +147,12 @@ render: ( ) ->
     </div>
 
     <div class="container" id="center">
-    <br/>
+    <div class="widg">
+      <i class="fa fa-window-maximize" id="desk1"></i>
+      <i class="fa fa-window-maximize" id="desk2"></i>
+      <i class="fa fa-window-maximize" id="desk3"></i>
+      <i class="fa fa-window-maximize" id="desk4"></i>
+    </div>
     </div>
 
     <div class="container" id="right">
@@ -187,6 +194,7 @@ update: ( output, domEl ) ->
   playing = output[ 9 ]
   ismuted = output[ 10 ]
   ischarging = output[ 11 ]
+  activedesk = output[ 12 ]
 
   # Focus
   focus = focus.split( / /g )[ 0 ]
@@ -204,6 +212,8 @@ update: ( output, domEl ) ->
   $( ".hdd-output") .text("#{ hdd }")
   $( ".window-output" ).text( "#{ focus }" )
 
+  $(domEl).find(".active").removeClass("active")
+  $(domEl).find("#desk"+activedesk).addClass('active')
 
   @handleBattery( domEl, Number( battery.replace( /%/g, "" ) ), ischarging )
   @handleVolume( Number( volume ), ismuted )
@@ -284,12 +294,15 @@ handleSysmon: ( domEl, sysmon, monid ) ->
     div.find(monid).css('color', colors.yellow )
   else
     div.find(monid).css('color', colors.red )
+
 #
 # ─── STYLE ─────────────────────────────────────────────────────────────────
 #
 style: """
 #music
   color: #{ colors.green }
+  width:400px
+  overflow:ellipsis
 #home
   color: #{ colors.white }
 #browser
@@ -298,6 +311,7 @@ style: """
   color: #{ colors.cyan }
 #messages
   color: #{ colors.green }
+
 
 if #{options.theme} == snazzy
   font-family: 'Menlo'
@@ -379,6 +393,12 @@ else if #{options.theme} == pro
 
     .widg
       margin:8px
+
+    i.active
+      color: #{ colors.white }
+      padding 1px
+      border-bottom: 1px solid #{ colors.white }
+
 """
 
 # ──────────────────────────────────────────────────────────────────────────────
