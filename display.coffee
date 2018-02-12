@@ -1,8 +1,11 @@
 #
 # ──────────────────────────────────────────────── I ───────
-#   :::::: S U P E R N E R D – TOP
+#   :::::: S U P E R N E R D
 # ──────────────────────────────────────────────────────────
 #
+
+options =
+  theme    : "pro"        # snazzy | pro
 
 #
 # ─── ALL COMMANDS ───────────────────────────────────────────────────────────
@@ -21,21 +24,33 @@ commands =
   hdd : "df -hl | awk '{s+=$5} END {print s \"%\"}'"
   date  : "date +\"%a %d %b\""
   focus : "/usr/local/bin/chunkc tiling::query --window name"
-  playing: "osascript ~/dev/supernerd/lib/get-current-track.applescript"
+  playing: "osascript -e 'tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
+  ismuted : "osascript -e 'output muted of (get volume settings)'"
+  ischarging : "sh ./scripts/ischarging.sh"
 
 #
 # ─── COLORS ─────────────────────────────────────────────────────────────────
 #
 
 colors =
-  black:   "#282a36"
-  red:     "#ff5c57"
-  green:   "#5af78e"
-  yellow:  "#f3f99d"
-  blue:    "#57c7ff"
-  magenta: "#ff6ac1"
-  cyan:    "#9aedfe"
-  white:   "#eff0eb"
+  if options.theme == 'snazzy'
+    black:   "#282a36"
+    red:     "#ff5c57"
+    green:   "#5af78e"
+    yellow:  "#f3f99d"
+    blue:    "#57c7ff"
+    magenta: "#ff6ac1"
+    cyan:    "#9aedfe"
+    white:   "#eff0eb"
+  else if options.theme == 'pro'
+    black:   "#101010"
+    red:     "#d14f49"
+    green:   "#c6a77b"
+    yellow:  "#bf997a"
+    blue:    "#b57a6b"
+    magenta: "#d15f49"
+    cyan:    "#d17d60"
+    white:   "#8f8f8f"
 
 #
 # ─── COMMAND ────────────────────────────────────────────────────────────────
@@ -51,14 +66,15 @@ command: "echo " +
          "$(#{ commands.hdd }):::" +
          "$(#{ commands.date }):::" +
          "$(#{ commands.focus }):::" +
-         "$(#{ commands.playing }):::"
-
+         "$(#{ commands.playing }):::" +
+         "$(#{ commands.ismuted }):::" +
+         "$(#{ commands.ischarging }):::"
 
 #
 # ─── REFRESH ────────────────────────────────────────────────────────────────
 #
 
-refreshFrequency: 128
+refreshFrequency: 12800
 
 #
 # ─── RENDER ─────────────────────────────────────────────────────────────────
@@ -72,16 +88,13 @@ render: ( ) ->
       <div class="container" id="left">
         <div class="widg" id="music">
           <i class="fab fa-itunes-note"></i>
-          <span class="infoPlaceholder">iTunes</span>
-          <span class="artist"></span>-
-          <span class="song"></span>
-          <span class="infoPlaceholder">Stopped</span>
+          <span class="playing"></span>
         </div>
       </div>
 
     <div class="container" id="center">
       <div class="widg" id="window">
-        <i class="fa fa-window-maximize"></i>
+
         <span class="window-output"></span>
       </div>
     </div>
@@ -172,48 +185,37 @@ update: ( output, domEl ) ->
   date = output[ 7 ]
   focus = output[ 8 ]
   playing = output[ 9 ]
+  ismuted = output[ 10 ]
+  ischarging = output[ 11 ]
 
   # Focus
   focus = focus.split( / /g )[ 0 ]
   # Music
-  playing = playing.split ( /@/g )
-  artist = playing[ 0 ]
-  song = playing[ 1 ]
-  album = playing[ 2 ]
-  tDuration = playing[3]
-  tPosition = playing[4]
 
   div = $(domEl)
-  if !playing[ 1 ]
-      div.find(".artist").hide(1)
-      div.find(".song").hide(1)
-      div.find(".infoPlaceholder").show(1)
-  else
-      div.find(".artist").show(1)
-      div.find(".song").show(1)
-      div.find(".infoPlaceholder").hide(1)
 
+  $( ".playing" )    .text( "#{ playing }" )
   $( ".time-output" )    .text( "#{ time }" )
   $( ".date-output" )    .text( "#{ date }" )
   $( ".battery-output") .text("#{ battery }")
   $( ".wifi-output") .text("#{ wifi }")
-  $( ".volume-output") .text("#{ volume }")
   $( ".cpu-output") .text("#{ cpu }")
   $( ".mem-output") .text("#{ mem }")
   $( ".hdd-output") .text("#{ hdd }")
   $( ".window-output" ).text( "#{ focus }" )
-  $( ".song" ).text( "#{ song }" )
-  $( ".artist" ).text( "#{ artist }" )
 
 
-  @handleBattery( domEl, Number( battery.replace( /%/g, "" ) ) )
-  @handleVolume( Number( volume ) )
+  @handleBattery( domEl, Number( battery.replace( /%/g, "" ) ), ischarging )
+  @handleVolume( Number( volume ), ismuted )
+  @handleSysmon( domEl, Number( cpu ), '#cpu' )
+  @handleSysmon( domEl, Number( mem.replace( /%/g, "") ), '#mem' )
+  @handleSysmon( domEl, Number( hdd.replace( /%/g, "") ), '#hdd' )
 
 #
 # ─── HANDLE BATTERY ─────────────────────────────────────────────────────────
 #
 
-handleBattery: ( domEl, percentage ) ->
+handleBattery: ( domEl, percentage, ischarging ) ->
   div = $( domEl )
 
   batteryIcon = switch
@@ -222,7 +224,7 @@ handleBattery: ( domEl, percentage ) ->
     when percentage <=  50 then "fa-battery-half"
     when percentage <=  75 then "fa-battery-three-quarters"
     when percentage <= 100 then "fa-battery-full"
-  $( ".battery-icon" ).html( "<i class=\"fa #{ batteryIcon }\"></i>" )
+
 
   if percentage >= 20
     div.find('.battery').css('color', colors.green )
@@ -230,71 +232,153 @@ handleBattery: ( domEl, percentage ) ->
     div.find('.battery').css('color', colors.yellow )
   else
     div.find('.battery').css('color', colors.red )
+
+  if ischarging == "true"
+    batteryIcon = "fas fa-bolt"
+  $( ".battery-icon" ).html( "<i class=\"fa #{ batteryIcon }\"></i>" )
 #
 # ─── HANDLE VOLUME ─────────────────────────────────────────────────────────
 #
 
-handleVolume: ( volume ) ->
+handleVolume: ( volume, ismuted ) ->
   volumeIcon = switch
     when volume ==   0 then "fa-volume-off"
     when volume <=  50 then "fa-volume-down"
     when volume <= 100 then "fa-volume-up"
+
+
+  if ismuted != 'true'
+    $( ".volume-output") .text("#{ volume }")
+  else
+    $( ".volume-output") .text("Muted")
+    volumeIcon = "fa-volume-off"
+
   $( ".volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
 
 #
 # ─── HANDLE CLICKS ────────────────────────────────────────────────────────
 #
 afterRender: (domEl) ->
-    $(domEl).on 'click', '.music', => @run "open /Applications/iTunes.app"
+    $(domEl).on 'click', '#music', => @run "open /Applications/iTunes.app"
+    $(domEl).on 'click', '#home', => @run "open ~"
+    $(domEl).on 'click', '#browser', => @run "open /Applications/Safari.app"
+    $(domEl).on 'click', '#mail', => @run "open /Applications/Mail.app"
+    $(domEl).on 'click', '#messages', => @run "open /Applications/WhatsApp.app"
 
+# ──────────────────────────────────────────────────────────────────────────────
+#
+# ─── COLOR SYSMON –─────────────────────────────────────────────────────────
+#
+handleSysmon: ( domEl, sysmon, monid ) ->
+  div = $(domEl)
+
+  if sysmon <= 10
+    div.find(monid).css('color', colors.white )
+  else if sysmon <= 20
+    div.find(monid).css('color', colors.cyan )
+  else if sysmon <= 40
+    div.find(monid).css('color', colors.blue )
+  else if sysmon <= 50
+    div.find(monid).css('color', colors.green )
+  else if sysmon <= 75
+    div.find(monid).css('color', colors.yellow )
+  else
+    div.find(monid).css('color', colors.red )
 #
 # ─── STYLE ─────────────────────────────────────────────────────────────────
 #
-
 style: """
-#volume
-  color: #{ colors.cyan }
 #music
   color: #{ colors.green }
+#home
+  color: #{ colors.white }
+#browser
+  color: #{ colors.blue }
+#mail
+  color: #{ colors.cyan }
+#messages
+  color: #{ colors.green }
 
-font-family: 'Menlo'
-font-size: 12px
-font-smoothing: antialiasing
-color: #{ colors.white }
-width:100%
+if #{options.theme} == snazzy
+  font-family: 'Menlo'
+  font-size: 12px
+  font-smoothing: antialiasing
+  color: #{ colors.white }
+  width:100%
 
-.bar
-  background-color: #{ colors.black }
-  border-radius:4px
-  margin:8px
-  padding-left:24px
-  padding-right:24px
+  .bar
+    background-color: #{ colors.black }
+    border-radius:4px
+    margin:4px
+    padding-left:24px
+    padding-right:24px
 
-.bar:after
-  content: "";
-  display: table;
-  clear: both;
+  .bar:after
+    content: "";
+    display: table;
+    clear: both;
 
-#bottom
-  margin-top:58%
+  #bottom
+    margin-top:58.5%
 
-.container
-  float: left;
-  width: 33.33%
-  display:flex
+  .container
+    float: left;
+    width: 33.33%
+    display:flex
 
-#left
-  justify-content:flex-start
+  #left
+    justify-content:flex-start
 
-#right
-  justify-content:flex-end
+  #right
+    justify-content:flex-end
 
-#center
-  display:block
-  text-align:center
+  #center
+    display:block
+    text-align:center
 
-.widg
-  margin:8px
+  .widg
+    margin:8px
+
+else if #{options.theme} == pro
+    font-family: 'Menlo'
+    font-size: 12px
+    font-smoothing: antialiasing
+    color: #{ colors.white }
+    width:100%
+
+    .bar
+      background: rgba(#{ colors.black }, 0.8)
+      padding-left:8px
+      padding-right:8px
+
+    .bar:after
+      content: "";
+      display: table;
+      clear: both;
+
+    #top
+      box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.8);
+
+    #bottom
+      margin-top:59%
+
+    .container
+      float: left;
+      width: 33.33%
+      display:flex
+
+    #left
+      justify-content:flex-start
+
+    #right
+      justify-content:flex-end
+
+    #center
+      display:block
+      text-align:center
+
+    .widg
+      margin:8px
 """
 
 # ──────────────────────────────────────────────────────────────────────────────
