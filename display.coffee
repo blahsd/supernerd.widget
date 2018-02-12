@@ -355,12 +355,16 @@ if #{options.theme} == snazzy
 
 else if #{options.theme} == pro
     font-family: 'Menlo'
-    font-size: 12px
+    font-size: 10px
     font-smoothing: antialiasing
     color: #{ colors.white }
     width:100%
+    height:100%
 
     .bar
+      width:99.2%
+      position:absolute
+      box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.8);
       background: rgba(#{ colors.black }, 0.8)
       padding-left:8px
       padding-right:8px
@@ -370,11 +374,8 @@ else if #{options.theme} == pro
       display: table;
       clear: both;
 
-    #top
-      box-shadow: 0px 5px 5px 0px rgba(0,0,0,0.8);
-
     #bottom
-      margin-top:59%
+      bottom:0px
 
     .container
       float: left;
@@ -392,7 +393,9 @@ else if #{options.theme} == pro
       text-align:center
 
     .widg
-      margin:8px
+      margin:4px
+      margin-right:16px
+      margin-left:8px
 
     i.active
       color: #{ colors.white }
