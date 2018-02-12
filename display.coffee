@@ -148,10 +148,10 @@ render: ( ) ->
 
     <div class="container" id="center">
     <div class="widg">
-      <i class="fa fa-window-maximize" id="desk1"></i>
-      <i class="fa fa-window-maximize" id="desk2"></i>
-      <i class="fa fa-window-maximize" id="desk3"></i>
-      <i class="fa fa-window-maximize" id="desk4"></i>
+      <i class="fa fa-window-maximize desk" id="desk1"></i>
+      <i class="fa fa-window-maximize desk" id="desk2"></i>
+      <i class="fa fa-window-maximize desk" id="desk3"></i>
+      <i class="fa fa-window-maximize desk" id="desk4"></i>
     </div>
     </div>
 
@@ -397,10 +397,11 @@ else if #{options.theme} == pro
       margin-right:16px
       margin-left:8px
 
-    i.active
-      color: #{ colors.white }
-      padding 1px
-      border-bottom: 1px solid #{ colors.white }
+    .desk
+      opacity:0.5
+
+    .desk.active
+      opacity:1
 
 """
 
