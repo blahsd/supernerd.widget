@@ -26,7 +26,7 @@ commands =
   focus : "/usr/local/bin/chunkc tiling::query --window name"
   playing: "osascript -e 'tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
   ismuted : "osascript -e 'output muted of (get volume settings)'"
-  ischarging : "sh ./scripts/ischarging.sh"
+  ischarging : "sh ./supernerd.widget/scripts/ischarging.sh"
   activedesk : "echo $(/usr/local/bin/chunkc tiling::query -d id)"
 #
 # ─── COLORS ─────────────────────────────────────────────────────────────────
@@ -51,7 +51,15 @@ colors =
     magenta: "#BA77B2"
     cyan:    "#77BAAD"
     white:   "#8f8f8f"
-
+  else if options.theme == 'buddha'
+    black:   "#041620"
+    red:     "#df3653"
+    green:   "#ABB7AB"
+    yellow:  "#55c0ac"
+    blue:    "#55c0ac"
+    magenta: "#55c0ac"
+    cyan:    "#55c0ac"
+    white:   "#8f8f8f"
 #
 # ─── COMMAND ────────────────────────────────────────────────────────────────
 #
@@ -364,7 +372,7 @@ if #{options.theme} == snazzy
   .widg
     margin:8px
 
-else if #{options.theme} == pro
+else if (#{options.theme} == pro || #{options.theme} == buddha)
     font-family: 'Menlo'
     font-size: 12px
     font-smoothing: antialiasing
@@ -375,8 +383,8 @@ else if #{options.theme} == pro
     .bar
       width:99.2%
       position:absolute
-      box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.8);
-      background: rgba(#{ colors.black }, 0.8)
+      box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.8);
+      background: rgba(#{ colors.black }, 0.6)
       padding-left:8px
       padding-right:8px
 

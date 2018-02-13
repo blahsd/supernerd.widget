@@ -1,3 +1,4 @@
 .DS_STORE
 lib/songMeta.plist
 *.deprecated
+scripts/*
