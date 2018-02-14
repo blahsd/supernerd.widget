@@ -1,6 +1,6 @@
 # Supernerd
 
-Sweet-ass (double!) menu bar replacement for  [Übersicht](http://tracesof.net/uebersicht/). Original by herbischoff/[nerdbar.widget](https://github.com/herrbischoff/nerdbar.widget). Nerdbar is amazing, Supernerd sucks pretty bad. However, nerdbar relies on kwm, while I'm now using its spiritual successor [chunkwm](https://github.com/koekeishiya/chunkwm), which breaks a lot of nerdbar's functions. Also, supernerd looks *pretty damn sweet*.
+Sweet-ass (double!) menu bar replacement for  [Übersicht](http://tracesof.net/uebersicht/). Lots of the code in here was taken from splintah/[nerdbar.widget](https://github.com/splintah/nerdbar.widget), and supernerd definitely would not have happened without it. However I wanted to have all of the features I wanted and a bit different setup, hence supernerd. Anyways, Nerdbar is amazing, Supernerd sucks pretty bad. But it does look *pretty damn sweet*.
 
 ![supernerd_img](./screenshot.png)
 
@@ -46,6 +46,7 @@ Currently Supernerd ships with two selectable themes:
 Select them by editing the `theme` variable in `display.coffee`, or make your own css.
 
 # Credits
-* [herbischoff/nerbar.widget](https://github.com/herrbischoff/nerdbar.widget): most of the original styling
-* [Pe8er/playbox.widget](https://github.com/Pe8er/Playbox.widget): the script that fetches information from iTunes, which I recklessly mutilated for use with supernerd
-* [syndresorhus/hyper-snazzy](https://github.com/sindresorhus/hyper-snazzy): I copied the sweet colors of the `snazzy` theme from here
+* [splintah/nerdbar.widget](https://github.com/splintah/nerdbar.widget): tons of code that I took shamelessly and adapted/expanded. Definitely would not have done supernerd if it wasn't for this code.
+* [herbischoff/nerbar.widget](https://github.com/herrbischoff/nerdbar.widget): most of the original nerdbar widget.
+* [Pe8er/playbox.widget](https://github.com/Pe8er/Playbox.widget): the script that fetches information from iTunes, which I recklessly mutilated for use with supernerd.
+* [syndresorhus/hyper-snazzy](https://github.com/sindresorhus/hyper-snazzy): I copied the sweet colors of the `snazzy` theme from here.
