@@ -1,0 +1,88 @@
+/* Sidebar style by Jordi Kitto */
+
+#supernerd-widget-display-coffee {
+  top: 0%;
+  left: 0%;
+  color: #fff;
+  background: rgba(0,0,0,0.6);
+  font-family: Menlo;
+  font-size: 10pt;
+  width: 260px;
+  height: 100%;
+}
+
+#reminders-widget-reminders-coffee .lists,.tasks {
+    margin: 0;
+    padding: 0;
+}
+
+#reminders-widget-reminders-coffee .list,.task {
+    list-style: none;
+    padding-top: 6%;
+}
+
+#reminders-widget-reminders-coffee .list-info {
+    background: rgba(0,0,0,0.5);
+    position: relative;
+    font-weight: bold;
+}
+
+#reminders-widget-reminders-coffee .list-name {
+    padding: 5px 10px;
+    margin: 0 40px 0 0;
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
+    opacity: 0.85;
+}
+
+#reminders-widget-reminders-coffee .tasks-length {
+    position: absolute;
+    top: 0px;
+    right: 5px;
+    opacity: 1.0;
+    padding: 5px 5px;
+}
+
+#reminders-widget-reminders-coffee .task {
+    margin: 0 10px;
+    padding: 5px 0 5px 20px;
+    position: relative;
+    opacity: 0.85;
+}
+
+#reminders-widget-reminders-coffee .task::after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: rgba(0,0,0,0.2);
+    -webkit-border-radius: 20px;
+    border-style: solid;
+    border-color: rgba(190, 133, 42, 1);
+    left: 0px;
+    top: 4px;
+}
+
+#reminders-widget-reminders-coffee .due {
+    text-decoration: underline;
+}
+
+#reminders-widget-reminders-coffee .overdue {
+    text-decoration: underline;
+    color: red
+}
+
+#reminders-widget-reminders-coffee .notes {
+    font-style: oblique;
+}
+
+#reminders-widget-reminders-coffee mark {
+    color: red;
+    background-color: transparent;
+}
+
+#reminders-widget-reminders-coffee .error {
+    padding: 5px;
+    background: rgba(0,0,0,0.3);
+}
