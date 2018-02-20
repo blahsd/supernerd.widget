@@ -4,7 +4,7 @@
 # ──────────────────────────────────────────────────────────
 #
 style: """
-    @import url(supernerd.widget/styles/sidebar.css);
+    @import url(supernerd.widget/styles/default.css);
 """
 
 options =
