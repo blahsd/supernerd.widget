@@ -51,15 +51,15 @@ colors =
     magenta: "#BA77B2"
     cyan:    "#77BAAD"
     white:   "#8f8f8f"
-  else if options.theme == 'buddha'
-    black:   "#041620"
-    red:     "#df3653"
-    green:   "#ABB7AB"
-    yellow:  "#55c0ac"
-    blue:    "#55c0ac"
-    magenta: "#55c0ac"
-    cyan:    "#55c0ac"
-    white:   "#8f8f8f"
+  else if options.theme == 'exper'
+    black:   "#0f1023"
+    red:     "#BC6E56"
+    green:   "#9ABA77"
+    yellow:  "#BAB777"
+    blue:    "#9bc1bc"
+    magenta: "#DB5168"
+    cyan:    "#C5EFCB"
+    white:   "#e6ebe0"
 #
 # ─── COMMAND ────────────────────────────────────────────────────────────────
 #
@@ -372,7 +372,7 @@ if #{options.theme} == snazzy
   .widg
     margin:8px
 
-else if (#{options.theme} == pro || #{options.theme} == buddha)
+else if (#{options.theme} == pro || #{options.theme} == exper)
     font-family: 'Menlo'
     font-size: 12px
     font-smoothing: antialiasing
@@ -421,8 +421,6 @@ else if (#{options.theme} == pro || #{options.theme} == buddha)
 
     .desk.active
       opacity:1
-
-
 """
 
 # ──────────────────────────────────────────────────────────────────────────────
