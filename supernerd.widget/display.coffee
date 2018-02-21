@@ -315,7 +315,7 @@ handleSysmon: ( domEl, sysmon, monid ) ->
 # ─── STYLE ─────────────────────────────────────────────────────────────────
 #
 style: """
-  @import url(supernerd.widget/styles/default.styl)
+  @import url(supernerd.widget/styles/default)
 """
 
 # ──────────────────────────────────────────────────────────────────────────────
