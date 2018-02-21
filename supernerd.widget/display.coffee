@@ -4,6 +4,13 @@
 # ──────────────────────────────────────────────────────────
 #
 
+#
+# ─── STYLE ─────────────────────────────────────────────────────────────────
+#
+style: """
+  @import url(supernerd.widget/styles/default)
+"""
+
 options =
   theme    : "pro"        # snazzy | pro
 
@@ -311,11 +318,5 @@ handleSysmon: ( domEl, sysmon, monid ) ->
   else
     div.find(monid).css('color', colors.red )
 
-#
-# ─── STYLE ─────────────────────────────────────────────────────────────────
-#
-style: """
-  @import url(supernerd.widget/styles/default)
-"""
 
 # ──────────────────────────────────────────────────────────────────────────────
