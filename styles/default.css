@@ -1,4 +1,4 @@
-.bar {
+#supernerd-widget-display-coffee .bar {
   font-family: 'Menlo'
   width:99.2%;
   position:absolute;
@@ -7,45 +7,45 @@
   padding-right:8px;
 }
 
-.bar:after {
+#supernerd-widget-display-coffee .bar:after {
   content: "";
   display: table;
   clear: both;
 }
 
-#bottom {
+#supernerd-widget-display-coffee #bottom {
   bottom:0px;
 }
 
-.container {
+#supernerd-widget-display-coffee .container {
   float: left;
   width: 33.33%;
   display:flex;
 }
 
-#left {
+#supernerd-widget-display-coffee #left {
   justify-content:flex-start;
 }
 
-#right {
+#supernerd-widget-display-coffee #right {
   justify-content:flex-end;
 }
 
-#center {
+#supernerd-widget-display-coffee #center {
   display:block;
   text-align:center;
 }
 
-.widg {
+#supernerd-widget-display-coffee .widg {
   margin:4px;
   margin-right:8px;
   margin-left:4px;
 }
 
-.desk {
+#supernerd-widget-display-coffee .desk {
   opacity:0.5;
 }
 
-.desk.active {
+#supernerd-widget-display-coffee .desk.active {
   opacity:1;
 }
