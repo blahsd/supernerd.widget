@@ -5,16 +5,6 @@
 #
 
 #
-# ─── STYLE ─────────────────────────────────────────────────────────────────
-#
-style: """
-  @import url(supernerd.widget/styles/default)
-"""
-
-options =
-  theme    : "pro"        # snazzy | pro
-
-#
 # ─── ALL COMMANDS ───────────────────────────────────────────────────────────
 #
 
@@ -40,33 +30,15 @@ commands =
 #
 
 colors =
-  if options.theme == 'snazzy'
-    black:   "#282a36"
-    red:     "#ff5c57"
-    green:   "#5af78e"
-    yellow:  "#f3f99d"
-    blue:    "#57c7ff"
-    magenta: "#ff6ac1"
-    cyan:    "#9aedfe"
-    white:   "#eff0eb"
-  else if options.theme == 'pro'
-    black:   "#101010"
-    red:     "#D17D60"
-    green:   "#9ABA77"
-    yellow:  "#BAB777"
-    blue:    "#77ADBA"
-    magenta: "#BA77B2"
-    cyan:    "#77BAAD"
-    white:   "#8f8f8f"
-  else if options.theme == 'exper'
-    black:   "#0f1023"
-    red:     "#BC6E56"
-    green:   "#9ABA77"
-    yellow:  "#BAB777"
-    blue:    "#9bc1bc"
-    magenta: "#DB5168"
-    cyan:    "#C5EFCB"
-    white:   "#e6ebe0"
+  black:   "#101010"
+  red:     "#D17D60"
+  green:   "#9ABA77"
+  yellow:  "#BAB777"
+  blue:    "#77ADBA"
+  magenta: "#BA77B2"
+  cyan:    "#77BAAD"
+  white:   "#8f8f8f"
+
 #
 # ─── COMMAND ────────────────────────────────────────────────────────────────
 #
@@ -91,13 +63,13 @@ command: "echo " +
 # ─── REFRESH ────────────────────────────────────────────────────────────────
 #
 
-refreshFrequency: 256
+refreshFrequency: '10s'
 
 #
 # ─── RENDER ─────────────────────────────────────────────────────────────────
 #
 
-render: ( ) ->
+render: (output) ->
   """
   <div id="main">
     <div class="bar" id="top">
@@ -318,5 +290,19 @@ handleSysmon: ( domEl, sysmon, monid ) ->
   else
     div.find(monid).css('color', colors.red )
 
+#
+# ─── STYLE ─────────────────────────────────────────────────────────────────
+#
+style: """
+    @import url(https://use.fontawesome.com/releases/v5.0.6/css/all.css);
+    @import url(supernerd.widget/styles/default.css);
+"""
+
 
 # ──────────────────────────────────────────────────────────────────────────────
+
+#############################
+# Shows errors if they occur
+showError: (err) ->
+	if @content
+		@content.html '<div class="error">' + err + '</div>'
