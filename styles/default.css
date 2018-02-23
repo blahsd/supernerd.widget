@@ -1,0 +1,24 @@
+#supernerd-widget-bar-top-coffee {
+  background-color:rgba(256,0,0,0.6);
+  width:100%;
+  height:20px;
+  top:0px;
+}
+
+#supernerd-widget-bar-bottom-coffee {
+  width:100%;
+  height:20px;
+  bottom:0px;
+}
+
+#supernerd-widget-system-monitor-coffee {
+  bottom:0px;
+  right:0px;
+  width:auto;
+  display:inline;
+}
+.widg {
+  color:red;
+  float:left;
+  margin:4px;
+}
