@@ -1,0 +1,127 @@
+#supernerd-widget-display-coffee {
+  font-family: 'Menlo';
+  font-size: 12px;
+  font-smoothing: antialiasing;
+  width: 100%;
+}
+
+#supernerd-widget-display-coffee .black {
+  color:   #101010;
+}
+
+#supernerd-widget-display-coffee .red {
+  color:     #D17D60;
+}
+
+#supernerd-widget-display-coffee .green {
+  color:   #9ABA77;
+}
+
+#supernerd-widget-display-coffee .yellow {
+  color:  #BAB777;
+}
+
+#supernerd-widget-display-coffee .blue {
+  color:    #77ADBA;
+}
+
+#supernerd-widget-display-coffee .magenta {
+  color: #BA77B2;
+}
+
+#supernerd-widget-display-coffee .cyan {
+  color:    #77BAAD;
+}
+
+#supernerd-widget-display-coffee .white {
+  color:   #8f8f8f;
+}
+
+#supernerd-widget-display-coffee-music {
+  color: #9ABA77;
+  width: 400px;
+  overflow: ellipsis;
+}
+
+#supernerd-widget-display-coffee-volume {
+  color: #9ABA77;
+  width: 400px;
+  overflow: ellipsis;
+}
+
+#supernerd-widget-display-coffee-home {
+  color: #8f8f8f;
+}
+
+#supernerd-widget-display-coffee-browser {
+  color: #77ADBA;
+}
+
+#supernerd-widget-display-coffee-mail {
+  color: #77BAAD;
+}
+
+#supernerd-widget-display-coffee-messages {
+  color: #9ABA77;
+}
+
+#supernerd-widget-display-coffee-terminal {
+  color: #BAB777;
+}
+
+#supernerd-widget-display-coffee-editor {
+  color: #D17D60;
+}
+
+#supernerd-widget-display-coffee .bar {
+  background-color: #101010;
+  font-family: 'Menlo';
+  width: 99.2%;
+  position: absolute;
+  box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.8);
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+#supernerd-widget-display-coffee .bar:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+#supernerd-widget-display-coffee .bottom {
+  bottom: 0px;
+}
+
+#supernerd-widget-display-coffee .container {
+  float: left;
+  width: 33.33%;
+  display: flex;
+}
+
+#supernerd-widget-display-coffee .left {
+  justify-content: flex-start;
+}
+
+#supernerd-widget-display-coffee .right {
+  justify-content: flex-end;
+}
+
+#supernerd-widget-display-coffee .center {
+  display: block;
+  text-align: center;
+}
+
+#supernerd-widget-display-coffee .widg {
+  margin: 4px;
+  margin-right: 8px;
+  margin-left: 4px;
+}
+
+#supernerd-widget-display-coffee .desk {
+  opacity: 0.5;
+}
+
+#supernerd-widget-display-coffee .desk.active {
+  opacity: 1;
+}

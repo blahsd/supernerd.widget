@@ -1,0 +1,107 @@
+#supernerd-widget-display-coffee
+  #music
+    color: #{ colors.green }
+    width:400px
+    overflow:ellipsis
+  #home
+    color: #{ colors.white }
+  #browser
+    color: #{ colors.blue }
+  #mail
+    color: #{ colors.cyan }
+  #messages
+    color: #{ colors.green }
+  #terminal
+    color: #{ colors.yellow }
+  #editor
+    color: #{ colors.red }
+
+  if #{options.theme} == snazzy
+    font-family: 'Menlo'
+    font-size: 12px
+    font-smoothing: antialiasing
+    color: #{ colors.white }
+    width:100%
+
+    .bar
+      background-color: #{ colors.black }
+      border-radius:4px
+      margin:4px
+      padding-left:24px
+      padding-right:24px
+
+    .bar:after
+      content: "";
+      display: table;
+      clear: both;
+
+    #bottom
+      margin-top:58.5%
+
+    .container
+      float: left;
+      width: 33.33%
+      display:flex
+
+    #left
+      justify-content:flex-start
+
+    #right
+      justify-content:flex-end
+
+    #center
+      display:block
+      text-align:center
+
+    .widg
+      margin:8px
+
+  else if (#{options.theme} == pro || #{options.theme} == exper)
+      font-family: 'Menlo'
+      font-size: 12px
+      font-smoothing: antialiasing
+      color: #{ colors.white }
+      width:100%
+      height:100%
+
+      .bar
+        width:99.2%
+        position:absolute
+        box-shadow: 0px 2px 3px 0px rgba(0,0,0,0.8);
+        background: rgba(#{ colors.black }, 0.6)
+        padding-left:8px
+        padding-right:8px
+
+      .bar:after
+        content: "";
+        display: table;
+        clear: both;
+
+      #bottom
+        bottom:0px
+
+      .container
+        float: left;
+        width: 33.33%
+        display:flex
+
+      #left
+        justify-content:flex-start
+
+      #right
+        justify-content:flex-end
+
+      #center
+        display:block
+        text-align:center
+
+      .widg
+        margin:4px
+        margin-right:8px
+        margin-left:4px
+
+      .desk
+        opacity:0.5
+
+      .desk.active
+        opacity:1
