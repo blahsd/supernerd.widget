@@ -3,12 +3,10 @@
 #   :::::: S U P E R N E R D
 # ──────────────────────────────────────────────────────────
 #
-style: """
-    @import url(supernerd.widget/styles/default.css);
-"""
-
 options =
-  theme    : "pro"        # snazzy | pro
+  styleFilename: 'default'
+  refreshFrequency: '10s'
+
 
 #
 # ─── ALL COMMANDS ───────────────────────────────────────────────────────────
@@ -31,38 +29,29 @@ commands =
   ismuted : "osascript -e 'output muted of (get volume settings)'"
   ischarging : "sh ./supernerd.widget/scripts/ischarging.sh"
   activedesk : "echo $(/usr/local/bin/chunkc tiling::query -d id)"
+
 #
 # ─── COLORS ─────────────────────────────────────────────────────────────────
 #
 
 colors =
-  if options.theme == 'snazzy'
-    black:   "#282a36"
-    red:     "#ff5c57"
-    green:   "#5af78e"
-    yellow:  "#f3f99d"
-    blue:    "#57c7ff"
-    magenta: "#ff6ac1"
-    cyan:    "#9aedfe"
-    white:   "#eff0eb"
-  else if options.theme == 'pro'
-    black:   "#101010"
-    red:     "#D17D60"
-    green:   "#9ABA77"
-    yellow:  "#BAB777"
-    blue:    "#77ADBA"
-    magenta: "#BA77B2"
-    cyan:    "#77BAAD"
-    white:   "#8f8f8f"
-  else if options.theme == 'exper'
-    black:   "#0f1023"
-    red:     "#BC6E56"
-    green:   "#9ABA77"
-    yellow:  "#BAB777"
-    blue:    "#9bc1bc"
-    magenta: "#DB5168"
-    cyan:    "#C5EFCB"
-    white:   "#e6ebe0"
+  black:   "#101010"
+  red:     "#D17D60"
+  green:   "#9ABA77"
+  yellow:  "#BAB777"
+  blue:    "#77ADBA"
+  magenta: "#BA77B2"
+  cyan:    "#77BAAD"
+  white:   "#8f8f8f"
+
+#
+# ─── STYLE ─────────────────────────────────────────────────────────────────
+#
+style: """
+    @import url(https://use.fontawesome.com/releases/v5.0.6/css/all.css);
+    @import url(supernerd.widget/styles/""" + options.styleFilename + """.css);
+"""
+
 #
 # ─── COMMAND ────────────────────────────────────────────────────────────────
 #
@@ -87,33 +76,33 @@ command: "echo " +
 # ─── REFRESH ────────────────────────────────────────────────────────────────
 #
 
-refreshFrequency: 256
+refreshFrequency: options.refreshFrequency
 
 #
 # ─── RENDER ─────────────────────────────────────────────────────────────────
 #
 
-render: ( ) ->
+render: (output) ->
   """
   <div id="main">
-    <div class="bar" id="top">
+    <div class="bar top" id="top">
 
       <div class="container" id="left">
-        <div class="widg" id="music">
+        <div class="widg" id="supernerd-widget-display-coffee-music">
           <i class="fab fa-itunes-note"></i>
           <span class="playing"></span>
         </div>
       </div>
 
-    <div class="container" id="center">
+    <div class="container center" id="center">
       <div class="widg" id="window">
 
         <span class="window-output"></span>
       </div>
     </div>
 
-    <div class="container" id="right">
-      <div class="widg" id="volume">
+    <div class="container right" id="right">
+      <div class="widg" id="supernerd-widget-display-coffee-volume">
         <span class="volume-icon"></span>
         <span class="volume-output"></span>
       </div>
@@ -121,7 +110,7 @@ render: ( ) ->
         <i class="fa fa-wifi"></i>
         <span class="wifi-output"></span>
       </div>
-      <div class="widg" id="battery">
+      <div class="widg battery" id="battery">
         <span class="battery-icon"></span>
         <span class="battery-output"></span>
       </div>
@@ -136,9 +125,9 @@ render: ( ) ->
     </div>
   </div>
 
-  <div class="bar" id="bottom">
+  <div class="bar bottom" id="bottom">
 
-    <div class="container" id="left">
+    <div class="container left" id="left">
       <div class="widg" id="home">
         <i class="fas fa-home"></i>
         ~/
@@ -165,16 +154,16 @@ render: ( ) ->
       </div>
     </div>
 
-    <div class="container" id="center">
-    <div class="widg">
-      <i class="fa fa-window-maximize desk" id="desk1"></i>
-      <i class="fa fa-window-maximize desk" id="desk2"></i>
-      <i class="fa fa-window-maximize desk" id="desk3"></i>
-      <i class="fa fa-window-maximize desk" id="desk4"></i>
-    </div>
+    <div class="container center" id="center">
+      <div class="widg">
+        <i class="fa fa-window-maximize desk" id="desk1"></i>
+        <i class="fa fa-window-maximize desk" id="desk2"></i>
+        <i class="fa fa-window-maximize desk" id="desk3"></i>
+        <i class="fa fa-window-maximize desk" id="desk4"></i>
+      </div>
     </div>
 
-    <div class="container" id="right">
+    <div class="container right" id="right">
       <div class="widg" id="cpu">
         <i class="fa fa-spinner"></i>
         <span class="cpu-output"></span>
@@ -314,8 +303,11 @@ handleSysmon: ( domEl, sysmon, monid ) ->
   else
     div.find(monid).css('color', colors.red )
 
-#
-# ─── STYLE ─────────────────────────────────────────────────────────────────
-#
 
 # ──────────────────────────────────────────────────────────────────────────────
+
+#############################
+# Shows errors if they occur
+showError: (err) ->
+	if @content
+		@content.html '<div class="error">' + err + '</div>'
