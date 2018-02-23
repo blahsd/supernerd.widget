@@ -3,6 +3,9 @@
 #   :::::: S U P E R N E R D
 # ──────────────────────────────────────────────────────────
 #
+style: """
+    @import url(supernerd.widget/styles/default.css);
+"""
 
 options =
   styleFilename: 'default'
@@ -303,6 +306,12 @@ handleSysmon: ( domEl, sysmon, monid ) ->
   else
     div.find(monid).css('color', colors.red )
 
+<<<<<<< HEAD:supernerd.widget/display.coffee
+=======
+#
+# ─── STYLE ─────────────────────────────────────────────────────────────────
+#
+>>>>>>> origin/cssdev:display.coffee
 
 # ──────────────────────────────────────────────────────────────────────────────
 
