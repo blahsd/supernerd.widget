@@ -32,5 +32,6 @@ render: ( ) ->
   """
 
 style: """
+    @import url(supernerd.widget/styles/colors.css);
     @import url(supernerd.widget/styles/default.css);
 """

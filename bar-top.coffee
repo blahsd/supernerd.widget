@@ -1,9 +1,8 @@
 
 render: ( ) ->
   """
-  <div class="bar" id="bar-top">
-    <div class="bar" id="top">
-    </div>
+  <div class="bar-container">
+
   </div>
   """
 
