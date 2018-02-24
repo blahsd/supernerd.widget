@@ -33,7 +33,6 @@ render: ( ) ->
   """
 
 style: """
-    @import url(https://use.fontawesome.com/releases/v5.0.6/css/all.css);
     @import url(supernerd.widget/styles/default.css);
 """
 update: ( output, domEl ) ->
@@ -45,3 +44,26 @@ update: ( output, domEl ) ->
   $( ".cpu-output") .text("#{ cpu }")
   $( ".mem-output") .text("#{ mem }")
   $( ".hdd-output") .text("#{ hdd }")
+
+  @handleSysmon( domEl, Number( cpu ), '#cpu' )
+  @handleSysmon( domEl, Number( mem.replace( /%/g, "") ), '#mem' )
+  @handleSysmon( domEl, Number( hdd.replace( /%/g, "") ), '#hdd' )
+
+#
+# ─── COLOR SYSMON –─────────────────────────────────────────────────────────
+#
+handleSysmon: ( domEl, sysmon, monid ) ->
+  div = $(domEl)
+
+  if sysmon <= 10
+    div.find(monid).addClass('blue')
+  else if sysmon <= 20
+    div.find(monid).addClass('blue')
+  else if sysmon <= 40
+    div.find(monid).addClass('cyan')
+  else if sysmon <= 50
+    div.find(monid).addClass('green')
+  else if sysmon <= 75
+    div.find(monid).addClass('yellow')
+  else
+    div.find(monid).addClass('red')

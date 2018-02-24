@@ -44,6 +44,28 @@
   display:inline;
 }
 
+.green {
+  color:var(--green);
+}
+.yellow {
+  color:var(--yellow);
+}
+.red {
+  color:var(--red);
+}
+.blue {
+  color:var(--blue);
+}
+.cyan {
+  color:var(--cyan);
+}
+.white {
+  color:var(--white);
+}
+.black {
+  color:var(--black);
+}
+
 #supernerd-widget-bar-bottom-coffee {
   background-color:var(--black);
   width:100%;
@@ -51,6 +73,18 @@
   bottom:0px;
   z-index:-1;
   opacity:var(--opacity);
+}
+
+#supernerd-widget-app-launcher-coffee {
+  color:var(--white);
+  font-family:'Menlo';
+  font-size:10px;
+  font-smoothing:antialiasing;
+  position:absolute;
+  bottom:0px;
+  left:0px;
+  width:auto;
+  display:inline;
 }
 
 #supernerd-widget-system-monitor-coffee {

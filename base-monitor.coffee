@@ -70,3 +70,53 @@ update: ( output, domEl ) ->
   $( ".date-output" )    .text( "#{ date }" )
   $( ".battery-output") .text("#{ battery }")
   $( ".wifi-output") .text("#{ wifi }")
+
+  @handleBattery( domEl, Number( battery.replace( /%/g, "" ) ), ischarging )
+  @handleVolume( Number( volume ), ismuted )
+
+#
+# ─── HANDLE BATTERY ─────────────────────────────────────────────────────────
+#
+
+handleBattery: ( domEl, percentage, ischarging ) ->
+  div = $( domEl )
+
+  batteryIcon = switch
+    when percentage <=  12 then "fa-battery-empty"
+    when percentage <=  25 then "fa-battery-quarter"
+    when percentage <=  50 then "fa-battery-half"
+    when percentage <=  75 then "fa-battery-three-quarters"
+    when percentage <= 100 then "fa-battery-full"
+
+
+  div.find("#battery").removeClass('green')
+  div.find("#battery").removeClass('yellow')
+  div.find("#battery").removeClass('red')
+  if percentage >= 35
+    div.find('#battery').addClass('green')
+  else if percentage >= 15
+    div.find('#battery').addClass('yellow')
+  else
+    div.find('#battery').addClass('red')
+
+  if ischarging == "true"
+    batteryIcon = "fas fa-bolt"
+  $( ".battery-icon" ).html( "<i class=\"fa #{ batteryIcon }\"></i>" )
+#
+# ─── HANDLE VOLUME ─────────────────────────────────────────────────────────
+#
+
+handleVolume: ( volume, ismuted ) ->
+  volumeIcon = switch
+    when volume ==   0 then "fa-volume-off"
+    when volume <=  50 then "fa-volume-down"
+    when volume <= 100 then "fa-volume-up"
+
+
+  if ismuted != 'true'
+    $( ".volume-output") .text("#{ volume }")
+  else
+    $( ".volume-output") .text("Muted")
+    volumeIcon = "fa-volume-off"
+
+  $( ".volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
