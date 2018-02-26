@@ -18,7 +18,6 @@ render: ( ) ->
   """
 
 style: """
-    @import url(https://use.fontawesome.com/releases/v5.0.6/css/all.css);
     @import url(supernerd.widget/styles/default.css);
 """
 update: ( output, domEl ) ->

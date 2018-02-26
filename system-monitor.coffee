@@ -55,6 +55,14 @@ update: ( output, domEl ) ->
 handleSysmon: ( domEl, sysmon, monid ) ->
   div = $(domEl)
 
+  div.find(monid).removeClass('blue')
+  div.find(monid).removeClass('cyan')
+  div.find(monid).removeClass('green')
+  div.find(monid).removeClass('yellow')
+  div.find(monid).removeClass('magenta')
+  div.find(monid).removeClass('red')
+  div.find(monid).removeClass('white')
+  div.find(monid).removeClass('black')
   if sysmon <= 10
     div.find(monid).addClass('blue')
   else if sysmon <= 20
