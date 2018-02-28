@@ -74,6 +74,25 @@
   display:inline;
 }
 
+#home {
+  color:var(--magenta);
+}
+#browser {
+  color:var(--blue);
+}
+#mail {
+  color:var(--cyan);
+}
+#messages {
+  color:var(--green);
+}
+#terminal {
+  color:var(--yellow);
+}
+#editor {
+  color:var(--red);
+}
+
 #supernerd-widget-system-monitor-coffee {
   bottom:0px;
   right:0px;
