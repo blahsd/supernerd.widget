@@ -1,0 +1,104 @@
+
+
+#supernerd-widget-bar-top-coffee {
+  top:0px;
+}
+
+#supernerd-widget-bar-bottom-coffee {
+  bottom:0px;
+}
+
+.bar-container {
+  background-color:var(--background);
+  width:2200px;
+  height:20px;
+  position:relative;
+  z-index:-1;
+  opacity:0.8;
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);
+}
+
+.widg {
+  color:var(--foreground);
+  font-family:'Menlo';
+  font-size:10px;
+  font-smoothing:antialiasing;
+  z-index:1;
+  float:left;
+  margin-left:8px;
+  margin-right:8px;
+  margin-bottom:4px;
+  margin-top:4px;
+}
+
+.green {
+  color:var(--color1);
+}
+.yellow {
+  color:var(--color2);
+}
+.red {
+  color:var(--color3);
+}
+.blue {
+  color:var(--color4);
+}
+.cyan {
+  color:var(--color5);
+}
+.magenta {
+  color:var(--color6);
+}
+.white {
+  color:var(--foreground);
+}
+.black {
+  color:var(--background);
+}
+
+#supernerd-widget-music-player-coffee {
+  top:0px;
+  left:0px;
+  width:auto;
+  display:inline;
+}
+
+#supernerd-widget-base-monitor-coffee {
+  top:0px;
+  right:0px;
+  width:auto;
+  display:inline;
+}
+
+#supernerd-widget-app-launcher-coffee {
+  bottom:0px;
+  left:0px;
+  width:auto;
+  display:inline;
+}
+
+#home {
+  color:var(--color1);
+}
+#browser {
+  color:var(--color2);
+}
+#mail {
+  color:var(--color3);
+}
+#messages {
+  color:var(--color4);
+}
+#terminal {
+  color:var(--color5);
+}
+#editor {
+  color:var(--color6);
+}
+
+#supernerd-widget-system-monitor-coffee {
+  bottom:0px;
+  right:0px;
+  width:auto;
+  display:inline;
+}

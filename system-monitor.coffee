@@ -32,9 +32,6 @@ render: ( ) ->
     </div>
   """
 
-style: """
-    @import url(supernerd.widget/styles/default.css);
-"""
 update: ( output, domEl ) ->
   output = output.split( /:::/g )
 

@@ -7,6 +7,3 @@ render: ( ) ->
   </div>
   """
 
-style: """
-    @import url(supernerd.widget/styles/default.css);
-"""
