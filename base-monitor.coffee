@@ -1,4 +1,3 @@
-
 commands =
   battery: "pmset -g batt | egrep '([0-9]+\%).*' -o --colour=auto | cut -f1 -d';'"
   time: "date +\"%H:%M\""
@@ -29,7 +28,7 @@ render: ( ) ->
   """
     <div class="container">
       <div class="widg" id="volume">
-        <span class="volume-icon"></span>
+        <i class="volume-icon"></i>
         <span class="volume-output"></span>
       </div>
       <div class="widg" id="wifi">
@@ -37,7 +36,7 @@ render: ( ) ->
         <span class="wifi-output"></span>
       </div>
       <div class="widg" id="battery">
-        <span class="battery-icon"></span>
+        <i class="battery-icon"></i>
         <span class="battery-output"></span>
       </div>
       <div class="widg" id="time">
@@ -88,6 +87,7 @@ handleBattery: ( domEl, percentage, ischarging ) ->
   div.find("#battery").removeClass('green')
   div.find("#battery").removeClass('yellow')
   div.find("#battery").removeClass('red')
+
   if percentage >= 35
     div.find('#battery').addClass('green')
   else if percentage >= 15
