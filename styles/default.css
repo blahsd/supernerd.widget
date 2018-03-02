@@ -9,52 +9,50 @@
 }
 
 .bar-container {
-  background-color:var(--black);
+  background-color:var(--background);
   width:2200px;
   height:20px;
   position:relative;
   z-index:-1;
-  opacity:var(--opacity);
   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);
 }
 
 .widg {
-  color:var(--white);
+  color:var(--foreground);
   font-family:'Menlo';
   font-size:10px;
   font-smoothing:antialiasing;
   z-index:1;
   float:left;
-  margin-left:8px;
-  margin-right:8px;
-  margin-bottom:4px;
-  margin-top:4px;
-}
-
-.i {
-
+  padding-left:8px;
+  padding-right:8px;
+  padding-bottom:4px;
+  padding-top:4px;
 }
 
 .green {
-  color:var(--green);
+  color:var(--color6);
 }
 .yellow {
-  color:var(--yellow);
+  color:var(--color3);
 }
 .red {
-  color:var(--red);
+  color:var(--color2);
 }
 .blue {
-  color:var(--blue);
+  color:var(--color5);
 }
 .cyan {
-  color:var(--cyan);
+  color:var(--color5);
+}
+.magenta {
+  color:var(--color4);
 }
 .white {
-  color:var(--white);
+  color:var(--foreground);
 }
 .black {
-  color:var(--black);
+  color:var(--background);
 }
 
 #supernerd-widget-music-player-coffee {
@@ -79,22 +77,22 @@
 }
 
 #home {
-  color:var(--magenta);
+  color:var(--color1);
 }
 #browser {
-  color:var(--blue);
+  color:var(--color2);
 }
 #mail {
-  color:var(--cyan);
+  color:var(--color3);
 }
 #messages {
-  color:var(--green);
+  color:var(--color4);
 }
 #terminal {
-  color:var(--yellow);
+  color:var(--color5);
 }
 #editor {
-  color:var(--red);
+  color:var(--color6);
 }
 
 #supernerd-widget-system-monitor-coffee {
