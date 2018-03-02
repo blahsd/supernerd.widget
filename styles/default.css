@@ -58,8 +58,11 @@
 #supernerd-widget-music-player-coffee {
   top:0px;
   left:0px;
-  width:auto;
+  width:240px;
   display:inline;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  overflow: hidden;
 }
 
 #supernerd-widget-base-monitor-coffee {

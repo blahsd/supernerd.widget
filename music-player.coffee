@@ -1,5 +1,5 @@
 options =
-  player: 'spotify' # spotify | itunes
+  player: 'itunes' # spotify | itunes
 
 commands =
   itunes: "osascript -e 'tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
