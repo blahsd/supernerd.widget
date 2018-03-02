@@ -17,6 +17,6 @@ render: ( ) ->
 
 style: """
     @import url(https://use.fontawesome.com/releases/v5.0.6/css/all.css);
-    @import url(supernerd.widget/styles/colors.css);
+    @import url(supernerd.widget/styles/colors-wal.css);
     @import url(supernerd.widget/styles/default.css);
 """
