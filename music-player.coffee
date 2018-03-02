@@ -1,9 +1,13 @@
+options =
+  player: 'spotify' # spotify | itunes
 
 commands =
-  playing: "osascript -e 'tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
+  itunes: "osascript -e 'tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
+  spotify: "osascript -e 'tell application \"Spotify\" to artist of current track & \" - \" & name of current track'"
 
 command: "echo " +
-         "$(#{ commands.playing })"
+         "$(#{ commands.itunes}):::" +
+         "$(#{ commands.spotify})"
 
 refreshFrequency: '10s'
 
@@ -18,6 +22,11 @@ render: ( ) ->
   """
 
 update: ( output, domEl ) ->
+  output = output.split( /:::/g )
 
-
-  $( ".playing-output") .text("#{ output }")
+  if options.player == 'itunes'
+    $( ".playing-output") .text("#{ output[ 0 ] }")
+  else if options.player == 'spotify'
+    $( ".playing-output") .text("#{ output[ 1 ] }")
+  else
+    $( ".playing-output") .text("No player set.")
