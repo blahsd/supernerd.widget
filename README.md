@@ -8,23 +8,12 @@ This was intended to be a customisation for the personal use of yours truly, but
 
 Supernerd adds a bunch of new functionality to the original it started from. In particular it adds a lot of semi-useful system monitoring indicators, and very cool icons courtesy of [fontawesome](http://fontawesome.com). Furthermore, thanks to its condensed form that keeps all the widgets in one single file, it's super super easy to customise and to theme to your liking by editing *one single file* instead of one for each widget.
 
-# Components
-I've struggled to keep the component count to a minimum. This in order to make theming possible, as each file needs its own css (damn you, Ubersicht!) and I don't want to have to edit a dozen css when I change my color scheme. Currently all of Supernerd's widgets are included in:
-
-* bar.coffee
-
-This other file is just to enable widgets to display icons. If you want to disable icons, just get rid of it:
-
-* fontawesome.coffee
-
-There is, honestly, one drawback to using one single `.coffee` for all of the display info, which is that the resource consumption will be a bit higher because all of the widgets have to refresh at the rate of the most frequently refreshing widget. Since in general I find that Ubersicht is really lightweight, I decided simply not to care.
-
 # Displays
-* **iTunes**  artist and track name of the playing track
-* **Focus**   title of the window currently focues
+* **Player**  artist and track name of the playing track (works for itunes, spotify)
+* **Focus**   title of the window currently focues [temporarily disabled]
 * **Info**    Volume, wifi, battery, time and date
-* **Links**   Handy app/location launcher. Comes set up with home folder, Safari, Mail, WhatsApp, Hyper and Atom, but can be configured very easily (just look for these apps' name in `display.coffee`!
-* **Desktop** Graphically displays which desktop you are in
+* **Links**   Handy app/location launcher. Comes set up with home folder, Safari, Mail, WhatsApp, Hyper and Atom, but can be configured very easily (just take a look in `app-launcher.coffee`!
+* **Desktop** Graphically displays which desktop you are in [temporarily disabled]
 * **Sysmon**  Displays cpu, ram, and hard disk usage, with cool colors which reflect the load
 
 # Installation
@@ -37,16 +26,20 @@ git clone https://github.com/blahsd/supernerd.widget $HOME/Library/Application\ 
 ```
 
 # Customisation
-Supernerd is the only bar replacement that employs one single widget to display all of the informations you need. Since everybody else does it differently, it's probably a bad idea (see above). At any rate, this setup makes it super  easy to theme, because you only have to edit one file's CSS which then applies to all of the widgets.
+Thanks to the amazing work of [davidlday](https://github.com/davidlday) Supernerd is now the only menubar replacement which employs a single .css for the entire system, while also having each widget coded in a separate file. This allows for an amazing ease of customisation of the widget displays, which can be handled, moved, disabled, etc. one by one, while also at the same time allowing the modifications of one single .css to affect the entire display.
+
+Supernerd is also fully compatible with wal / pywal, and if you select the correspondent .css, named colors-wal.css, for import in the bar-top.coffee component, it will automatically adjust to wal's colors.
 
 Currently Supernerd ships with two selectable themes:
-* [Snazzy](https://github.com/sindresorhus/hyper-snazzy) theme (which I recommend)
+* Snazzy
 * Pro
 
-Select them by editing the `theme` variable in `display.coffee`, or make your own css.
+Select them by editing the `theme` variable in `bar-top.coffee`, or make your own css.
 
 # Credits
 * [splintah/nerdbar.widget](https://github.com/splintah/nerdbar.widget): tons of code that I took shamelessly and adapted/expanded. Definitely would not have done supernerd if it wasn't for this code.
+* [davidlday/supernerd.widget](https://github.com/davidlday/supernerd.widget): this man gave us CSS separated from the code logic. He made it possible to have each widget split in a different file while maintaining the level of customisability we're used to. No way to thank him enough.
 * [herbischoff/nerbar.widget](https://github.com/herrbischoff/nerdbar.widget): most of the original nerdbar widget.
 * [Pe8er/playbox.widget](https://github.com/Pe8er/Playbox.widget): the script that fetches information from iTunes, which I recklessly mutilated for use with supernerd.
 * [syndresorhus/hyper-snazzy](https://github.com/sindresorhus/hyper-snazzy): I copied the sweet colors of the `snazzy` theme from here.
+* [Wallpaper] (https://unsplash.com/photos/5KNecHxjTnI)
