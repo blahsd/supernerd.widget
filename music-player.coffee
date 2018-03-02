@@ -2,8 +2,8 @@ options =
   player: 'itunes' # spotify | itunes
 
 commands =
-  itunes: "osascript -e 'tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
-  spotify: "osascript -e 'tell application \"Spotify\" to artist of current track & \" - \" & name of current track'"
+  itunes: "osascript -e 'if application \"iTunes\" is running then tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
+  spotify: "osascript -e 'if application \"Spotify\" is running then tell application \"Spotify\" to artist of current track & \" - \" & name of current track'"
 
 command: "echo " +
          "$(#{ commands.itunes}):::" +
