@@ -18,7 +18,7 @@ refreshFrequency: '10s'
 render: ( ) ->
   """
     <div class="container">
-        <div class="widg" id="music">
+        <div class="widg music" id="music">
           <i class="fab fa-itunes-note"></i>
           <span class="playing-output"></span>
         </div>
