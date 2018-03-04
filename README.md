@@ -18,13 +18,14 @@ I honestly have not seen any other menubar widget that is has this level of poin
 
 * **Adaptive Colors & Icons**   Want to master knowing what your mac is up to in a glance? Most of the indicators are color-coded, so the widget's colors reflect the load / usage / etc. System monitors, such as the CPU monitor change color as the get more loaded, the battery as it's drained, the volume as it lowers, etc. Icons are adaptive too where applicable: volume, battery, wifi, etc. all change to reflect their status.
 * **Collapsible Buttons**       Certain indicators are collapsible and will only show their full value when hovered with the mouse. Thanks to the *adaptive colors* you already know superficial information just by looking at them.
-
 ![demo-animation](./demo/demo-animation.gif)
 
 What??? WOW!
 
 * **Notification**              You can enable notifications and buttons will light up discreetly to let you know when there is one. Check this out:
-![deno-notification](./demo/demo-notification.gif)
+
+![demo-notification](./demo/demo-notification.gif)
+
 Does this really work? No! I'm still working on making it go off correctly.
 
 If you're worried about resources, disabling any of these anymations is a matter of deleting one .css block, so do it or ask me do to it. I probably will.
@@ -35,6 +36,13 @@ Customisation is **super** easy. Thanks to the amazing work of [davidlday](https
 * Customise the appearance of all widgets by editing just one .css file. Except for positioning, 99% of the CSS is shared on a class basis, so it will apply to each and every widget. The positioning part being separate makes it easy to put widgets where you want them.
 * Handle widgets on a per-object basis. Since the logic of the widget is in separate individual files, it's easy to hack into them and get them to work the way you want to, or to disable them one-by-one.
 
+Supernerd is also fully compatible with wal / pywal, and if you select the correspondent .css, named colors-wal.css, for import in the bar-top.coffee component, it will automatically adjust to wal's colors.
+
+Currently Supernerd ships with only one alternative to the default theme:
+* floating.css
+![demo-floating](./demo/demo-floating.png)
+
+Select it by Find+Replace `default.css` in `bar-top.coffee` with the name of the theme you'd like to load – or make your own css.
 
 # Installation
 (You know you want it.)
@@ -46,17 +54,6 @@ Customisation is **super** easy. Thanks to the amazing work of [davidlday](https
 ```bash
 git clone https://github.com/blahsd/supernerd.widget $HOME/Library/Application\ Support/Übersicht/widgets
 ```
-
-# Customisation
-Thanks to the amazing work of [davidlday](https://github.com/davidlday) Supernerd is now the only menubar replacement which employs a single .css for the entire system, while also having each widget coded in a separate file. This allows for an amazing ease of customisation of the widget displays, which can be handled, moved, disabled, etc. one by one, while also at the same time allowing the modifications of one single .css to affect the entire display.
-
-Supernerd is also fully compatible with wal / pywal, and if you select the correspondent .css, named colors-wal.css, for import in the bar-top.coffee component, it will automatically adjust to wal's colors.
-
-Currently Supernerd ships with only one alternative to the default theme:
-* floating.css
-![demo-floating](./demo/demo-floating.png)
-
-Select it by Find+Replace `default.css` in `bar-top.coffee` with the name of the theme you'd like to load – or make your own css.
 
 # Credits
 * [splintah/nerdbar.widget](https://github.com/splintah/nerdbar.widget): tons of code that I took shamelessly and adapted/expanded. Definitely would not have done supernerd if it wasn't for this code.
