@@ -19,7 +19,7 @@ I honestly have not seen any other menubar widget that is has this level of poin
 * **Adaptive Colors & Icons**   Want to master knowing what your mac is up to in a glance? Most of the indicators are color-coded, so the widget's colors reflect the load / usage / etc. System monitors, such as the CPU monitor change color as the get more loaded, the battery as it's drained, the volume as it lowers, etc. Icons are adaptive too where applicable: volume, battery, wifi, etc. all change to reflect their status.
 * **Collapsible Buttons**       Certain indicators are collapsible and will only show their full value when hovered with the mouse. Thanks to the *adaptive colors* you already know superficial information just by looking at them.
 
-![demo-animation](./devmo/demo-animation.gif)
+![demo-animation](./demo/demo-animation.gif)
 
 What??? WOW!
 
