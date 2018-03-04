@@ -1,22 +1,44 @@
 # Supernerd
 
-Sweet-ass (double!) menu bar replacement for  [Übersicht](http://tracesof.net/uebersicht/). Lots of the code in here was taken from splintah/[nerdbar.widget](https://github.com/splintah/nerdbar.widget), and supernerd definitely would not have happened without it. However I wanted to have all of the features I wanted and a bit different setup, hence supernerd. Anyways, Nerdbar is amazing, Supernerd sucks pretty bad. But it does look *pretty damn sweet*.
+Sweet-ass (double!) menu bar replacement / widget pack for  [Übersicht](http://tracesof.net/uebersicht/). Originally built on top of  splintah/[nerdbar.widget](https://github.com/splintah/nerdbar.widget), it spiralled out of control and has grown to be a beast of its own. Anyways, Nerdbar is amazing, Supernerd sucks pretty bad. But it does look *pretty damn sweet*.
 
-![supernerd_img](./screenshot.png)
+![supernerd_img](./demo/demo-standard.png)
 
-This was intended to be a customisation for the personal use of yours truly, but feel free to contribute and/or recommend changes. Pull requests very welcome.
+# Indicators
+* **Player**    displays information about the track that is currently playing in either Spotify or iTunes. Easy to extend for your favourite music player.
+* **Focus**     shows the title of the window currently focused. You need this mostly only if you have removed titlebars like I did. Why did I do it? Because it looks cool af, that's why. Also saves screen real estate.
+* **Info**      Volume, wifi, battery, time and date
+* **Links**     Handy app/location launcher. Comes set up with home folder, Safari, Mail, WhatsApp, Hyper and Atom, but can be configured very easily – take a look in `app-launcher.coffee` and Find+Replace any of those apps with the name of your favorite. It's that easy.
+* **Desktop**   Graphically displays which desktop you are in. Goes up to four desktops by default. Look at this lil bitch:
+![demo-desktop](./demo/demo-desktop.gif)
+* **Sysmon**    Displays cpu, ram, and hard disk usage, with cool colours which reflect the load.
 
-Supernerd adds a bunch of new functionality to the original it started from. In particular it adds a lot of semi-useful system monitoring indicators, and very cool icons courtesy of [fontawesome](http://fontawesome.com). Furthermore, thanks to its condensed form that keeps all the widgets in one single file, it's super super easy to customise and to theme to your liking by editing *one single file* instead of one for each widget.
+## Cool Shit
+I honestly have not seen any other menubar widget that is has this level of pointless and cool eye candy.
 
-# Displays
-* **Player**  artist and track name of the playing track (works for itunes, spotify)
-* **Focus**   title of the window currently focues [temporarily disabled]
-* **Info**    Volume, wifi, battery, time and date
-* **Links**   Handy app/location launcher. Comes set up with home folder, Safari, Mail, WhatsApp, Hyper and Atom, but can be configured very easily (just take a look in `app-launcher.coffee`!
-* **Desktop** Graphically displays which desktop you are in [temporarily disabled]
-* **Sysmon**  Displays cpu, ram, and hard disk usage, with cool colors which reflect the load
+* **Adaptive Colors & Icons**   Want to master knowing what your mac is up to in a glance? Most of the indicators are color-coded, so the widget's colors reflect the load / usage / etc. System monitors, such as the CPU monitor change color as the get more loaded, the battery as it's drained, the volume as it lowers, etc. Icons are adaptive too where applicable: volume, battery, wifi, etc. all change to reflect their status.
+* **Collapsible Buttons**       Certain indicators are collapsible and will only show their full value when hovered with the mouse. Thanks to the *adaptive colors* you already know superficial information just by looking at them.
+
+![demo-animation](./devmo/demo-animation.gif)
+
+What??? WOW!
+
+* **Notification**              You can enable notifications and buttons will light up discreetly to let you know when there is one. Check this out:
+![deno-notification](./demo/demo-notification.gif)
+Does this really work? No! I'm still working on making it go off correctly.
+
+If you're worried about resources, disabling any of these anymations is a matter of deleting one .css block, so do it or ask me do to it. I probably will.
+
+## Customisation
+
+Customisation is **super** easy. Thanks to the amazing work of [davidlday](https://github.com/davidlday) Supernerd is now the only menubar replacement which employs a single .css for the entire system, while also having each widget coded in a separate file. This means you can:
+* Customise the appearance of all widgets by editing just one .css file. Except for positioning, 99% of the CSS is shared on a class basis, so it will apply to each and every widget. The positioning part being separate makes it easy to put widgets where you want them.
+* Handle widgets on a per-object basis. Since the logic of the widget is in separate individual files, it's easy to hack into them and get them to work the way you want to, or to disable them one-by-one.
+
 
 # Installation
+(You know you want it.)
+
 1. [Install Übersicht](http://tracesof.net/uebersicht/).
 
 2. Clone this repository to your Übersicht widgets:
@@ -30,11 +52,11 @@ Thanks to the amazing work of [davidlday](https://github.com/davidlday) Superner
 
 Supernerd is also fully compatible with wal / pywal, and if you select the correspondent .css, named colors-wal.css, for import in the bar-top.coffee component, it will automatically adjust to wal's colors.
 
-Currently Supernerd ships with two selectable themes:
-* Snazzy
-* Pro
+Currently Supernerd ships with only one alternative to the default theme:
+* floating.css
+![demo-floating](./demo/demo-floating.png)
 
-Select them by editing the `theme` variable in `bar-top.coffee`, or make your own css.
+Select it by Find+Replace `default.css` in `bar-top.coffee` with the name of the theme you'd like to load – or make your own css.
 
 # Credits
 * [splintah/nerdbar.widget](https://github.com/splintah/nerdbar.widget): tons of code that I took shamelessly and adapted/expanded. Definitely would not have done supernerd if it wasn't for this code.
@@ -43,3 +65,4 @@ Select them by editing the `theme` variable in `bar-top.coffee`, or make your ow
 * [Pe8er/playbox.widget](https://github.com/Pe8er/Playbox.widget): the script that fetches information from iTunes, which I recklessly mutilated for use with supernerd.
 * [syndresorhus/hyper-snazzy](https://github.com/sindresorhus/hyper-snazzy): I copied the sweet colors of the `snazzy` theme from here.
 * [Wallpaper] (https://unsplash.com/photos/5KNecHxjTnI)
+* Me. I mean, I think I did a pretty good job. [Buy me a coffe](https://www.patreon.com/blahsd) or [thoughts & prayers](https://www.thoughtsandprayersthegame.com).

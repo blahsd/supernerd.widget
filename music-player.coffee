@@ -1,6 +1,6 @@
 commands =
-  isitunesrunning: "sh ./supernerd.widget/scripts/isitunesrunning.sh"
-  isspotifyrunning: "sh ./supernerd.widget/scripts/isspotifyrunning.sh"
+  isitunesrunning: "osascript -e 'if application \"iTunes\" is running then return true'"
+  isspotifyrunning: "osascript -e 'if application \"Spotify\" is running then return true'"
   itunes: "osascript -e 'if application \"iTunes\" is running then tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
   spotify: "osascript -e 'if application \"Spotify\" is running then tell application \"Spotify\" to artist of current track & \" - \" & name of current track '"
 
@@ -12,15 +12,15 @@ command: "echo " +
          "$(#{ commands.itunes}):::" +
          "$(#{ commands.spotify})"
 
-refreshFrequency: '10s'
+refreshFrequency: '1s'
 
 render: ( ) ->
   """
     <div class="container">
         <div class="widg music" id="music">
           <i class="fab fa-itunes-note"></i>
-          <span class="playing-output"></span>
         </div>
+      <span class="playing-output"></span>
     </div>
   """
 

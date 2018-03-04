@@ -1,28 +1,45 @@
+:root {
+  --width: 1880px;
+  --margin: 16px;
+  --padding: 16px;
+}
 
-.widget {
+i {
+  margin-right: 2px;
+  z-index:1;
+  width:18px
+}
+span {
+z-index:0;
+}
+
+.container {
   background-color:var(--background);
   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);
-  margin:32px;
-  padding:24px;
+  margin:var(--margin);
+  padding:var(--padding);
+  display:flex;
+  align-items: center;
 }
 
 .bar-container {
-  disaply:none;
+  display:none;
 }
 
-.widg {
+.widg, .playing-output {
   background-color:var(--foreground);
-  background-background-color:var(--color1);
   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);
   font-family:'Menlo';
   font-size:12px;
   font-smoothing:antialiasing;
   z-index:1;
   float:left;
-  padding-left:8px;
-  padding-right:8px;
-  padding-bottom:16px;
-  padding-top:16px;
+  padding:8px;
+}
+
+.playing-output {
+  background: none;
+  color:var(--foreground);
 }
 
 #supernerd-widget-bar-top-coffee {
@@ -36,7 +53,6 @@
 #supernerd-widget-music-player-coffee {
   top:0px;
   left:0px;
-  width:240px;
   display:inline;
   white-space: nowrap;
   text-overflow:ellipsis;
@@ -44,14 +60,23 @@
 }
 
 .music {
-  width:220px;
+  width:auto;
+}
+
+#supernerd-widget-window-coffee {
+  top:0px;
+  width:var(--width);
+  display:flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #supernerd-widget-base-monitor-coffee {
   top:0px;
   right:0px;
-  width:auto;
-  display:inline;
+  display:flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #supernerd-widget-app-launcher-coffee {
@@ -59,6 +84,14 @@
   left:0px;
   width:auto;
   display:inline;
+}
+
+#supernerd-widget-desktop-coffee {
+  bottom:0px;
+  width:var(--width);
+  display:flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #supernerd-widget-system-monitor-coffee {
@@ -91,4 +124,44 @@
 }
 .black {
   background-color:var(--background);
+}
+
+.desk {
+  opacity: 0.4;
+}
+.active {
+  opacity:1;
+  text-decoration: underline;
+}
+
+.closed {
+  display:none;
+}
+
+.open {
+  display:inline;
+  overflow:hidden;
+  text-overflow:clip;
+  white-space: nowrap;
+  width:100px;
+  animation: slideout 0.5s;
+}
+
+.activeButton {
+  animation: fade 1s alternate infinite;
+}
+
+@keyframes fade {
+  from {filter: brightness(0.9);}
+  to {filter: brightness(1.2);}
+}
+
+@keyframes slideout {
+  from {
+    width:20px;
+
+  }
+  to {
+    width:100px;
+  }
 }

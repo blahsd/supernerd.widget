@@ -29,23 +29,23 @@ render: ( ) ->
     <div class="container">
       <div class="widg" id="volume">
         <i class="volume-icon"></i>
-        <span class="volume-output"></span>
+        <span class="volume-output closed"></span>
       </div>
       <div class="widg" id="wifi">
         <i class="fa fa-wifi"></i>
-        <span class="wifi-output"></span>
+        <span class="wifi-output closed"></span>
       </div>
       <div class="widg" id="battery">
         <i class="battery-icon"></i>
-        <span class="battery-output"></span>
+        <span class="battery-output closed"></span>
       </div>
       <div class="widg" id="time">
         <i class="far fa-clock"></i>
-        <span class="time-output"></span>
+        <span class="time-output closed"></span>
       </div>
       <div class="widg" id="date">
         <i class="far fa-calendar-alt"></i>
-        <span class="date-output"></span>
+        <span class="date-output closed"></span>
       </div>
     </div>
   """
@@ -116,3 +116,34 @@ handleVolume: ( volume, ismuted ) ->
     volumeIcon = "fa-volume-off"
 
   $( ".volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
+
+afterRender: (domEl) ->
+  $(domEl).on 'mouseover', '#volume', => $(domEl).find('.volume-output').addClass('open')
+  $(domEl).on 'mouseout', '#volume', => $(domEl).find('.volume-output').removeClass('open')
+
+  $(domEl).on 'mouseover', '#wifi', => $(domEl).find('.wifi-output').addClass('open')
+  $(domEl).on 'mouseout', '#wifi', => $(domEl).find('.wifi-output').removeClass('open')
+
+  $(domEl).on 'mouseover', '#battery', => $(domEl).find('.battery-output').addClass('open')
+  $(domEl).on 'mouseout', '#battery', => $(domEl).find('.battery-output').removeClass('open')
+
+  $(domEl).on 'mouseover', '#time', => $(domEl).find('.time-output').addClass('open')
+  $(domEl).on 'mouseout', '#time', => $(domEl).find('.time-output').removeClass('open')
+
+  $(domEl).on 'mouseover', '#date', => $(domEl).find('.date-output').addClass('open')
+  $(domEl).on 'mouseout', '#date', => $(domEl).find('.date-output').removeClass('open')
+
+  $(domEl).on 'mouseover', '#volume', => $(domEl).find('#volume').addClass('open')
+  $(domEl).on 'mouseout', '#volume', => $(domEl).find('#volume').removeClass('open')
+
+  $(domEl).on 'mouseover', '#wifi', => $(domEl).find('#wifi').addClass('open')
+  $(domEl).on 'mouseout', '#wifi', => $(domEl).find('#wifi').removeClass('open')
+
+  $(domEl).on 'mouseover', '#battery', => $(domEl).find('#battery').addClass('open')
+  $(domEl).on 'mouseout', '#battery', => $(domEl).find('#battery').removeClass('open')
+
+  $(domEl).on 'mouseover', '#time', => $(domEl).find('#time').addClass('open')
+  $(domEl).on 'mouseout', '#time', => $(domEl).find('#time').removeClass('open')
+
+  $(domEl).on 'mouseover', '#date', => $(domEl).find('#date').addClass('open')
+  $(domEl).on 'mouseout', '#date', => $(domEl).find('#date').removeClass('open')

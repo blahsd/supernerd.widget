@@ -1,4 +1,6 @@
-
+:root {
+  --width: 1920px;
+}
 
 #supernerd-widget-bar-top-coffee {
   top:0px;
@@ -10,14 +12,14 @@
 
 .bar-container {
   background-color:var(--background);
-  width:2200px;
+  width:var(--width);
   height:20px;
   position:relative;
   z-index:-1;
   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);
 }
 
-.widg {
+.widg, .playing-output {
   color:var(--foreground);
   font-family:'Menlo';
   font-size:10px;
@@ -28,6 +30,12 @@
   padding-right:8px;
   padding-bottom:4px;
   padding-top:4px;
+}
+
+.playing-output {
+  width:200px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .green {
@@ -65,6 +73,14 @@
   overflow: hidden;
 }
 
+#supernerd-widget-window-coffee {
+  top:0px;
+  width:var(--width);
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #supernerd-widget-base-monitor-coffee {
   top:0px;
   right:0px;
@@ -77,6 +93,22 @@
   left:0px;
   width:auto;
   display:inline;
+}
+
+#supernerd-widget-desktop-coffee {
+  bottom:0px;
+  width:var(--width);
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.desk {
+  opacity: 0.4;
+}
+.active {
+  opacity:1;
+  text-decoration: underline;
 }
 
 #home {
@@ -103,4 +135,32 @@
   right:0px;
   width:auto;
   display:inline;
+}
+
+### Animations
+
+.closed {
+  opacity:0.6;
+}
+.open {
+  opacity:1;
+}
+
+
+@keyframes marquee {
+  from {
+    margin-left: 0%;
+
+  }
+  to {
+    margin-left: -40%;
+  }
+}
+@keyframes bounce {
+  from {
+    padding-left:0px;
+  }
+  to {
+    padding-left:-200px;
+  }
 }

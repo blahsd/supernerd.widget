@@ -9,7 +9,7 @@ command: "echo " +
          "$(#{ commands.mem }):::" +
          "$(#{ commands.hdd }):::"
 
-refreshFrequency: '10s'
+refreshFrequency: '1m'
 
 render: ( ) ->
   """
@@ -17,17 +17,17 @@ render: ( ) ->
 
           <div class="widg" id="cpu">
             <i class="fa fa-spinner"></i>
-            <span class="cpu-output"></span>
+            <span class="cpu-output closed"></span>
           </div>
 
           <div class="widg" id="mem">
             <i class="fas fa-server"></i>
-            <span class="mem-output"></span>
+            <span class="mem-output closed"></span>
           </div>
 
           <div class="widg" id="hdd">
             <i class="fas fa-hdd"></i>
-              <span class="hdd-output"></span>
+              <span class="hdd-output closed"></span>
           </div>
     </div>
   """
@@ -72,3 +72,22 @@ handleSysmon: ( domEl, sysmon, monid ) ->
     div.find(monid).addClass('yellow')
   else
     div.find(monid).addClass('red')
+
+afterRender: (domEl) ->
+  $(domEl).on 'mouseover', '#cpu', => $(domEl).find('.cpu-output').addClass('open')
+  $(domEl).on 'mouseout', '#cpu', => $(domEl).find('.cpu-output').removeClass('open')
+
+  $(domEl).on 'mouseover', '#mem', => $(domEl).find('.mem-output').addClass('open')
+  $(domEl).on 'mouseout', '#mem', => $(domEl).find('.mem-output').removeClass('open')
+
+  $(domEl).on 'mouseover', '#hdd', => $(domEl).find('.hdd-output').addClass('open')
+  $(domEl).on 'mouseout', '#hdd', => $(domEl).find('.hdd-output').removeClass('open')
+
+  $(domEl).on 'mouseover', '#cpu', => $(domEl).find('#cpu').addClass('open')
+  $(domEl).on 'mouseout', '#cpu', => $(domEl).find('#cpu').removeClass('open')
+
+  $(domEl).on 'mouseover', '#mem', => $(domEl).find('#mem').addClass('open')
+  $(domEl).on 'mouseout', '#mem', => $(domEl).find('#mem').removeClass('open')
+
+  $(domEl).on 'mouseover', '#hdd', => $(domEl).find('#hdd').addClass('open')
+  $(domEl).on 'mouseout', '#hdd', => $(domEl).find('#hdd').removeClass('open')
