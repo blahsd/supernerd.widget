@@ -1,11 +1,10 @@
-options =
-  player: 'itunes' # spotify | itunes
-
 commands =
   isitunesrunning: "sh ./supernerd.widget/scripts/isitunesrunning.sh"
   isspotifyrunning: "sh ./supernerd.widget/scripts/isspotifyrunning.sh"
   itunes: "osascript -e 'if application \"iTunes\" is running then tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
-  spotify: "osascript -e 'if application \"Spotify\" is running then tell application \"Spotify\" to artist of current track & \" - \" & name of current track'"
+  spotify: "osascript -e 'if application \"Spotify\" is running then tell application \"Spotify\" to artist of current track & \" - \" & name of current track '"
+
+
 
 command: "echo " +
          "$(#{ commands.isitunesrunning}):::" +
@@ -34,7 +33,5 @@ update: ( output, domEl ) ->
 
   if isitunesrunning
     $( ".playing-output") .text("#{ itunes }")
-  else if isspotifyrunning
+  if isspotifyrunning
     $( ".playing-output") .text("#{ spotify }")
-  else
-    $( ".playing-output") .text("Stopped")
