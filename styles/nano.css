@@ -1,0 +1,118 @@
+:root {
+  --width: 1890px;
+  --global_margin: 16px;
+}
+
+span {
+z-index:0;
+}
+
+.closed {
+  display:none;
+}
+
+#supernerd-widget-bar-top-coffee {
+  top:var(--global_margin);
+  left:var(--global_margin);
+}
+
+.bar-container {
+  background-color:var(--background);
+  width:var(--width);
+  height:32px;
+  position:relative;
+  z-index:-1;
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);
+  border-radius: 2px;
+}
+
+.icon-holder {
+  display: inline;
+}
+
+.widg, .playing-output {
+  color:var(--foreground);
+  font-family:'Lucida Grande', Bold;
+  font-size:12px;
+  font-smoothing:antialiasing;
+  z-index:1;
+  float:left;
+  padding-left:8px;
+  padding-right:8px;
+  padding-bottom:4px;
+  padding-top:8px;
+}
+
+.playing-output {
+  width:200px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.green {
+  color:var(--color6);
+}
+.yellow {
+  color:var(--color3);
+}
+.red {
+  color:var(--color2);
+}
+.blue {
+  color:var(--color5);
+}
+.cyan {
+  color:var(--color5);
+}
+.magenta {
+  color:var(--color4);
+}
+.white {
+  color:var(--foreground);
+}
+.black {
+  color:var(--background);
+}
+
+#supernerd-widget-music-player-coffee {
+  top:var(--global_margin);
+  left:var(--global_margin);
+  width:24var(--global_margin);
+  display:inline;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  overflow: hidden;
+}
+
+#supernerd-widget-window-coffee {
+  top:var(--global_margin);
+  width:var(--width);
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#supernerd-widget-base-monitor-coffee {
+  top:var(--global_margin);
+  right:var(--global_margin);
+  width:auto;
+}
+
+.open {
+  overflow:hidden;
+  text-overflow:clip;
+  white-space: nowrap;
+  width:100px;
+  animation: slideout 0.5s;
+  display:inline;
+}
+
+@keyframes slideout {
+  from {
+    width:32px;
+
+  }
+  to {
+    width:100px;
+  }
+}
