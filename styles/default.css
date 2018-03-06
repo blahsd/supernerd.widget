@@ -1,9 +1,10 @@
 :root {
-  --width: 1920px;
+  --width:100%;
 }
 
 #supernerd-widget-bar-top-coffee {
   top:0px;
+  width:var(--width);
 }
 
 #supernerd-widget-bar-bottom-coffee {
@@ -12,7 +13,7 @@
 
 .bar-container {
   background-color:var(--background);
-  width:var(--width);
+  width:auto;
   height:20px;
   position:relative;
   z-index:-1;
