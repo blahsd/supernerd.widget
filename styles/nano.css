@@ -3,12 +3,41 @@
   --global_margin: 16px;
 }
 
-span {
-z-index:0;
-}
+span { z-index:0; }
+
+i { padding: 4px; }
 
 .closed {
   display:none;
+  width:20px;
+}
+
+.open {
+  overflow:hidden;
+  text-overflow:clip;
+  white-space: nowrap;
+  width:60px;
+  animation: slideout 0.5s;
+  display:inline;
+}
+
+.extended {
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+  width:360px;
+  animation: slideout 0.5s;
+  display:inline;
+}
+
+@keyframes slideout {
+  from { width:20px; }
+  to { width:60px; }
+}
+
+@keyframes extend {
+  from { width:200px; }
+  to { width:360px; }
 }
 
 #supernerd-widget-bar-top-coffee {
@@ -30,7 +59,7 @@ z-index:0;
   display: inline;
 }
 
-.widg, .playing-output {
+.widg {
   color:var(--foreground);
   font-family:'Lucida Grande', Bold;
   font-size:12px;
@@ -41,11 +70,13 @@ z-index:0;
   padding-right:8px;
   padding-bottom:4px;
   padding-top:8px;
+  display:inline;
 }
 
-.playing-output {
-  width:200px;
+#music {
+  width: 180px;
   white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 
@@ -74,6 +105,11 @@ z-index:0;
   color:var(--background);
 }
 
+#home {
+  color:var(--background);
+  background-color:var(--color3);
+}
+
 #supernerd-widget-music-player-coffee {
   top:var(--global_margin);
   left:var(--global_margin);
@@ -96,23 +132,4 @@ z-index:0;
   top:var(--global_margin);
   right:var(--global_margin);
   width:auto;
-}
-
-.open {
-  overflow:hidden;
-  text-overflow:clip;
-  white-space: nowrap;
-  width:100px;
-  animation: slideout 0.5s;
-  display:inline;
-}
-
-@keyframes slideout {
-  from {
-    width:32px;
-
-  }
-  to {
-    width:100px;
-  }
 }
