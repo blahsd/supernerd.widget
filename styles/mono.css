@@ -20,7 +20,6 @@ span { z-index:0; }
 
 .bar-container {
   background-color:var(--background);
-  width:var(--width);
   height:32px;
   position:relative;
   z-index:-1;
@@ -117,10 +116,10 @@ span { z-index:0; }
   text-overflow: ellipsis;
 }
 
-
 #supernerd-widget-bar-top-coffee {
   top:var(--global_margin);
   left:var(--global_margin);
+  right:var(--global_margin);
 }
 
 #supernerd-widget-music-player-coffee {

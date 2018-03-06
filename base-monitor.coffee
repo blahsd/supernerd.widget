@@ -78,6 +78,18 @@ update: ( output, domEl ) ->
 
   @handleBattery( domEl, Number( battery.replace( /%/g, "" ) ), ischarging )
   @handleVolume( domEl, Number( volume ), ismuted )
+  @handleWifi( domEl, wifi )
+
+#
+# ─── HANDLE WIFI ─────────────────────────────────────────────────────────
+#
+
+handleWifi: (domEl, wifi ) ->
+  if wifi == 'NULL'
+    wifiIcon = 'fas fa-exclamation-circle'
+  else
+    wifiIcon = 'fa fa-wifi'
+  $(domEl).find( ".wifi-icon" ).html( "<i class=\"fa #{ wifiIcon }\"></i>" )
 
 #
 # ─── HANDLE BATTERY ─────────────────────────────────────────────────────────
@@ -130,6 +142,11 @@ handleVolume: ( domEl, volume, ismuted ) ->
 
   $( "#volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
 
+
+#
+# ─── CLICKS  ─────────────────────────────────────────────────────────
+#
+
 toggleOption: (target, parent, option, excludingCondition = false) ->
   if excludingCondition && $(target).hasClass(excludingCondition)
     return
@@ -154,9 +171,6 @@ toggleOpen: (target, open = false) ->
   else
     $(target).removeClass('open')
 
-#
-# ─── CLICKS  ─────────────────────────────────────────────────────────
-#
 
 afterRender: (domEl) ->
   $(domEl).on 'mouseover', '#volume', => @toggleOpen($(domEl).find('#volume-output'), true)
