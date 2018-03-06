@@ -179,7 +179,7 @@ toggleOpen: (target, open = false) ->
 
 
 afterRender: (domEl) ->
-  $(domEl).on 'mouseover', '#volume', => @toggleOpen($(domEl).find('#volume-output'), true)
+  $(domEl).on 'mouseover', '#volume', => @toggleOpen($(domEl).find('#volume-output'), true) &&
   $(domEl).on 'mouseout', '#volume', => @toggleOpen($(domEl).find('#volume-output'))
   $(domEl).on 'click', '#volume', => @toggleOption($(domEl).find('#volume-output'),$(domEl).find('#volume-icon-container'),'pinned')
 

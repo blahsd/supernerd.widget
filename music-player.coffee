@@ -1,12 +1,16 @@
 commands =
   isitunesrunning: "osascript -e 'if application \"iTunes\" is running then return true'"
   isspotifyrunning: "osascript -e 'if application \"Spotify\" is running then return true'"
+  isitunesplaying: "osascript -e 'if application \"iTunes\" is running then tell application \"iTunes\" to if player state is playing then return true'"
+  isspotifyplaying: "osascript -e 'if application \"Spotify\" is running then tell application \"Spotify\" to if player state is playing then return true'"
   itunes: "osascript -e 'if application \"iTunes\" is running then tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
   spotify: "osascript -e 'if application \"Spotify\" is running then tell application \"Spotify\" to artist of current track & \" - \" & name of current track '"
 
 command: "echo " +
          "$(#{ commands.isitunesrunning}):::" +
          "$(#{ commands.isspotifyrunning}):::" +
+         "$(#{ commands.isitunesplaying}):::" +
+         "$(#{ commands.isspotifyplaying}):::" +
          "$(#{ commands.itunes}):::" +
          "$(#{ commands.spotify})"
 
@@ -20,12 +24,14 @@ render: ( ) ->
           <i class="fas fa-home"></i>
           </div>
         </div>
-        <div class="widg music" id="music">
-          <div class="icon-container" id="music-icon-container">
-            <i class="fas fa-play" id="playButton"></i>
-            <i class="fas fa-step-forward" id="nextButton"></i>
+        <div class="widg play" id="play">
+          <div class="icon-container" id="play-icon-container">
+            <i class="fas fa-play" id="play-button"></i>
           </div>
-          <span class="output" id='playing-output'></span>
+          <div class="icon-container" id="next-icon-container">
+            <i class="fas fa-step-forward" id="next-button"></i>
+          </div>
+          <span class="output" id='play-output'></span>
         </div>
 
     </div>
@@ -35,61 +41,36 @@ update: ( output, domEl ) ->
   output = output.split( /:::/g )
   isitunesrunning = output[0]
   isspotifyrunning = output[1]
-  itunes = output[2]
-  spotify = output[3]
+  isitunesplaying = output[2]
+  isspotifyplaying = output[3]
+  itunes = output[4]
+  spotify = output[5]
 
   if isitunesrunning
-    $( "#playing-output") .text("#{ itunes }")
+    $( "#play-output") .text("#{ itunes }")
   if isspotifyrunning
-    $( "#playing-output") .text("#{ spotify }")
+    $( "#play-output") .text("#{ spotify }")
+
+  if isspotifyplaying || isitunesplaying
+    $(domEl).find('#play-button').removeClass()
+    $(domEl).find('#play-button').addClass('fas fa-pause')
 
 handlePlay: (domEl) ->
   @run "osascript -e 'tell application \"Spotify\" to playpause'"
-  if $(domEl).find('#playButton').hasClass('fa-play')
-    $(domEl).find('#playButton').removeClass()
-    $(domEl).find('#playButton').addClass('fas fa-pause')
+  if $(domEl).find('#play-button').hasClass('fa-play')
+    $(domEl).find('#play-button').removeClass()
+    $(domEl).find('#play-button').addClass('fas fa-pause')
   else
-    $(domEl).find('#playButton').removeClass()
-    $(domEl).find('#playButton').addClass('fas fa-play')
+    $(domEl).find('#play-button').removeClass()
+    $(domEl).find('#play-button').addClass('fas fa-play')
 
 handleNext: (domEl) ->
   @run "osascript -e 'tell application \"Spotify\" to next track'"
-  if $(domEl).find('#playButton').hasClass('fa-play')
-    $(domEl).find('#playButton').removeClass()
-    $(domEl).find('#playButton').addClass('fas fa-pause')
-
-
-toggleOption: (target, parent, option, excludingCondition = false) ->
-  if excludingCondition && $(target).hasClass(excludingCondition)
-    return
-  if $(parent) != false
-    if $(parent).hasClass("#{ option }")
-      $(parent).removeClass("#{ option }")
-      $(target).removeClass("#{ option }")
-    else
-      $(parent).addClass("#{ option }")
-      $(target).addClass("#{ option }")
-  else
-    if $(target).hasClass("#{ option }")
-      $(target).removeClass("#{ option }")
-    else
-      $(target).addClass("#{ option }")
-
-toggleOpen: (target, open = false) ->
-  if target.hasClass('pinned')
-    return
-  if open
-    $(target).addClass('open')
-  else
-    $(target).removeClass('open')
-
+  $(domEl).find('#play-button').removeClass()
+  $(domEl).find('#play-button').addClass('fas fa-pause')
 
 afterRender: (domEl) ->
   $(domEl).on 'click', '#home', => @run "open ~/"
 
-  $(domEl).on 'click', '#playButton', => @handlePlay(domEl)
-  $(domEl).on 'click', '#nextButton', => @handleNext()
-
-  $(domEl).on 'mouseover', '#music', => @toggleOpen($(domEl).find('#playing-output'), true)
-  $(domEl).on 'mouseout', '#music', => @toggleOpen($(domEl).find('#playing-output'))
-  $(domEl).on 'click', '#music', => @toggleOption($(domEl).find('#playing-output'),$(domEl).find('#music'),'pinned')
+  $(domEl).on 'click', '#play-button', => @handlePlay(domEl)
+  $(domEl).on 'click', '#next-button', => @handleNext(domEl)
