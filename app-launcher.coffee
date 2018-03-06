@@ -1,11 +1,17 @@
 
-refreshFrequency: false
+refreshFrequency: '1s'
+
+commands =
+  isBrowserRunning: "osascript -e 'if application \"Safari\" is running then return true'"
+
+command: "echo " +
+         "$(#{ commands.isBrowserRunning}):::"
 
 render: ( ) ->
   """
     <div class="container">
       <div class="widg" id="browser">
-        <div class="icon-container" id="music-icon-container">
+        <div class="icon-container" id="browser-icon-container">
         <i class="far fa-compass"></i>
         </div>
         <span id="browser-link" class="link closed">web</span>
@@ -37,8 +43,17 @@ render: ( ) ->
     </div>
   """
 
-update: (domEl, output) ->
-  
+updateRunningStatus: ( status, indicator ) ->
+  $(indicator).removeClass('running')
+  if status == 'true'
+    $(indicator).addClass('running')
+
+update: ( output, domEl ) ->
+  output = output.split( /:::/g )
+  isBrowserRunning = output[0]
+
+  @updateRunningStatus( isBrowserRunning, $(domEl).find('#browser-icon-container') )
+
 
 afterRender: (domEl) ->
     $(domEl).on 'mouseover', '#home', => $(domEl).find('#home-link').addClass('open')

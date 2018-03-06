@@ -17,7 +17,7 @@ span {
   float:left;
   display:flex;
   align-items: center;
-  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.8);
+  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.8);
 }
 
 .bar-container {
@@ -90,6 +90,7 @@ span {
 .output.pinned {
   display:inline;
 }
+
 
 .green {
   color:var(--color6);

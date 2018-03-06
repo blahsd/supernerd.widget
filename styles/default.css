@@ -30,11 +30,27 @@
   padding-right:8px;
   padding-bottom:4px;
   padding-top:4px;
+  display:inline;
 }
 
-.playing-output {
-  width:200px;
+.container {
+  display:inline;
+}
+
+.icon-container {
+  display: inline;
+  float:left;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  padding-left:4px;
+  padding-right:4px;
+}
+
+#music {
+  width: 180px;
   white-space: nowrap;
+  overflow: hidden;
   text-overflow: ellipsis;
 }
 

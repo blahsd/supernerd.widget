@@ -51,7 +51,7 @@ render: ( ) ->
         </div>
         <span class="output closed" id='time-output'></span>
       </div>
-      <div class="widg red" id="date">
+      <div class="widg" id="date">
         <div class="icon-container" id='date-icon-container'>
         <i class="far fa-calendar-alt"></i>
         </div>
