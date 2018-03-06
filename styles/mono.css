@@ -54,23 +54,23 @@ span {
   background-color: var(--foreground);
   box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
 }
+.icon-container.pinned.red {
+  background-color:var(--color1);
+}
 .icon-container.pinned.green {
-  background-color:var(--color6);
+  background-color:var(--color2);
 }
 .icon-container.pinned.yellow {
   background-color:var(--color3);
 }
-.icon-container.pinned.red {
-  background-color:var(--color2);
-}
 .icon-container.pinned.blue {
-  background-color:var(--color5);
+  background-color:var(--color4);
 }
 .icon-container.pinned.cyan {
   background-color:var(--color5);
 }
 .icon-container.pinned.magenta {
-  background-color:var(--color4);
+  background-color:var(--color6);
 }
 
 .link.closed {
@@ -117,24 +117,23 @@ span {
   animation-direction: alternate;
 }
 
-
+.red {
+  color:var(--color1);
+}
 .green {
-  color:var(--color6);
+color:var(--color2);
 }
 .yellow {
   color:var(--color3);
 }
-.red {
-  color:var(--color2);
-}
 .blue {
-  color:var(--color5);
+  color:var(--color4);
 }
 .cyan {
   color:var(--color5);
 }
 .magenta {
-  color:var(--color4);
+  color:var(--color6);
 }
 .white {
   color:var(--foreground);

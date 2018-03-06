@@ -17,10 +17,6 @@ Sweet-ass (double!) menu bar replacement / widget pack for  [Übersicht](http://
 I honestly have not seen any other menubar widget that is has this level of pointless and cool eye candy.
 
 * **Adaptive Colors & Icons**   Want to master knowing what your mac is up to in a glance? Most of the indicators are color-coded, so the widget's colors reflect the load / usage / etc. System monitors, such as the CPU monitor change color as the get more loaded, the battery as it's drained, the volume as it lowers, etc. Icons are adaptive too where applicable: volume, battery, wifi, etc. all change to reflect their status.
-* **Collapsible Buttons**       Certain indicators are collapsible and will only show their full value when hovered with the mouse. Thanks to the *adaptive colors* you already know superficial information just by looking at them.
-![demo-animation](./demo/demo-animation.gif)
-
-What??? WOW!
 
 * **Notification**              You can enable notifications and buttons will light up discreetly to let you know when there is one. Check this out:
 
@@ -28,9 +24,20 @@ What??? WOW!
 
 Does this really work? No! I'm still working on making it go off correctly.
 
-If you're worried about resources, disabling any of these anymations is a matter of deleting one .css block, so do it or ask me do to it. I probably will.
 
-In order to use all of this, you must renounce interacting with your desktop icons. I know, I know. But since using your desktop like a 'put shit here' folder is not a good idea, this might actually help you. Do so:
+If you're worried about resources, disabling any of these animations is a matter of deleting one .css block, so do it or ask me do to it. I probably will.
+
+## Interactive Shit
+
+* **Collapsible Buttons**       Certain indicators are collapsible and will only show their full value when hovered with the mouse. Thanks to the *adaptive colors* you already know superficial information just by looking at them.
+![demo-animation](./demo/demo-animation.gif)
+
+What??? WOW! And check this out:
+
+* **Pinnable Buttons**          Click on a collapsible indicator to pin it open.
+![demo-pin](./demo/demo-pin.gif)
+
+Lucky for you, in order to use all of the interactive shit, you must renounce interacting with your desktop icons. I know, I know. But since using your desktop like a 'put shit here' folder is not a good idea, this might actually help you. Do so:
 `defaults write com.apple.finder CreateDesktop -bool FALSE;killall Finder`
 
 When you're ready to revert back to your barbarian-like usage of your desktop/dumpster, do this:
