@@ -1,3 +1,6 @@
+apiKey: '103d3850d574a558eb1e11905de4a047' # put your forcast.io api key inside the quotes here
+svgNs: 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"'
+
 commands =
   battery: "pmset -g batt | egrep '([0-9]+\%).*' -o --colour=auto | cut -f1 -d';'"
   time: "date +\"%H:%M\""
@@ -11,7 +14,21 @@ commands =
   playing: "osascript -e 'tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
   ismuted : "osascript -e 'output muted of (get volume settings)'"
   ischarging : "sh ./supernerd.widget/scripts/ischarging.sh"
+  weather : "sh ./supernerd.widget/scripts/getweather.sh '103d3850d574a558eb1e11905de4a047' '45.4391,8.8855'"
 
+
+iconMapping:
+  "rain"                :"fas fa-tint"
+  "snow"                :"fas fa-snowflake"
+  "fog"                 :"fas fa-braille"
+  "cloudy"              :"fas fa-cloud"
+  "wind"                :"fas fa-align-left"
+  "clear-day"           :"fas fa-sun"
+  "mostly-clear-day"    :"fas fa-adjust"
+  "partly-cloudy-day"   :"fas fa-cloud"
+  "clear-night"         :"fas fa-star"
+  "partly-cloudy-night" :"fal fa-adjust"
+  "unknown"             :"fas fa-question"
 
 command: "echo " +
          "$(#{ commands.battery }):::" +
@@ -20,7 +37,9 @@ command: "echo " +
          "$(#{ commands.volume }):::" +
          "$(#{ commands.date }):::" +
          "$(#{ commands.ismuted }):::" +
-         "$(#{ commands.ischarging }):::"
+         "$(#{ commands.ischarging }):::" +
+         "$(#{ commands.weather }):::"
+
 
 refreshFrequency: '2s'
 
@@ -57,6 +76,15 @@ render: ( ) ->
         </div>
         <span class="output closed" id='date-output'></span>
       </div>
+
+      <div class="widg" id="weather">
+        <div class="icon-container" id="weather-icon-container">
+          <i class="weather-icon"></i>
+        </div>
+        <span class="output closed " id="weather-output">Loading</span>
+
+      </div>
+
     </div>
   """
 
@@ -70,6 +98,8 @@ update: ( output, domEl ) ->
   date = output[ 4 ]
   ismuted = output[ 5 ]
   ischarging = output[ 6 ]
+  weatherdata = output[ 7 ]
+
 
   $(domEl).find( "#time-output" ).text( "#{ time }" )
   $(domEl).find( "#date-output" ).text( "#{ date }" )
@@ -79,6 +109,63 @@ update: ( output, domEl ) ->
   @handleBattery( domEl, Number( battery.replace( /%/g, "" ) ), ischarging )
   @handleVolume( domEl, Number( volume ), ismuted )
   @handleWifi( domEl, wifi )
+  @handleWeather( domEl, weatherdata )
+
+
+#
+# ─── HANDLE WEATHER ─────────────────────────────────────────────────────────
+#
+handleWeather: ( domEl, weatherdata ) ->
+  geolocation.getCurrentPosition (e) =>
+    coords     = e.position.coords
+    [lat, lon] = [coords.latitude, coords.longitude]
+    @commands.weather = @makeCommand(@apiKey, "#{lat},#{lon}")
+
+
+  data  = JSON.parse(weatherdata)
+  $(domEl).find('#weather-output').text(weatherdata)
+  today = data.daily?.data[0]
+
+  return unless today?
+  date  = @getDate today.time
+
+  $(domEl).find('#weather-output').text(String (Math.round(today.temperatureMax)+'°'))
+  $(domEl).find('#weather-ext-output').text(String(today.summary))
+  $(domEl).find( ".weather-icon" ).html( "<i class=\"fa #{ @getIcon(today) }\"></i>" )
+
+  if data.temperatureMax >= 26
+    $(domEl).find('#weather').addClass('red')
+    $(domEl).find('#weather-icon-container').addClass('red')
+  else if data.temperatureMax >= 10
+    $(domEl).find('#weather').addClass('green')
+    $(domEl).find('#weather-icon-container').addClass('green')
+  else
+    $(domEl).find('#weather').addClass('blue')
+    $(domEl).find('#weather-icon-container').addClass('blue')
+
+getIcon: (data) ->
+  return @iconMapping['unknown'] unless data
+
+  if data.icon.indexOf('cloudy') > -1
+    if data.cloudCover < 0.25
+      @iconMapping["clear-day"]
+    else if data.cloudCover < 0.5
+      @iconMapping["mostly-clear-day"]
+    else if data.cloudCover < 0.75
+      @iconMapping["partly-cloudy-day"]
+    else
+      @iconMapping["cloudy"]
+  else
+    @iconMapping[data.icon]
+
+getDate: (utcTime) ->
+  date  = new Date(0)
+  date.setUTCSeconds(utcTime)
+  date
+
+makeCommand: (apiKey, location) ->
+  exclude  = "minutely,hourly,alerts,flags"
+
 
 #
 # ─── HANDLE WIFI ─────────────────────────────────────────────────────────
@@ -148,6 +235,34 @@ handleVolume: ( domEl, volume, ismuted ) ->
 
   $( "#volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
 
+#
+# ─── ANIMATION  ─────────────────────────────────────────────────────────
+#
+afterRender: (domEl) ->
+  $(domEl).on 'mouseover', '#volume', => @toggleOpen($(domEl).find('#volume-output'), true) &&
+  $(domEl).on 'mouseout', '#volume', => @toggleOpen($(domEl).find('#volume-output'))
+  $(domEl).on 'click', '#volume', => @toggleOption($(domEl).find('#volume-output'),$(domEl).find('#volume-icon-container'),'pinned')
+
+  $(domEl).on 'mouseover', '#wifi', => @toggleOpen($(domEl).find('#wifi-output'), true)
+  $(domEl).on 'mouseout', '#wifi', => @toggleOpen($(domEl).find('#wifi-output'))
+  $(domEl).on 'click', '#wifi', => @toggleOption($(domEl).find('#wifi-output'),$(domEl).find('#wifi-icon-container'),'pinned')
+
+  $(domEl).on 'mouseover', '#battery', => @toggleOpen($(domEl).find('#battery-output'), true)
+  $(domEl).on 'mouseout', '#battery', => @toggleOpen($(domEl).find('#battery-output'))
+  $(domEl).on 'click', '#battery', => @toggleOption($(domEl).find('#battery-output'),$(domEl).find('#battery-icon-container'),'pinned')
+
+  $(domEl).on 'mouseover', '#time', => @toggleOpen($(domEl).find('#time-output'), true)
+  $(domEl).on 'mouseout', '#time', => @toggleOpen($(domEl).find('#time-output'))
+  $(domEl).on 'click', '#time', => @toggleOption($(domEl).find('#time-output'),$(domEl).find('#time-icon-container'),'pinned')
+
+  $(domEl).on 'mouseover', '#date', => @toggleOpen($(domEl).find('#date-output'), true)
+  $(domEl).on 'mouseout', '#date', => @toggleOpen($(domEl).find('#date-output'))
+  $(domEl).on 'click', '#date', => @toggleOption($(domEl).find('#date-output'),$(domEl).find('#date-icon-container'),'pinned')
+
+
+  $(domEl).on 'mouseover', '#weather', => @toggleOpen($(domEl).find('#weather-output'), true) &&
+  $(domEl).on 'mouseout', '#weather', => @toggleOpen($(domEl).find('#weather-output'))
+  $(domEl).on 'click', '#weather', => @toggleOption($(domEl).find('#weather-output'),$(domEl).find('#weather-icon-container'),'pinned')
 
 #
 # ─── CLICKS  ─────────────────────────────────────────────────────────
@@ -176,25 +291,3 @@ toggleOpen: (target, open = false) ->
     $(target).addClass('open')
   else
     $(target).removeClass('open')
-
-
-afterRender: (domEl) ->
-  $(domEl).on 'mouseover', '#volume', => @toggleOpen($(domEl).find('#volume-output'), true) &&
-  $(domEl).on 'mouseout', '#volume', => @toggleOpen($(domEl).find('#volume-output'))
-  $(domEl).on 'click', '#volume', => @toggleOption($(domEl).find('#volume-output'),$(domEl).find('#volume-icon-container'),'pinned')
-
-  $(domEl).on 'mouseover', '#wifi', => @toggleOpen($(domEl).find('#wifi-output'), true)
-  $(domEl).on 'mouseout', '#wifi', => @toggleOpen($(domEl).find('#wifi-output'))
-  $(domEl).on 'click', '#wifi', => @toggleOption($(domEl).find('#wifi-output'),$(domEl).find('#wifi-icon-container'),'pinned')
-
-  $(domEl).on 'mouseover', '#battery', => @toggleOpen($(domEl).find('#battery-output'), true)
-  $(domEl).on 'mouseout', '#battery', => @toggleOpen($(domEl).find('#battery-output'))
-  $(domEl).on 'click', '#battery', => @toggleOption($(domEl).find('#battery-output'),$(domEl).find('#battery-icon-container'),'pinned')
-
-  $(domEl).on 'mouseover', '#time', => @toggleOpen($(domEl).find('#time-output'), true)
-  $(domEl).on 'mouseout', '#time', => @toggleOpen($(domEl).find('#time-output'))
-  $(domEl).on 'click', '#time', => @toggleOption($(domEl).find('#time-output'),$(domEl).find('#time-icon-container'),'pinned')
-
-  $(domEl).on 'mouseover', '#date', => @toggleOpen($(domEl).find('#date-output'), true)
-  $(domEl).on 'mouseout', '#date', => @toggleOpen($(domEl).find('#date-output'))
-  $(domEl).on 'click', '#date', => @toggleOption($(domEl).find('#date-output'),$(domEl).find('#date-icon-container'),'pinned')
