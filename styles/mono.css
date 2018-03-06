@@ -1,0 +1,158 @@
+:root {
+  --width: 1890px;
+  --global_margin: 16px;
+}
+
+.green {
+  color:var(--color6);
+}
+.yellow {
+  color:var(--color3);
+}
+.red {
+  color:var(--color2);
+}
+.blue {
+  color:var(--color5);
+}
+.cyan {
+  color:var(--color5);
+}
+.magenta {
+  color:var(--color4);
+}
+.white {
+  color:var(--foreground);
+}
+.black {
+  color:var(--background);
+}
+
+span { z-index:0; }
+
+i {
+  padding: 4px;
+}
+
+.widg {
+  color:var(--foreground);
+  font-family:'Lucida Grande', Bold;
+  font-size:12px;
+  font-smoothing:antialiasing;
+  z-index:1;
+  float:left;
+  display:flex;
+  align-items: center;
+  box-shadow: 0px 1px 2px 0px rgba(0,0,0,0.8);
+}
+
+.bar-container {
+  background-color:var(--background);
+  width:var(--width);
+  height:32px;
+  position:relative;
+  z-index:-1;
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);
+  border-radius: 2px;
+}
+
+.icon-container {
+  display: inline;
+  float:left;
+  height:20px;
+  width:20px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  padding-left:8px;
+  padding-right:8px;
+  padding-bottom:6px;
+  padding-top:6px;
+}
+.icon-container.pinned {
+  color:var(--background);
+  background-color: var(--foreground);
+  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
+}
+.icon-container.pinned.green {
+  background-color:var(--color6);
+}
+.icon-container.pinned.yellow {
+  background-color:var(--color3);
+}
+.icon-container.pinned.red {
+  background-color:var(--color2);
+}
+.icon-container.pinned.blue {
+  background-color:var(--color5);
+}
+.icon-container.pinned.cyan {
+  background-color:var(--color5);
+}
+.icon-container.pinned.magenta {
+  background-color:var(--color4);
+}
+
+
+.output {
+  overflow:hidden;
+  text-overflow:clip;
+  white-space: nowrap;
+  padding-left: 16px;
+  padding-right: 16px;
+  width:auto;
+}
+.output.closed {
+  display:none;
+  width:20px;
+}
+.output.open {
+  display:inline;
+  animation: slideout 0.4s;
+}
+.output.pinned {
+  display:inline;
+}
+
+#music {
+  width: 180px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+#supernerd-widget-bar-top-coffee {
+  top:var(--global_margin);
+  left:var(--global_margin);
+}
+
+#supernerd-widget-music-player-coffee {
+  top:var(--global_margin);
+  left:var(--global_margin);
+  width:24var(--global_margin);
+  display:inline;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  overflow: hidden;
+}
+
+#supernerd-widget-window-coffee {
+  top:var(--global_margin);
+  width:var(--width);
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#supernerd-widget-base-monitor-coffee {
+  top:var(--global_margin);
+  right:var(--global_margin);
+  width:auto;
+}
+
+
+@keyframes slideout {
+  from { width:1px; }
+  to { width:20px; }
+}

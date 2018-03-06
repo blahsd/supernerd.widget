@@ -28,24 +28,34 @@ render: ( ) ->
   """
     <div class="container">
       <div class="widg" id="volume">
-        <i class="volume-icon"></i>
-        <span class="volume-output closed"></span>
+        <div class="icon-container" id='volume-icon-container'>
+          <i id="volume-icon"></i>
+        </div>
+        <span class="output closed" id='volume-output'></span>
       </div>
       <div class="widg" id="wifi">
-        <i class="fa fa-wifi"></i>
-        <span class="wifi-output closed"></span>
+        <div class="icon-container" id='wifi-icon-container'>
+          <i class="fa fa-wifi"></i>
+        </div>
+        <span class="output closed" id='wifi-output'></span>
       </div>
       <div class="widg" id="battery">
+        <div class="icon-container" id='battery-icon-container'>
         <i class="battery-icon"></i>
-        <span class="battery-output closed"></span>
+        </div>
+        <span class="output closed" id='battery-output'></span>
       </div>
       <div class="widg" id="time">
-        <i class="far fa-clock"></i>
-        <span class="time-output closed"></span>
+        <div class="icon-container" id='time-icon-container'>
+          <i class="far fa-clock"></i>
+        </div>
+        <span class="output closed" id='time-output'></span>
       </div>
-      <div class="widg" id="date">
+      <div class="widg red" id="date">
+        <div class="icon-container" id='date-icon-container'>
         <i class="far fa-calendar-alt"></i>
-        <span class="date-output closed"></span>
+        </div>
+        <span class="output closed" id='date-output'></span>
       </div>
     </div>
   """
@@ -61,13 +71,13 @@ update: ( output, domEl ) ->
   ismuted = output[ 5 ]
   ischarging = output[ 6 ]
 
-  $( ".time-output" )    .text( "#{ time }" )
-  $( ".date-output" )    .text( "#{ date }" )
-  $( ".battery-output") .text("#{ battery }")
-  $( ".wifi-output") .text("#{ wifi }")
+  $(domEl).find( "#time-output" ).text( "#{ time }" )
+  $(domEl).find( "#date-output" ).text( "#{ date }" )
+  $(domEl).find( "#battery-output").text("#{ battery }")
+  $(domEl).find( "#wifi-output").text("#{ wifi }")
 
   @handleBattery( domEl, Number( battery.replace( /%/g, "" ) ), ischarging )
-  @handleVolume( Number( volume ), ismuted )
+  @handleVolume( domEl, Number( volume ), ismuted )
 
 #
 # ─── HANDLE BATTERY ─────────────────────────────────────────────────────────
@@ -90,10 +100,13 @@ handleBattery: ( domEl, percentage, ischarging ) ->
 
   if percentage >= 35
     div.find('#battery').addClass('green')
+    div.find('#battery-icon-container').addClass('green')
   else if percentage >= 15
     div.find('#battery').addClass('yellow')
+    div.find('#battery-icon-container').addClass('yellow')
   else
     div.find('#battery').addClass('red')
+    div.find('#battery-icon-container').addClass('red')
 
   if ischarging == "true"
     batteryIcon = "fas fa-bolt"
@@ -102,7 +115,7 @@ handleBattery: ( domEl, percentage, ischarging ) ->
 # ─── HANDLE VOLUME ─────────────────────────────────────────────────────────
 #
 
-handleVolume: ( volume, ismuted ) ->
+handleVolume: ( domEl, volume, ismuted ) ->
   volumeIcon = switch
     when volume ==   0 then "fa-volume-off"
     when volume <=  50 then "fa-volume-down"
@@ -110,40 +123,58 @@ handleVolume: ( volume, ismuted ) ->
 
 
   if ismuted != 'true'
-    $( ".volume-output") .text("#{ volume }")
+    $(domEl).find( "#volume-output").text("#{ volume }")
   else
-    $( ".volume-output") .text("Muted")
+    $(domEl).find( "#volume-output").text("Muted")
     volumeIcon = "fa-volume-off"
 
-  $( ".volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
+  $( "#volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
+
+toggleOption: (target, parent, option, excludingCondition = false) ->
+  if excludingCondition && $(target).hasClass(excludingCondition)
+    return
+  if $(parent) != false
+    if $(parent).hasClass("#{ option }")
+      $(parent).removeClass("#{ option }")
+      $(target).removeClass("#{ option }")
+    else
+      $(parent).addClass("#{ option }")
+      $(target).addClass("#{ option }")
+  else
+    if $(target).hasClass("#{ option }")
+      $(target).removeClass("#{ option }")
+    else
+      $(target).addClass("#{ option }")
+
+toggleOpen: (target, open = false) ->
+  if target.hasClass('pinned')
+    return
+  if open
+    $(target).addClass('open')
+  else
+    $(target).removeClass('open')
+
+#
+# ─── CLICKS  ─────────────────────────────────────────────────────────
+#
 
 afterRender: (domEl) ->
-  $(domEl).on 'mouseover', '#volume', => $(domEl).find('.volume-output').addClass('open')
-  $(domEl).on 'mouseout', '#volume', => $(domEl).find('.volume-output').removeClass('open')
+  $(domEl).on 'mouseover', '#volume', => @toggleOpen($(domEl).find('#volume-output'), true)
+  $(domEl).on 'mouseout', '#volume', => @toggleOpen($(domEl).find('#volume-output'))
+  $(domEl).on 'click', '#volume', => @toggleOption($(domEl).find('#volume-output'),$(domEl).find('#volume-icon-container'),'pinned')
 
-  $(domEl).on 'mouseover', '#wifi', => $(domEl).find('.wifi-output').addClass('open')
-  $(domEl).on 'mouseout', '#wifi', => $(domEl).find('.wifi-output').removeClass('open')
+  $(domEl).on 'mouseover', '#wifi', => @toggleOpen($(domEl).find('#wifi-output'), true)
+  $(domEl).on 'mouseout', '#wifi', => @toggleOpen($(domEl).find('#wifi-output'))
+  $(domEl).on 'click', '#wifi', => @toggleOption($(domEl).find('#wifi-output'),$(domEl).find('#wifi-icon-container'),'pinned')
 
-  $(domEl).on 'mouseover', '#battery', => $(domEl).find('.battery-output').addClass('open')
-  $(domEl).on 'mouseout', '#battery', => $(domEl).find('.battery-output').removeClass('open')
+  $(domEl).on 'mouseover', '#battery', => @toggleOpen($(domEl).find('#battery-output'), true)
+  $(domEl).on 'mouseout', '#battery', => @toggleOpen($(domEl).find('#battery-output'))
+  $(domEl).on 'click', '#battery', => @toggleOption($(domEl).find('#battery-output'),$(domEl).find('#battery-icon-container'),'pinned')
 
-  $(domEl).on 'mouseover', '#time', => $(domEl).find('.time-output').addClass('open')
-  $(domEl).on 'mouseout', '#time', => $(domEl).find('.time-output').removeClass('open')
+  $(domEl).on 'mouseover', '#time', => @toggleOpen($(domEl).find('#time-output'), true)
+  $(domEl).on 'mouseout', '#time', => @toggleOpen($(domEl).find('#time-output'))
+  $(domEl).on 'click', '#time', => @toggleOption($(domEl).find('#time-output'),$(domEl).find('#time-icon-container'),'pinned')
 
-  $(domEl).on 'mouseover', '#date', => $(domEl).find('.date-output').addClass('open')
-  $(domEl).on 'mouseout', '#date', => $(domEl).find('.date-output').removeClass('open')
-
-  $(domEl).on 'mouseover', '#volume', => $(domEl).find('#volume').addClass('open')
-  $(domEl).on 'mouseout', '#volume', => $(domEl).find('#volume').removeClass('open')
-
-  $(domEl).on 'mouseover', '#wifi', => $(domEl).find('#wifi').addClass('open')
-  $(domEl).on 'mouseout', '#wifi', => $(domEl).find('#wifi').removeClass('open')
-
-  $(domEl).on 'mouseover', '#battery', => $(domEl).find('#battery').addClass('open')
-  $(domEl).on 'mouseout', '#battery', => $(domEl).find('#battery').removeClass('open')
-
-  $(domEl).on 'mouseover', '#time', => $(domEl).find('#time').addClass('open')
-  $(domEl).on 'mouseout', '#time', => $(domEl).find('#time').removeClass('open')
-
-  $(domEl).on 'mouseover', '#date', => $(domEl).find('#date').addClass('open')
-  $(domEl).on 'mouseout', '#date', => $(domEl).find('#date').removeClass('open')
+  $(domEl).on 'mouseover', '#date', => @toggleOpen($(domEl).find('#date-output'), true)
+  $(domEl).on 'mouseout', '#date', => @toggleOpen($(domEl).find('#date-output'))
+  $(domEl).on 'click', '#date', => @toggleOption($(domEl).find('#date-output'),$(domEl).find('#date-icon-container'),'pinned')

@@ -16,13 +16,16 @@ render: ( ) ->
   """
     <div class="container">
         <div class="widg home" id="home">
+          <div class="icon-container pinned" id="home-icon-container">
           <i class="fas fa-home"></i>
-        <span id="home-link" class="closed">~/</span>
+          </div>
         </div>
         <div class="widg music" id="music">
-          <i class="fas fa-play" id="playButton"></i>
-          <i class="fas fa-step-forward" id="nextButton"></i>
-          <span class="playing-output"></span>
+          <div class="icon-container" id="music-icon-container">
+            <i class="fas fa-play" id="playButton"></i>
+            <i class="fas fa-step-forward" id="nextButton"></i>
+          </div>
+          <span class="output" id='playing-output'></span>
         </div>
 
     </div>
@@ -36,9 +39,9 @@ update: ( output, domEl ) ->
   spotify = output[3]
 
   if isitunesrunning
-    $( ".playing-output") .text("#{ itunes }")
+    $( "#playing-output") .text("#{ itunes }")
   if isspotifyrunning
-    $( ".playing-output") .text("#{ spotify }")
+    $( "#playing-output") .text("#{ spotify }")
 
 handlePlay: (domEl) ->
   @run "osascript -e 'tell application \"Spotify\" to playpause'"
