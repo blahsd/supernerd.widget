@@ -155,14 +155,6 @@
 
 ### Animations
 
-.closed {
-  opacity:0.6;
-}
-.open {
-  opacity:1;
-}
-
-
 @keyframes marquee {
   from {
     margin-left: 0%;

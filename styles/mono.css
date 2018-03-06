@@ -1,6 +1,6 @@
 :root {
   --width: 1890px;
-  --global_margin: 16px;
+  --global_margin: 0px;
   --line-size: 20px;
 }
 
@@ -19,6 +19,12 @@ span {
   align-items: center;
   box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.8);
 }
+.widg.pinned {
+  color:var(--background);
+  background-color: var(--foreground);
+  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
+}
+
 
 .bar-container {
   background-color:var(--background);
@@ -73,11 +79,9 @@ span {
 
 .output {
   overflow:hidden;
-  text-overflow:clip;
   white-space: nowrap;
   padding-left: 16px;
-  padding-right: 16px;
-  width:auto;
+  padding-right: 32px;
 }
 .output.closed {
   display:none;
@@ -87,8 +91,21 @@ span {
   display:inline;
   animation: slideout 0.4s;
 }
+.output.open#playing-output {
+  width:400px;
+  animation: none;
+}
 .output.pinned {
   display:inline;
+}
+.output#playing-output {
+  text-overflow: ellipsis;
+}
+.output.pinned#playing-output {
+  animation-duration: 12s;
+  animation-name: slideby;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 
@@ -118,10 +135,13 @@ span {
 }
 
 #music {
-  width: 180px;
+  width: 240px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+#music.open, #music.pinned {
+  width: 500px;
 }
 
 #supernerd-widget-bar-top-coffee {
@@ -165,4 +185,20 @@ span {
 @keyframes slideout {
   from { width:1px; }
   to { width:20px; }
+}
+
+@keyframes slideby {
+  from {
+    margin-left: 0%;
+    width: 300%;
+  }
+  to {
+    margin-left: -33%;
+
+  }
+}
+
+@keyframes superslideout {
+  from { width:30px; }
+  to { width:200px; }
 }

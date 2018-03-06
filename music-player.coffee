@@ -54,9 +54,42 @@ handlePlay: (domEl) ->
 
 handleNext: (domEl) ->
   @run "osascript -e 'tell application \"Spotify\" to next track'"
+  if $(domEl).find('#playButton').hasClass('fa-play')
+    $(domEl).find('#playButton').removeClass()
+    $(domEl).find('#playButton').addClass('fas fa-pause')
+
+
+toggleOption: (target, parent, option, excludingCondition = false) ->
+  if excludingCondition && $(target).hasClass(excludingCondition)
+    return
+  if $(parent) != false
+    if $(parent).hasClass("#{ option }")
+      $(parent).removeClass("#{ option }")
+      $(target).removeClass("#{ option }")
+    else
+      $(parent).addClass("#{ option }")
+      $(target).addClass("#{ option }")
+  else
+    if $(target).hasClass("#{ option }")
+      $(target).removeClass("#{ option }")
+    else
+      $(target).addClass("#{ option }")
+
+toggleOpen: (target, open = false) ->
+  if target.hasClass('pinned')
+    return
+  if open
+    $(target).addClass('open')
+  else
+    $(target).removeClass('open')
+
 
 afterRender: (domEl) ->
   $(domEl).on 'click', '#home', => @run "open ~/"
 
   $(domEl).on 'click', '#playButton', => @handlePlay(domEl)
   $(domEl).on 'click', '#nextButton', => @handleNext()
+
+  $(domEl).on 'mouseover', '#music', => @toggleOpen($(domEl).find('#playing-output'), true)
+  $(domEl).on 'mouseout', '#music', => @toggleOpen($(domEl).find('#playing-output'))
+  $(domEl).on 'click', '#music', => @toggleOption($(domEl).find('#playing-output'),$(domEl).find('#music'),'pinned')
