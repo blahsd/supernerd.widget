@@ -128,17 +128,23 @@ handleBattery: ( domEl, percentage, ischarging ) ->
 #
 
 handleVolume: ( domEl, volume, ismuted ) ->
+  div = $( domEl )
   volumeIcon = switch
     when volume ==   0 then "fa-volume-off"
     when volume <=  50 then "fa-volume-down"
     when volume <= 100 then "fa-volume-up"
 
-
+  div.find("#volume").removeClass('blue')
+  div.find("#volume").removeClass('red')
   if ismuted != 'true'
-    $(domEl).find( "#volume-output").text("#{ volume }")
+    div.find( "#volume-output").text("#{ volume }")
+    div.find('#volume').addClass('blue')
+    div.find('#volume-icon-container').addClass('blue')
   else
-    $(domEl).find( "#volume-output").text("Muted")
+    div.find( "#volume-output").text("Muted")
     volumeIcon = "fa-volume-off"
+    div.find('#volume').addClass('red')
+    div.find('#volume-icon-container').addClass('red')
 
   $( "#volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
 

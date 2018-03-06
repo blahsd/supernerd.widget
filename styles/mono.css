@@ -1,7 +1,7 @@
 :root {
   --width: 1890px;
   --global_margin: 0px;
-  --line-size: 20px;
+  --line-size: 19px;
 }
 
 span {
@@ -17,7 +17,7 @@ span {
   float:left;
   display:flex;
   align-items: center;
-  box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.8);
+
 }
 .widg.pinned {
   color:var(--background);
@@ -81,15 +81,24 @@ span {
   overflow:hidden;
   white-space: nowrap;
   padding-left: 16px;
-  padding-right: 32px;
+  padding-right: 16px;
 }
 .output.closed {
   display:none;
   width:20px;
 }
+.output#wifi-output {
+  width:60px;
+}
+.output#time-output {
+  width:40px;
+}
+.output#date-output {
+  width:80px;
+}
 .output.open {
   display:inline;
-  animation: slideout 0.4s;
+  animation: slideout 0.3s ease-in;
 }
 .output.open#playing-output {
   width:400px;
@@ -184,7 +193,7 @@ span {
 
 @keyframes slideout {
   from { width:1px; }
-  to { width:20px; }
+  to { width:30px; }
 }
 
 @keyframes slideby {
