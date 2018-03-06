@@ -1,10 +1,12 @@
 :root {
   --width: 1890px;
   --global_margin: 16px;
+  --line-size: 20px;
 }
 
-
-span { z-index:0; }
+span {
+  z-index:0;
+}
 
 .widg {
   color:var(--foreground);
@@ -30,8 +32,8 @@ span { z-index:0; }
 .icon-container {
   display: inline;
   float:left;
-  height:20px;
-  width:20px;
+  height:var(--line-size);
+  width:var(--line-size);
   display:flex;
   align-items: center;
   justify-content: center;
@@ -40,6 +42,7 @@ span { z-index:0; }
   padding-bottom:6px;
   padding-top:6px;
 }
+
 .icon-container.pinned {
   color:var(--background);
   background-color: var(--foreground);
@@ -62,6 +65,10 @@ span { z-index:0; }
 }
 .icon-container.pinned.magenta {
   background-color:var(--color4);
+}
+
+.link.closed {
+  display: none;
 }
 
 .output {
@@ -125,7 +132,6 @@ span { z-index:0; }
 #supernerd-widget-music-player-coffee {
   top:var(--global_margin);
   left:var(--global_margin);
-  width:24var(--global_margin);
   display:inline;
   white-space: nowrap;
   text-overflow:ellipsis;
@@ -144,6 +150,14 @@ span { z-index:0; }
   top:var(--global_margin);
   right:var(--global_margin);
   width:auto;
+}
+
+#supernerd-widget-app-launcher-coffee {
+  top:var(--global_margin);
+  width:var(--width);
+  display:flex;
+  align-items: center;
+  justify-content: center;
 }
 
 

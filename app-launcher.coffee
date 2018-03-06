@@ -4,32 +4,41 @@ refreshFrequency: false
 render: ( ) ->
   """
     <div class="container">
-      <div class="widg" id="home">
-        <i class="fas fa-home"></i>
-        <span id="home-link" class="closed">~/</span>
-      </div>
       <div class="widg" id="browser">
+        <div class="icon-container" id="music-icon-container">
         <i class="far fa-compass"></i>
-        <span id="browser-link" class="closed">web</span>
+        </div>
+        <span id="browser-link" class="link closed">web</span>
       </div>
       <div class="widg" id="mail">
+        <div class="icon-container" id="music-icon-container">
         <i class="far fa-envelope"></i>
-        <span id="mail-link" class="closed">mail</span>
+        </div>
+        <span id="mail-link" class="link closed">mail</span>
       </div>
       <div class="widg" id="messages">
+        <div class="icon-container" id="music-icon-container">
         <i class="far fa-comments"></i>
-        <span id="messages-link" class="closed">msg</span>
+        </div>
+        <span id="messages-link" class="link closed">msg</span>
       </div>
       <div class="widg" id="terminal">
+        <div class="icon-container" id="music-icon-container">
         <i class="far fa-terminal"></i>
-        <span id="terminal-link" class="closed">zsh</span>
+        </div>
+        <span id="terminal-link" class="link closed">zsh</span>
       </div>
       <div class="widg" id="editor">
+        <div class="icon-container" id="music-icon-container">
         <i class="far fa-code"></i>
-        <span id="editor-link" class="closed">atom</span>
+        </div>
+        <span id="editor-link" class="link closed">atom</span>
       </div>
     </div>
   """
+
+update: (domEl, output) ->
+  
 
 afterRender: (domEl) ->
     $(domEl).on 'mouseover', '#home', => $(domEl).find('#home-link').addClass('open')
