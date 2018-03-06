@@ -3,36 +3,8 @@
   --global_margin: 16px;
 }
 
-.green {
-  color:var(--color6);
-}
-.yellow {
-  color:var(--color3);
-}
-.red {
-  color:var(--color2);
-}
-.blue {
-  color:var(--color5);
-}
-.cyan {
-  color:var(--color5);
-}
-.magenta {
-  color:var(--color4);
-}
-.white {
-  color:var(--foreground);
-}
-.black {
-  color:var(--background);
-}
 
 span { z-index:0; }
-
-i {
-  padding: 4px;
-}
 
 .widg {
   color:var(--foreground);
@@ -93,7 +65,6 @@ i {
   background-color:var(--color4);
 }
 
-
 .output {
   overflow:hidden;
   text-overflow:clip;
@@ -112,6 +83,31 @@ i {
 }
 .output.pinned {
   display:inline;
+}
+
+.green {
+  color:var(--color6);
+}
+.yellow {
+  color:var(--color3);
+}
+.red {
+  color:var(--color2);
+}
+.blue {
+  color:var(--color5);
+}
+.cyan {
+  color:var(--color5);
+}
+.magenta {
+  color:var(--color4);
+}
+.white {
+  color:var(--foreground);
+}
+.black {
+  color:var(--background);
 }
 
 #music {

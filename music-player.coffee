@@ -45,12 +45,12 @@ update: ( output, domEl ) ->
 
 handlePlay: (domEl) ->
   @run "osascript -e 'tell application \"Spotify\" to playpause'"
-  if $(domEl).find('#player').hasClass('fa-play')
-    $(domEl).find('#player').removeClass()
-    $(domEl).find('#player').addClass('fas fa-pause')
+  if $(domEl).find('#playButton').hasClass('fa-play')
+    $(domEl).find('#playButton').removeClass()
+    $(domEl).find('#playButton').addClass('fas fa-pause')
   else
-    $(domEl).find('#player').removeClass()
-    $(domEl).find('#player').addClass('fas fa-play')
+    $(domEl).find('#playButton').removeClass()
+    $(domEl).find('#playButton').addClass('fas fa-play')
 
 handleNext: (domEl) ->
   @run "osascript -e 'tell application \"Spotify\" to next track'"
