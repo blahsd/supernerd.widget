@@ -1,11 +1,7 @@
 :root {
-  --width: 1890px;
+  --width: 100%;
   --global_margin: 0px;
-  --line-size: 19px;
-}
-
-span {
-  z-index:0;
+  --line-size: 32px;
 }
 
 .widg {
@@ -17,7 +13,8 @@ span {
   float:left;
   display:flex;
   align-items: center;
-
+  margin-left: 4px;
+  z-index:2;
 }
 .widg.pinned {
   color:var(--background);
@@ -25,10 +22,9 @@ span {
   box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
 }
 
-
 .bar-container {
   background-color:var(--background);
-  height:32px;
+  height:var(--line-size);
   position:relative;
   z-index:-1;
   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);
@@ -43,10 +39,6 @@ span {
   display:flex;
   align-items: center;
   justify-content: center;
-  padding-left:8px;
-  padding-right:8px;
-  padding-bottom:6px;
-  padding-top:6px;
 }
 
 .icon-container.pinned {
@@ -181,14 +173,15 @@ color:var(--color2);
   width:auto;
 }
 
-#supernerd-widget-app-launcher-coffee {
+#supernerd-widget-task-manager-coffee {
   top:var(--global_margin);
-  width:var(--width);
+  width:auto;
+  left:33%;
+  right:33%;
   display:flex;
-  align-items: center;
   justify-content: center;
-}
 
+}
 
 @keyframes slideout {
   from { width:1px; }
