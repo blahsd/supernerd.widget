@@ -30,6 +30,12 @@ Does this really work? No! I'm still working on making it go off correctly.
 
 If you're worried about resources, disabling any of these anymations is a matter of deleting one .css block, so do it or ask me do to it. I probably will.
 
+In order to use all of this, you must renounce interacting with your desktop icons. I know, I know. But since using your desktop like a 'put shit here' folder is not a good idea, this might actually help you. Do so:
+`defaults write com.apple.finder CreateDesktop -bool FALSE;killall Finder`
+
+When you're ready to revert back to your barbarian-like usage of your desktop/dumpster, do this:
+`defaults delete com.apple.finder CreateDesktop;killall Finder`
+
 ## Customisation
 
 Customisation is **super** easy. Thanks to the amazing work of [davidlday](https://github.com/davidlday) Supernerd is now the only menubar replacement which employs a single .css for the entire system, while also having each widget coded in a separate file. This means you can:
