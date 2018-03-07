@@ -4,7 +4,7 @@ commands =
 command: "echo " +
          "$(#{ commands.focus}):::"
 
-refreshFrequency: '0.5s'
+refreshFrequency: false
 
 render: ( ) ->
   """

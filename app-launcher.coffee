@@ -1,5 +1,5 @@
 
-refreshFrequency: '1s'
+refreshFrequency: false
 
 commands =
   isBrowserRunning: "osascript -e 'if application \"Safari\" is running then return true'"

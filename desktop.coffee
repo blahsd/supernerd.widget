@@ -4,7 +4,7 @@ commands =
 command: "echo " +
          "$(#{ commands.activedesk}):::"
 
-refreshFrequency: '0.5s'
+refreshFrequency: false
 
 render: ( ) ->
   """

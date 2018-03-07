@@ -146,6 +146,11 @@ color:var(--color2);
 
 #supernerd-widget-bar-top-coffee {
   top:var(--global_margin);
+}
+#supernerd-widget-bar-bottom-coffee {
+  bottom:var(--global_margin);
+}
+#supernerd-widget-bar-top-coffee, #supernerd-widget-bar-bottom-coffee {
   left:var(--global_margin);
   right:var(--global_margin);
 }
@@ -173,6 +178,12 @@ color:var(--color2);
   width:auto;
 }
 
+#supernerd-widget-system-monitor-coffee {
+  bottom:var(--global_margin);
+  right:var(--global_margin);
+  width:auto;
+}
+
 #supernerd-widget-task-manager-coffee {
   top:var(--global_margin);
   width:auto;
@@ -183,7 +194,7 @@ color:var(--color2);
 
 }
 
-#supernerd-widget-system-monitor-coffee, #supernerd-widget-app-launcher-coffee, #supernerd-widget-desktop-coffee {
+#supernerd-widget-app-launcher-coffee, #supernerd-widget-desktop-coffee {
   display:none;
 }
 
