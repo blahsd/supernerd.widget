@@ -10,7 +10,9 @@ render: ( ) ->
   """
      <div class="container" id="window">
       <div class="widg" id="window">
-        <span class="window-output"></span>
+          <div class="icon-container" id="music-icon-container">
+          </div>
+        <span class="output" id="window-output"></span>
       </div>
     </div>
   """
@@ -18,4 +20,4 @@ render: ( ) ->
 update: ( output, domEl ) ->
   window = output.split( /:::/g )[ 0 ]
   window = window.split( /–/g )[ 0 ]
-  $( ".window-output" ).text(window)
+  $( "#window-output" ).text(window)
