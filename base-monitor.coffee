@@ -59,16 +59,16 @@ render: ( ) ->
         <span class="output closed" id='wifi-output'></span>
       </div>
       <div class="widg" id="battery">
-        <div class="icon-container" id='battery-icon-container'>
+        <div class="icon-container pinned" id='battery-icon-container'>
         <i class="battery-icon"></i>
         </div>
-        <span class="output closed" id='battery-output'></span>
+        <span class="output closed pinned" id='battery-output'></span>
       </div>
       <div class="widg" id="time">
-        <div class="icon-container" id='time-icon-container'>
+        <div class="icon-container pinned" id='time-icon-container'>
           <i class="far fa-clock"></i>
         </div>
-        <span class="output closed" id='time-output'></span>
+        <span class="output closed pinned" id='time-output'></span>
       </div>
       <div class="widg" id="date">
         <div class="icon-container" id='date-icon-container'>
@@ -111,7 +111,6 @@ update: ( output, domEl ) ->
   @handleWifi( domEl, wifi )
   @handleWeather( domEl, weatherdata )
 
-
 #
 # ─── HANDLE WEATHER ─────────────────────────────────────────────────────────
 #
@@ -133,15 +132,19 @@ handleWeather: ( domEl, weatherdata ) ->
   $(domEl).find('#weather-ext-output').text(String(today.summary))
   $(domEl).find( ".weather-icon" ).html( "<i class=\"fa #{ @getIcon(today) }\"></i>" )
 
+
+  $(domEl).find("#weather").removeClass('red')
+  $(domEl).find("#weather").removeClass('white')
+  $(domEl).find("#weather").removeClass('cyan')
   if data.temperatureMax >= 26
     $(domEl).find('#weather').addClass('red')
     $(domEl).find('#weather-icon-container').addClass('red')
-  else if data.temperatureMax >= 10
-    $(domEl).find('#weather').addClass('green')
-    $(domEl).find('#weather-icon-container').addClass('green')
+  else if data.temperatureMax >= 6
+    $(domEl).find('#weather').addClass('white')
+    $(domEl).find('#weather-icon-container').addClass('white')
   else
-    $(domEl).find('#weather').addClass('blue')
-    $(domEl).find('#weather-icon-container').addClass('blue')
+    $(domEl).find('#weather').addClass('cyan')
+    $(domEl).find('#weather-icon-container').addClass('cyan')
 
 getIcon: (data) ->
   return @iconMapping['unknown'] unless data
