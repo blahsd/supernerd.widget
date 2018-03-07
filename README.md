@@ -17,10 +17,6 @@ Sweet-ass (double!) menu bar replacement / widget pack for  [Übersicht](http://
 I honestly have not seen any other menubar widget that is has this level of pointless and cool eye candy.
 
 * **Adaptive Colors & Icons**   Want to master knowing what your mac is up to in a glance? Most of the indicators are color-coded, so the widget's colors reflect the load / usage / etc. System monitors, such as the CPU monitor change color as the get more loaded, the battery as it's drained, the volume as it lowers, etc. Icons are adaptive too where applicable: volume, battery, wifi, etc. all change to reflect their status.
-* **Collapsible Buttons**       Certain indicators are collapsible and will only show their full value when hovered with the mouse. Thanks to the *adaptive colors* you already know superficial information just by looking at them.
-![demo-animation](./demo/demo-animation.gif)
-
-What??? WOW!
 
 * **Notification**              You can enable notifications and buttons will light up discreetly to let you know when there is one. Check this out:
 
@@ -28,7 +24,25 @@ What??? WOW!
 
 Does this really work? No! I'm still working on making it go off correctly.
 
-If you're worried about resources, disabling any of these anymations is a matter of deleting one .css block, so do it or ask me do to it. I probably will.
+
+If you're worried about resources, disabling any of these animations is a matter of deleting one .css block, so do it or ask me do to it. I probably will.
+
+## Interactive Shit
+
+* **Collapsible Buttons**       Certain indicators are collapsible and will only show their full value when hovered with the mouse. Thanks to the *adaptive colors* you already know superficial information just by looking at them.
+![demo-animation](./demo/demo-animation.gif)
+
+What??? WOW! And check this out:
+
+* **Pinnable Buttons**          Click on a collapsible indicator to pin it open.
+
+![demo-pin](./demo/demo-pin.gif)
+
+Lucky for you, in order to use all of the interactive shit, you must renounce interacting with your desktop icons. I know, I know. But since using your desktop like a 'put shit here' folder is not a good idea, this might actually help you. Do so:
+`defaults write com.apple.finder CreateDesktop -bool FALSE;killall Finder`
+
+When you're ready to revert back to your barbarian-like usage of your desktop/dumpster, do this:
+`defaults delete com.apple.finder CreateDesktop;killall Finder`
 
 ## Customisation
 
@@ -58,8 +72,6 @@ git clone https://github.com/blahsd/supernerd.widget $HOME/Library/Application\ 
 # Credits
 * [splintah/nerdbar.widget](https://github.com/splintah/nerdbar.widget): tons of code that I took shamelessly and adapted/expanded. Definitely would not have done supernerd if it wasn't for this code.
 * [davidlday/supernerd.widget](https://github.com/davidlday/supernerd.widget): this man gave us CSS separated from the code logic. He made it possible to have each widget split in a different file while maintaining the level of customisability we're used to. No way to thank him enough.
-* [herbischoff/nerbar.widget](https://github.com/herrbischoff/nerdbar.widget): most of the original nerdbar widget.
-* [Pe8er/playbox.widget](https://github.com/Pe8er/Playbox.widget): the script that fetches information from iTunes, which I recklessly mutilated for use with supernerd.
-* [syndresorhus/hyper-snazzy](https://github.com/sindresorhus/hyper-snazzy): I copied the sweet colors of the `snazzy` theme from here.
+* [felixhageloh](https://github.com/felixhageloh/pretty-weather): shamelessly stole and mutilated the code that fetches and formats weather information from here.
 * [Wallpaper] (https://unsplash.com/photos/5KNecHxjTnI)
 * Me. I mean, I think I did a pretty good job. [Buy me a coffe](https://www.patreon.com/blahsd) or [thoughts & prayers](https://www.thoughtsandprayersthegame.com).

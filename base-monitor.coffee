@@ -1,3 +1,6 @@
+apiKey: '103d3850d574a558eb1e11905de4a047' # put your forcast.io api key inside the quotes here
+svgNs: 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"'
+
 commands =
   battery: "pmset -g batt | egrep '([0-9]+\%).*' -o --colour=auto | cut -f1 -d';'"
   time: "date +\"%H:%M\""
@@ -11,7 +14,21 @@ commands =
   playing: "osascript -e 'tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
   ismuted : "osascript -e 'output muted of (get volume settings)'"
   ischarging : "sh ./supernerd.widget/scripts/ischarging.sh"
+  weather : "sh ./supernerd.widget/scripts/getweather.sh '103d3850d574a558eb1e11905de4a047' '45.4391,8.8855'"
 
+
+iconMapping:
+  "rain"                :"fas fa-tint"
+  "snow"                :"fas fa-snowflake"
+  "fog"                 :"fas fa-braille"
+  "cloudy"              :"fas fa-cloud"
+  "wind"                :"fas fa-align-left"
+  "clear-day"           :"fas fa-sun"
+  "mostly-clear-day"    :"fas fa-adjust"
+  "partly-cloudy-day"   :"fas fa-cloud"
+  "clear-night"         :"fas fa-star"
+  "partly-cloudy-night" :"fal fa-adjust"
+  "unknown"             :"fas fa-question"
 
 command: "echo " +
          "$(#{ commands.battery }):::" +
@@ -20,7 +37,9 @@ command: "echo " +
          "$(#{ commands.volume }):::" +
          "$(#{ commands.date }):::" +
          "$(#{ commands.ismuted }):::" +
-         "$(#{ commands.ischarging }):::"
+         "$(#{ commands.ischarging }):::" +
+         "$(#{ commands.weather }):::"
+
 
 refreshFrequency: '2s'
 
@@ -28,25 +47,44 @@ render: ( ) ->
   """
     <div class="container">
       <div class="widg" id="volume">
-        <i class="volume-icon"></i>
-        <span class="volume-output closed"></span>
+        <div class="icon-container" id='volume-icon-container'>
+          <i id="volume-icon"></i>
+        </div>
+        <span class="output closed" id='volume-output'></span>
       </div>
       <div class="widg" id="wifi">
-        <i class="fa fa-wifi"></i>
-        <span class="wifi-output closed"></span>
+        <div class="icon-container" id='wifi-icon-container'>
+          <i class="fa fa-wifi"></i>
+        </div>
+        <span class="output closed" id='wifi-output'></span>
       </div>
       <div class="widg" id="battery">
+        <div class="icon-container pinned" id='battery-icon-container'>
         <i class="battery-icon"></i>
-        <span class="battery-output closed"></span>
+        </div>
+        <span class="output closed pinned" id='battery-output'></span>
       </div>
       <div class="widg" id="time">
-        <i class="far fa-clock"></i>
-        <span class="time-output closed"></span>
+        <div class="icon-container pinned" id='time-icon-container'>
+          <i class="far fa-clock"></i>
+        </div>
+        <span class="output closed pinned" id='time-output'></span>
       </div>
       <div class="widg" id="date">
+        <div class="icon-container" id='date-icon-container'>
         <i class="far fa-calendar-alt"></i>
-        <span class="date-output closed"></span>
+        </div>
+        <span class="output closed" id='date-output'></span>
       </div>
+
+      <div class="widg" id="weather">
+        <div class="icon-container" id="weather-icon-container">
+          <i class="weather-icon"></i>
+        </div>
+        <span class="output closed " id="weather-output">Loading</span>
+
+      </div>
+
     </div>
   """
 
@@ -60,14 +98,88 @@ update: ( output, domEl ) ->
   date = output[ 4 ]
   ismuted = output[ 5 ]
   ischarging = output[ 6 ]
+  weatherdata = output[ 7 ]
 
-  $( ".time-output" )    .text( "#{ time }" )
-  $( ".date-output" )    .text( "#{ date }" )
-  $( ".battery-output") .text("#{ battery }")
-  $( ".wifi-output") .text("#{ wifi }")
+
+  $(domEl).find( "#time-output" ).text( "#{ time }" )
+  $(domEl).find( "#date-output" ).text( "#{ date }" )
+  $(domEl).find( "#battery-output").text("#{ battery }")
+  $(domEl).find( "#wifi-output").text("#{ wifi }")
 
   @handleBattery( domEl, Number( battery.replace( /%/g, "" ) ), ischarging )
-  @handleVolume( Number( volume ), ismuted )
+  @handleVolume( domEl, Number( volume ), ismuted )
+  @handleWifi( domEl, wifi )
+  @handleWeather( domEl, weatherdata )
+
+#
+# ─── HANDLE WEATHER ─────────────────────────────────────────────────────────
+#
+handleWeather: ( domEl, weatherdata ) ->
+  geolocation.getCurrentPosition (e) =>
+    coords     = e.position.coords
+    [lat, lon] = [coords.latitude, coords.longitude]
+    @commands.weather = @makeCommand(@apiKey, "#{lat},#{lon}")
+
+
+  data  = JSON.parse(weatherdata)
+  $(domEl).find('#weather-output').text(weatherdata)
+  today = data.daily?.data[0]
+
+  return unless today?
+  date  = @getDate today.time
+
+  $(domEl).find('#weather-output').text(String (Math.round(today.temperatureMax)+'°'))
+  $(domEl).find('#weather-ext-output').text(String(today.summary))
+  $(domEl).find( ".weather-icon" ).html( "<i class=\"fa #{ @getIcon(today) }\"></i>" )
+
+
+  $(domEl).find("#weather").removeClass('red')
+  $(domEl).find("#weather").removeClass('white')
+  $(domEl).find("#weather").removeClass('cyan')
+  if data.temperatureMax >= 26
+    $(domEl).find('#weather').addClass('red')
+    $(domEl).find('#weather-icon-container').addClass('red')
+  else if data.temperatureMax >= 6
+    $(domEl).find('#weather').addClass('white')
+    $(domEl).find('#weather-icon-container').addClass('white')
+  else
+    $(domEl).find('#weather').addClass('cyan')
+    $(domEl).find('#weather-icon-container').addClass('cyan')
+
+getIcon: (data) ->
+  return @iconMapping['unknown'] unless data
+
+  if data.icon.indexOf('cloudy') > -1
+    if data.cloudCover < 0.25
+      @iconMapping["clear-day"]
+    else if data.cloudCover < 0.5
+      @iconMapping["mostly-clear-day"]
+    else if data.cloudCover < 0.75
+      @iconMapping["partly-cloudy-day"]
+    else
+      @iconMapping["cloudy"]
+  else
+    @iconMapping[data.icon]
+
+getDate: (utcTime) ->
+  date  = new Date(0)
+  date.setUTCSeconds(utcTime)
+  date
+
+makeCommand: (apiKey, location) ->
+  exclude  = "minutely,hourly,alerts,flags"
+
+
+#
+# ─── HANDLE WIFI ─────────────────────────────────────────────────────────
+#
+
+handleWifi: (domEl, wifi ) ->
+  if wifi == 'NULL'
+    wifiIcon = 'fas fa-exclamation-circle'
+  else
+    wifiIcon = 'fa fa-wifi'
+  $(domEl).find( ".wifi-icon" ).html( "<i class=\"fa #{ wifiIcon }\"></i>" )
 
 #
 # ─── HANDLE BATTERY ─────────────────────────────────────────────────────────
@@ -90,10 +202,13 @@ handleBattery: ( domEl, percentage, ischarging ) ->
 
   if percentage >= 35
     div.find('#battery').addClass('green')
+    div.find('#battery-icon-container').addClass('green')
   else if percentage >= 15
     div.find('#battery').addClass('yellow')
+    div.find('#battery-icon-container').addClass('yellow')
   else
     div.find('#battery').addClass('red')
+    div.find('#battery-icon-container').addClass('red')
 
   if ischarging == "true"
     batteryIcon = "fas fa-bolt"
@@ -102,48 +217,80 @@ handleBattery: ( domEl, percentage, ischarging ) ->
 # ─── HANDLE VOLUME ─────────────────────────────────────────────────────────
 #
 
-handleVolume: ( volume, ismuted ) ->
+handleVolume: ( domEl, volume, ismuted ) ->
+  div = $( domEl )
   volumeIcon = switch
     when volume ==   0 then "fa-volume-off"
     when volume <=  50 then "fa-volume-down"
     when volume <= 100 then "fa-volume-up"
 
-
+  div.find("#volume").removeClass('blue')
+  div.find("#volume").removeClass('red')
   if ismuted != 'true'
-    $( ".volume-output") .text("#{ volume }")
+    div.find( "#volume-output").text("#{ volume }")
+    div.find('#volume').addClass('blue')
+    div.find('#volume-icon-container').addClass('blue')
   else
-    $( ".volume-output") .text("Muted")
+    div.find( "#volume-output").text("Muted")
     volumeIcon = "fa-volume-off"
+    div.find('#volume').addClass('red')
+    div.find('#volume-icon-container').addClass('red')
 
-  $( ".volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
+  $( "#volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
 
+#
+# ─── ANIMATION  ─────────────────────────────────────────────────────────
+#
 afterRender: (domEl) ->
-  $(domEl).on 'mouseover', '#volume', => $(domEl).find('.volume-output').addClass('open')
-  $(domEl).on 'mouseout', '#volume', => $(domEl).find('.volume-output').removeClass('open')
+  $(domEl).on 'mouseover', '#volume', => @toggleOpen($(domEl).find('#volume-output'), true) &&
+  $(domEl).on 'mouseout', '#volume', => @toggleOpen($(domEl).find('#volume-output'))
+  $(domEl).on 'click', '#volume', => @toggleOption($(domEl).find('#volume-output'),$(domEl).find('#volume-icon-container'),'pinned')
 
-  $(domEl).on 'mouseover', '#wifi', => $(domEl).find('.wifi-output').addClass('open')
-  $(domEl).on 'mouseout', '#wifi', => $(domEl).find('.wifi-output').removeClass('open')
+  $(domEl).on 'mouseover', '#wifi', => @toggleOpen($(domEl).find('#wifi-output'), true)
+  $(domEl).on 'mouseout', '#wifi', => @toggleOpen($(domEl).find('#wifi-output'))
+  $(domEl).on 'click', '#wifi', => @toggleOption($(domEl).find('#wifi-output'),$(domEl).find('#wifi-icon-container'),'pinned')
 
-  $(domEl).on 'mouseover', '#battery', => $(domEl).find('.battery-output').addClass('open')
-  $(domEl).on 'mouseout', '#battery', => $(domEl).find('.battery-output').removeClass('open')
+  $(domEl).on 'mouseover', '#battery', => @toggleOpen($(domEl).find('#battery-output'), true)
+  $(domEl).on 'mouseout', '#battery', => @toggleOpen($(domEl).find('#battery-output'))
+  $(domEl).on 'click', '#battery', => @toggleOption($(domEl).find('#battery-output'),$(domEl).find('#battery-icon-container'),'pinned')
 
-  $(domEl).on 'mouseover', '#time', => $(domEl).find('.time-output').addClass('open')
-  $(domEl).on 'mouseout', '#time', => $(domEl).find('.time-output').removeClass('open')
+  $(domEl).on 'mouseover', '#time', => @toggleOpen($(domEl).find('#time-output'), true)
+  $(domEl).on 'mouseout', '#time', => @toggleOpen($(domEl).find('#time-output'))
+  $(domEl).on 'click', '#time', => @toggleOption($(domEl).find('#time-output'),$(domEl).find('#time-icon-container'),'pinned')
 
-  $(domEl).on 'mouseover', '#date', => $(domEl).find('.date-output').addClass('open')
-  $(domEl).on 'mouseout', '#date', => $(domEl).find('.date-output').removeClass('open')
+  $(domEl).on 'mouseover', '#date', => @toggleOpen($(domEl).find('#date-output'), true)
+  $(domEl).on 'mouseout', '#date', => @toggleOpen($(domEl).find('#date-output'))
+  $(domEl).on 'click', '#date', => @toggleOption($(domEl).find('#date-output'),$(domEl).find('#date-icon-container'),'pinned')
 
-  $(domEl).on 'mouseover', '#volume', => $(domEl).find('#volume').addClass('open')
-  $(domEl).on 'mouseout', '#volume', => $(domEl).find('#volume').removeClass('open')
 
-  $(domEl).on 'mouseover', '#wifi', => $(domEl).find('#wifi').addClass('open')
-  $(domEl).on 'mouseout', '#wifi', => $(domEl).find('#wifi').removeClass('open')
+  $(domEl).on 'mouseover', '#weather', => @toggleOpen($(domEl).find('#weather-output'), true) &&
+  $(domEl).on 'mouseout', '#weather', => @toggleOpen($(domEl).find('#weather-output'))
+  $(domEl).on 'click', '#weather', => @toggleOption($(domEl).find('#weather-output'),$(domEl).find('#weather-icon-container'),'pinned')
 
-  $(domEl).on 'mouseover', '#battery', => $(domEl).find('#battery').addClass('open')
-  $(domEl).on 'mouseout', '#battery', => $(domEl).find('#battery').removeClass('open')
+#
+# ─── CLICKS  ─────────────────────────────────────────────────────────
+#
 
-  $(domEl).on 'mouseover', '#time', => $(domEl).find('#time').addClass('open')
-  $(domEl).on 'mouseout', '#time', => $(domEl).find('#time').removeClass('open')
+toggleOption: (target, parent, option, excludingCondition = false) ->
+  if excludingCondition && $(target).hasClass(excludingCondition)
+    return
+  if $(parent) != false
+    if $(parent).hasClass("#{ option }")
+      $(parent).removeClass("#{ option }")
+      $(target).removeClass("#{ option }")
+    else
+      $(parent).addClass("#{ option }")
+      $(target).addClass("#{ option }")
+  else
+    if $(target).hasClass("#{ option }")
+      $(target).removeClass("#{ option }")
+    else
+      $(target).addClass("#{ option }")
 
-  $(domEl).on 'mouseover', '#date', => $(domEl).find('#date').addClass('open')
-  $(domEl).on 'mouseout', '#date', => $(domEl).find('#date').removeClass('open')
+toggleOpen: (target, open = false) ->
+  if target.hasClass('pinned')
+    return
+  if open
+    $(target).addClass('open')
+  else
+    $(target).removeClass('open')
