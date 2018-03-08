@@ -91,7 +91,8 @@ highlight: (domEl, e) ->
   refresh().delay(1000)
 
 afterRender: (domEl) ->
-  #$(domEl).on 'click', ".widg", (e) -> $(e.target).parent().addClass('pinned')
   $(domEl).on 'click', ".widg", (e) -> run $(e.target).parent().parent().attr('id')
+  $(domEl).on 'click', ".link", (e) -> run $(e.target).parent().attr('id')
+
   $(domEl).on 'click', ".widg", (e) => @highlight(domEl, e)
-  $(domEl).on 'click', "#refresh", (e) -> refresh() && $(e.target).parent().removeClass('pinned')
+  $(domEl).on 'click', "#refresh", (e) -> $(e.target).parent().removeClass('pinned') && refresh()

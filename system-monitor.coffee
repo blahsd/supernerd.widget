@@ -19,21 +19,21 @@ render: ( ) ->
           <div class="icon-container" id='cpu-icon-container'>
             <i class="fa fa-spinner"></i>
           </div>
-            <span class="output closed" id="cpu-output"></span>
+            <span class="output" id="cpu-output"></span>
           </div>
 
           <div class="widg" id="mem">
           <div class="icon-container" id='mem-icon-container'>
             <i class="fas fa-server"></i>
             </div>
-            <span class="output closed" id="mem-output"></span>
+            <span class="output" id="mem-output"></span>
           </div>
 
           <div class="widg" id="hdd">
           <div class="icon-container" id='hdd-icon-container'>
             <i class="fas fa-hdd"></i>
             </div>
-              <span class="output closed" id="hdd-output"></span>
+              <span class="output" id="hdd-output"></span>
           </div>
     </div>
   """
@@ -79,21 +79,26 @@ handleSysmon: ( domEl, sysmon, monid ) ->
   else
     div.find(monid).addClass('red')
 
+#
+# ─── UNIVERSAL CLICK AND ANIMATION HANDLING  ─────────────────────────────────────────────────────────
+#
 afterRender: (domEl) ->
-  $(domEl).on 'mouseover', '#cpu', => $(domEl).find('.cpu-output').addClass('open')
-  $(domEl).on 'mouseout', '#cpu', => $(domEl).find('.cpu-output').removeClass('open')
+  $(domEl).on 'mouseover', ".widg", (e) => $(domEl).find( $($(e.target))).addClass('open')
+  $(domEl).on 'mouseover', ".icon-container", (e) => $(domEl).find( $($(e.target))).parent().addClass('open')
+  $(domEl).on 'mouseover', ".output", (e) => $(domEl).find( $($(e.target))).parent().addClass('open')
 
-  $(domEl).on 'mouseover', '#mem', => $(domEl).find('.mem-output').addClass('open')
-  $(domEl).on 'mouseout', '#mem', => $(domEl).find('.mem-output').removeClass('open')
+  $(domEl).on 'mouseout', ".widg", (e) => $(domEl).find( $($(e.target))).removeClass('open')
+  $(domEl).on 'mouseout', ".icon-container", (e) => $(domEl).find( $($(e.target))).parent().removeClass('open')
+  $(domEl).on 'mouseout', ".output", (e) => $(domEl).find( $($(e.target))).parent().removeClass('open')
 
-  $(domEl).on 'mouseover', '#hdd', => $(domEl).find('.hdd-output').addClass('open')
-  $(domEl).on 'mouseout', '#hdd', => $(domEl).find('.hdd-output').removeClass('open')
+  $(domEl).on 'click', ".widg", (e) => @toggleOption( domEl, e, 'pinned')
 
-  $(domEl).on 'mouseover', '#cpu', => $(domEl).find('#cpu').addClass('open')
-  $(domEl).on 'mouseout', '#cpu', => $(domEl).find('#cpu').removeClass('open')
+toggleOption: (domEl, e, option) ->
+  target = $(domEl).find( $($(e.target))).parent()
 
-  $(domEl).on 'mouseover', '#mem', => $(domEl).find('#mem').addClass('open')
-  $(domEl).on 'mouseout', '#mem', => $(domEl).find('#mem').removeClass('open')
-
-  $(domEl).on 'mouseover', '#hdd', => $(domEl).find('#hdd').addClass('open')
-  $(domEl).on 'mouseout', '#hdd', => $(domEl).find('#hdd').removeClass('open')
+  if target.hasClass("#{ option }")
+    $(target).removeClass("#{ option }")
+    $(output).removeClass("#{ option }")
+  else
+    $(target).addClass("#{ option }")
+    $(output).addClass("#{ option }")
