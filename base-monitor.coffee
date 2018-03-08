@@ -50,38 +50,38 @@ render: ( ) ->
         <div class="icon-container" id='volume-icon-container'>
           <i id="volume-icon"></i>
         </div>
-        <span class="output closed" id='volume-output'></span>
+        <span class="output" id='volume-output'></span>
       </div>
       <div class="widg" id="wifi">
         <div class="icon-container" id='wifi-icon-container'>
           <i class="fa fa-wifi"></i>
         </div>
-        <span class="output closed" id='wifi-output'></span>
+        <span class="output" id='wifi-output'></span>
       </div>
       <div class="widg" id="battery">
         <div class="icon-container" id='battery-icon-container'>
         <i class="battery-icon"></i>
         </div>
-        <span class="output closed" id='battery-output'></span>
+        <span class="output" id='battery-output'></span>
       </div>
       <div class="widg" id="time">
         <div class="icon-container" id='time-icon-container'>
           <i class="far fa-clock"></i>
         </div>
-        <span class="output closed" id='time-output'></span>
+        <span class="output" id='time-output'></span>
       </div>
       <div class="widg" id="date">
         <div class="icon-container" id='date-icon-container'>
         <i class="far fa-calendar-alt"></i>
         </div>
-        <span class="output closed" id='date-output'></span>
+        <span class="output" id='date-output'></span>
       </div>
 
       <div class="widg" id="weather">
         <div class="icon-container" id="weather-icon-container">
           <i class="weather-icon"></i>
         </div>
-        <span class="output closed " id="weather-output">Loading</span>
+        <span class="output" id="weather-output">Loading</span>
 
       </div>
 
@@ -242,31 +242,25 @@ handleVolume: ( domEl, volume, ismuted ) ->
 # ─── ANIMATION  ─────────────────────────────────────────────────────────
 #
 afterRender: (domEl) ->
-  $(domEl).on 'mouseover', ".icon-container", (e) => @toggleOption($(domEl).find( $($(e.target).parent().find('.output')) ), 'open', true)
-  $(domEl).on 'mouseout', ".widg", (e) => @toggleOption($(domEl).find( $($(e.target).find('.output')) ), 'open', false)
+  $(domEl).on 'mouseover', ".widg", (e) => $(domEl).find( $($(e.target))).addClass('open')
+  $(domEl).on 'mouseover', ".icon-container", (e) => $(domEl).find( $($(e.target))).parent().addClass('open')
+  $(domEl).on 'mouseover', ".output", (e) => $(domEl).find( $($(e.target))).parent().addClass('open')
 
-  $(domEl).on 'click', ".widgh", (e) => @toggleOption($(domEl).find( $($(e.target).find('.output')) ), 'pinned', true)
+  $(domEl).on 'mouseout', ".widg", (e) => $(domEl).find( $($(e.target))).removeClass('open')
+  $(domEl).on 'mouseout', ".icon-container", (e) => $(domEl).find( $($(e.target))).parent().removeClass('open')
+  $(domEl).on 'mouseout', ".output", (e) => $(domEl).find( $($(e.target))).parent().removeClass('open')
 
+  $(domEl).on 'click', ".widg", (e) => @toggleOption( domEl, e, 'pinned')
 #
 # ─── CLICKS  ─────────────────────────────────────────────────────────
 #
 
-toggleOption: (target, option, add) ->
-  parent = target.parent()
-  children = target.children()
+toggleOption: (domEl, e, option) ->
+  target = $(domEl).find( $($(e.target))).parent()
 
-  if add
-    $(parent).addClass("#{ option }")
-    $(target).addClass("#{ option }")
-
-    for child in children
-      do
-      child.addClass("#{ option }")
-
-  else
-    $(parent).removeClass("#{ option }")
+  if target.hasClass("#{ option }")
     $(target).removeClass("#{ option }")
-
-    for child in children
-      do
-      child.removeClass("#{ option }")
+    $(output).removeClass("#{ option }")
+  else
+    $(target).addClass("#{ option }")
+    $(output).addClass("#{ option }")
