@@ -9,25 +9,31 @@ command: "echo " +
          "$(#{ commands.mem }):::" +
          "$(#{ commands.hdd }):::"
 
-refreshFrequency: '1m'
+refreshFrequency: false
 
 render: ( ) ->
   """
     <div class="container">
 
           <div class="widg" id="cpu">
+          <div class="icon-container" id='cpu-icon-container'>
             <i class="fa fa-spinner"></i>
-            <span class="cpu-output closed"></span>
+          </div>
+            <span class="output closed" id="cpu-output"></span>
           </div>
 
           <div class="widg" id="mem">
+          <div class="icon-container" id='mem-icon-container'>
             <i class="fas fa-server"></i>
-            <span class="mem-output closed"></span>
+            </div>
+            <span class="output closed" id="mem-output"></span>
           </div>
 
           <div class="widg" id="hdd">
+          <div class="icon-container" id='hdd-icon-container'>
             <i class="fas fa-hdd"></i>
-              <span class="hdd-output closed"></span>
+            </div>
+              <span class="output closed" id="hdd-output"></span>
           </div>
     </div>
   """
@@ -38,9 +44,9 @@ update: ( output, domEl ) ->
   cpu = output[ 0 ]
   mem = output[ 1 ]
   hdd = output[ 2 ]
-  $( ".cpu-output") .text("#{ cpu }")
-  $( ".mem-output") .text("#{ mem }")
-  $( ".hdd-output") .text("#{ hdd }")
+  $( "#cpu-output") .text("#{ cpu }")
+  $( "#mem-output") .text("#{ mem }")
+  $( "#hdd-output") .text("#{ hdd }")
 
   @handleSysmon( domEl, Number( cpu ), '#cpu' )
   @handleSysmon( domEl, Number( mem.replace( /%/g, "") ), '#mem' )

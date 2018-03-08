@@ -41,7 +41,7 @@ command: "echo " +
          "$(#{ commands.weather }):::"
 
 
-refreshFrequency: '2s'
+refreshFrequency: false
 
 render: ( ) ->
   """
@@ -50,38 +50,38 @@ render: ( ) ->
         <div class="icon-container" id='volume-icon-container'>
           <i id="volume-icon"></i>
         </div>
-        <span class="output closed" id='volume-output'></span>
+        <span class="output" id='volume-output'></span>
       </div>
       <div class="widg" id="wifi">
         <div class="icon-container" id='wifi-icon-container'>
           <i class="fa fa-wifi"></i>
         </div>
-        <span class="output closed" id='wifi-output'></span>
+        <span class="output" id='wifi-output'></span>
       </div>
       <div class="widg" id="battery">
-        <div class="icon-container pinned" id='battery-icon-container'>
+        <div class="icon-container" id='battery-icon-container'>
         <i class="battery-icon"></i>
         </div>
-        <span class="output closed pinned" id='battery-output'></span>
+        <span class="output" id='battery-output'></span>
       </div>
       <div class="widg" id="time">
-        <div class="icon-container pinned" id='time-icon-container'>
+        <div class="icon-container" id='time-icon-container'>
           <i class="far fa-clock"></i>
         </div>
-        <span class="output closed pinned" id='time-output'></span>
+        <span class="output" id='time-output'></span>
       </div>
       <div class="widg" id="date">
         <div class="icon-container" id='date-icon-container'>
         <i class="far fa-calendar-alt"></i>
         </div>
-        <span class="output closed" id='date-output'></span>
+        <span class="output" id='date-output'></span>
       </div>
 
       <div class="widg" id="weather">
         <div class="icon-container" id="weather-icon-container">
           <i class="weather-icon"></i>
         </div>
-        <span class="output closed " id="weather-output">Loading</span>
+        <span class="output" id="weather-output">Loading</span>
 
       </div>
 
@@ -242,55 +242,25 @@ handleVolume: ( domEl, volume, ismuted ) ->
 # ─── ANIMATION  ─────────────────────────────────────────────────────────
 #
 afterRender: (domEl) ->
-  $(domEl).on 'mouseover', '#volume', => @toggleOpen($(domEl).find('#volume-output'), true) &&
-  $(domEl).on 'mouseout', '#volume', => @toggleOpen($(domEl).find('#volume-output'))
-  $(domEl).on 'click', '#volume', => @toggleOption($(domEl).find('#volume-output'),$(domEl).find('#volume-icon-container'),'pinned')
+  $(domEl).on 'mouseover', ".widg", (e) => $(domEl).find( $($(e.target))).addClass('open')
+  $(domEl).on 'mouseover', ".icon-container", (e) => $(domEl).find( $($(e.target))).parent().addClass('open')
+  $(domEl).on 'mouseover', ".output", (e) => $(domEl).find( $($(e.target))).parent().addClass('open')
 
-  $(domEl).on 'mouseover', '#wifi', => @toggleOpen($(domEl).find('#wifi-output'), true)
-  $(domEl).on 'mouseout', '#wifi', => @toggleOpen($(domEl).find('#wifi-output'))
-  $(domEl).on 'click', '#wifi', => @toggleOption($(domEl).find('#wifi-output'),$(domEl).find('#wifi-icon-container'),'pinned')
+  $(domEl).on 'mouseout', ".widg", (e) => $(domEl).find( $($(e.target))).removeClass('open')
+  $(domEl).on 'mouseout', ".icon-container", (e) => $(domEl).find( $($(e.target))).parent().removeClass('open')
+  $(domEl).on 'mouseout', ".output", (e) => $(domEl).find( $($(e.target))).parent().removeClass('open')
 
-  $(domEl).on 'mouseover', '#battery', => @toggleOpen($(domEl).find('#battery-output'), true)
-  $(domEl).on 'mouseout', '#battery', => @toggleOpen($(domEl).find('#battery-output'))
-  $(domEl).on 'click', '#battery', => @toggleOption($(domEl).find('#battery-output'),$(domEl).find('#battery-icon-container'),'pinned')
-
-  $(domEl).on 'mouseover', '#time', => @toggleOpen($(domEl).find('#time-output'), true)
-  $(domEl).on 'mouseout', '#time', => @toggleOpen($(domEl).find('#time-output'))
-  $(domEl).on 'click', '#time', => @toggleOption($(domEl).find('#time-output'),$(domEl).find('#time-icon-container'),'pinned')
-
-  $(domEl).on 'mouseover', '#date', => @toggleOpen($(domEl).find('#date-output'), true)
-  $(domEl).on 'mouseout', '#date', => @toggleOpen($(domEl).find('#date-output'))
-  $(domEl).on 'click', '#date', => @toggleOption($(domEl).find('#date-output'),$(domEl).find('#date-icon-container'),'pinned')
-
-
-  $(domEl).on 'mouseover', '#weather', => @toggleOpen($(domEl).find('#weather-output'), true) &&
-  $(domEl).on 'mouseout', '#weather', => @toggleOpen($(domEl).find('#weather-output'))
-  $(domEl).on 'click', '#weather', => @toggleOption($(domEl).find('#weather-output'),$(domEl).find('#weather-icon-container'),'pinned')
-
+  $(domEl).on 'click', ".widg", (e) => @toggleOption( domEl, e, 'pinned')
 #
 # ─── CLICKS  ─────────────────────────────────────────────────────────
 #
 
-toggleOption: (target, parent, option, excludingCondition = false) ->
-  if excludingCondition && $(target).hasClass(excludingCondition)
-    return
-  if $(parent) != false
-    if $(parent).hasClass("#{ option }")
-      $(parent).removeClass("#{ option }")
-      $(target).removeClass("#{ option }")
-    else
-      $(parent).addClass("#{ option }")
-      $(target).addClass("#{ option }")
-  else
-    if $(target).hasClass("#{ option }")
-      $(target).removeClass("#{ option }")
-    else
-      $(target).addClass("#{ option }")
+toggleOption: (domEl, e, option) ->
+  target = $(domEl).find( $($(e.target))).parent()
 
-toggleOpen: (target, open = false) ->
-  if target.hasClass('pinned')
-    return
-  if open
-    $(target).addClass('open')
+  if target.hasClass("#{ option }")
+    $(target).removeClass("#{ option }")
+    $(output).removeClass("#{ option }")
   else
-    $(target).removeClass('open')
+    $(target).addClass("#{ option }")
+    $(output).addClass("#{ option }")
