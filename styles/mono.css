@@ -8,31 +8,6 @@
   --line-size: 32px;
 }
 
-.red {
-  color:var(--color1);
-}
-.green {
-color:var(--color2);
-}
-.yellow {
-  color:var(--color3);
-}
-.blue {
-  color:var(--color4);
-}
-.cyan {
-  color:var(--color5);
-}
-.magenta {
-  color:var(--color6);
-}
-.white {
-  color:var(--foreground);
-}
-.black {
-  color:var(--background);
-}
-
 /* ––––––––––––––––
 ––––––––––––––––––– GENERAL
 ––––––––––––––––––– */
@@ -99,7 +74,7 @@ color:var(--color2);
 
 .open .output {
   display: inline;
-  animation: slideout 0.5s;
+  animation: slideout 0.2s;
 }
 
 .alt {
@@ -111,6 +86,31 @@ color:var(--color2);
 }
 .double.open .static-output {
   display:none;
+}
+
+.red {
+  color:var(--color1);
+}
+.green {
+color:var(--color2);
+}
+.yellow {
+  color:var(--color3);
+}
+.blue {
+  color:var(--color4);
+}
+.cyan {
+  color:var(--color5);
+}
+.magenta {
+  color:var(--color6);
+}
+.white {
+  color:var(--foreground);
+}
+.black {
+  color:var(--background);
 }
 /*
 .icon-container.pinned.red {
@@ -173,7 +173,7 @@ color:var(--color2);
 }
 
 #supernerd-widget-music-player-coffee {
-  top:var(--global_margin);
+  bottom:var(--global_margin);
   left:var(--global_margin);
   display:inline;
   white-space: nowrap;
@@ -234,7 +234,7 @@ color:var(--color2);
 
 @keyframes slideout {
   from { width:1px; }
-  to { width:40px; }
+  to { width:24px; }
 }
 
 @keyframes slideby {
