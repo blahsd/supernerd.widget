@@ -23,8 +23,6 @@ refreshFrequency: '2s'
 render: ( ) ->
   """
     <div class="container">
-
-      </div>
         <div class="widg" id="play">
           <div class="icon-container" id="play-icon-container">
             <i class="fas fa-play" id="play-button"></i>
@@ -34,12 +32,21 @@ render: ( ) ->
           </div>
           <span class="static-output" id='play-output'></span>
         </div>
-          <div class="widg" id="volume">
-            <div class="icon-container" id='volume-icon-container'>
-              <i id="volume-icon"></i>
-            </div>
-            <span class="output" id='volume-output'>Paused</span>
+
+        <div class="widg open" id="volume">
+          <div class="icon-container" id='volume-icon-container'>
+            <i id="volume-icon"></i>
           </div>
+
+          <div class="bar-output" id="volume-bar-output">
+            <div class="bar-output" id="volume-bar-color-output">
+
+            </div>
+          </div>
+
+          <span class="output" id='volume-output'>Paused</span>
+
+        </div>
     </div>
   """
 
@@ -90,6 +97,7 @@ handleVolume: ( domEl, volume, ismuted ) ->
     div.find('#volume-icon-container').addClass('red')
 
   $( "#volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
+  $( "#volume-bar-color-output" ).width( "#{volume}%" )
 
 handlePlay: (domEl, status) ->
   @run "osascript -e 'tell application \"iTunes\" to playpause'"
@@ -105,11 +113,11 @@ handlePlayIcon: (domEl, status) ->
   if status == true
     $(domEl).find('#play-button').removeClass()
     $(domEl).find('#play-button').addClass('fas fa-pause')
-    $(domEl).find('#play').addClass('open pinned')
+    $(domEl).find('#play').addClass('open')
   else
     $(domEl).find('#play-button').removeClass()
     $(domEl).find('#play-button').addClass('fas fa-play')
-    $(domEl).find('#play').removeClass('open pinned')
+    $(domEl).find('#play').removeClass('open')
 
 handleNext: (domEl) ->
   @run "osascript -e 'tell application \"iTunes\" to next track'"
@@ -134,7 +142,7 @@ afterRender: (domEl) ->
   $(domEl).on 'mouseout', ".icon-container", (e) => $(domEl).find( $($(e.target))).parent().removeClass('open')
   $(domEl).on 'mouseout', ".output", (e) => $(domEl).find( $($(e.target))).parent().removeClass('open')
 
-  $(domEl).on 'click', ".widg", (e) => @toggleOption( domEl, e, 'pinned')
+  #$(domEl).on 'click', ".widg", (e) => @toggleOption( domEl, e, 'pinned')
 #
 # ─── CLICKS  ─────────────────────────────────────────────────────────
 #

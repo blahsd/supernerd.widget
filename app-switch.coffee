@@ -3,11 +3,13 @@ options =
 
 commands =
   running: "osascript -e 'tell application \"System Events\" to name of every process whose background only is false'"
+  focus: "echo $(/usr/local/bin/chunkc tiling::query --window owner)"
 
 command: "echo " +
-      "$(#{ commands.running})"
+      "$(#{ commands.running }):::" +
+      "$(#{ commands.focus })"
 
-refreshFrequency: false
+refreshFrequency: '1s'
 
 render: ( ) ->
   """
@@ -56,25 +58,28 @@ getIcon: ( processName ) -> # No spaces, no numbers in the app name.
 
 update: ( output, domEl ) ->
   $("#task-container").empty()
+  output = output.split( /:::/g )
 
-
-  processes = output.split( /, / )
+  processes = output[ 0 ].split( /, / )
+  focus = output[ 1 ].split( /-/g )
 
   for process in processes
     process = process.replace(/ /g, "")
     process = process.replace(/[0-9]/g, "")
     process = process.trim()
     processIcon = @getIcon(process)
-
     $( "#task-container" ).append("""
   <div class="widg " id="open /Applications/#{ process }.app">
     <div class="icon-container" id="#{ process }-icon-container">
       <i class="#{ processIcon }"></i>
     </div>
-    <span  class="link closed" id="#{ process }-link">#{ process }</span>
+    
   </div>
-
-""")
+    """)
+  if focus[0].trim()=='?'
+    return
+  else
+    $(domEl).find("#"+"#{focus[0].trim()}-link").parent().addClass('pinned')
 
 toggleRefresh: (domEl, e) -> #doesnt work
   if $(e).hasClass('pinned')
@@ -95,4 +100,5 @@ afterRender: (domEl) ->
   $(domEl).on 'click', ".link", (e) -> run $(e.target).parent().attr('id')
 
   $(domEl).on 'click', ".widg", (e) => @highlight(domEl, e)
-  $(domEl).on 'click', "#refresh", (e) => $(domEl).find("#refresh").removeClass('pinned') && refresh()
+
+  $(domEl).on 'click', "#refresh", (e) => $(domEl).find("#refresh").removeClass('pinned')

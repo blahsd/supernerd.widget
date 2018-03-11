@@ -4,21 +4,26 @@ commands =
 command: "echo " +
          "$(#{ commands.activedesk}):::"
 
-refreshFrequency: false
+refreshFrequency: '1s'
 
 render: ( ) ->
   """
     <div class="container" id="desktop">
-      <div class="widg">
-        <i class="fa fa-window-maximize desk" id="desk1"></i>
-        <i class="fa fa-window-maximize desk" id="desk2"></i>
-        <i class="fa fa-window-maximize desk" id="desk3"></i>
-        <i class="fa fa-window-maximize desk" id="desk4"></i>
+      <div class="widg open" id="home">
+        <div class="icon-container pinned" id="home-icon-container">
+         <i class="far fa-home"></i>
+        </div>
+        <span class="output" id="desktop-output">1</span>
       </div>
+
     </div>
   """
 
 update: ( output, domEl ) ->
   activedesk = output.split( /:::/g )[ 0 ]
-  $(domEl).find(".active").removeClass("active")
-  $(domEl).find("#desk"+activedesk).addClass('active')
+  $(domEl).find("#desktop-output").text("#{activedesk}")
+  #$(domEl).on 'click', "#home-icon-container", (e) -> #switch to desktop 1??
+
+  
+  #$(domEl).find(".active").removeClass("active")
+  #$(domEl).find("#desk"+activedesk).addClass('active')

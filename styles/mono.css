@@ -22,7 +22,6 @@
   display:flex;
   align-items: center;
   margin-left: 4px;
-  z-index:2;
 }
 
 
@@ -55,6 +54,10 @@
 
 .alt {
   display:none;
+}
+
+.link {
+  padding:8px;
 }
 
 
@@ -158,6 +161,22 @@ color:var(--color2);
   box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
 }
 
+.bar-output {
+  width:60px;
+  height:4px;
+  background-color: var(--foreground);
+  display:block
+}
+
+#volume-bar-output {
+  opacity:0.4;
+}
+#volume-bar-color-output {
+  opacity:1;
+  width:50%;
+  background-color: var(--color1);
+}
+
 /* ––––––––––––––––
 ––––––––––––––––––– POSITIONS & SIZE
 ––––––––––––––––––– */
@@ -182,6 +201,10 @@ color:var(--color2);
 }
 #play .output {
   width:80px;
+}
+#play .bar-output {
+  width:124px;
+  height:4px;
 }
 
 #supernerd-widget-window-coffee {
@@ -223,7 +246,7 @@ color:var(--color2);
 
 }
 
-#supernerd-widget-app-launcher-coffee, #supernerd-widget-desktop-coffee {
+#supernerd-widget-app-launcher-coffee {
   display:none;
 }
 
@@ -235,20 +258,4 @@ color:var(--color2);
 @keyframes slideout {
   from { width:1px; }
   to { width:24px; }
-}
-
-@keyframes slideby {
-  from {
-    margin-left: 0%;
-    width: 300%;
-  }
-  to {
-    margin-left: -33%;
-
-  }
-}
-
-@keyframes superslideout {
-  from { width:30px; }
-  to { width:200px; }
 }

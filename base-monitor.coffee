@@ -32,7 +32,7 @@ command: "echo " +
          "$(#{ commands.date }):::"
 
 
-refreshFrequency: false
+refreshFrequency: '30m'
 
 render: ( ) ->
   """

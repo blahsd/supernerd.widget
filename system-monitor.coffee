@@ -14,17 +14,11 @@ command: "echo " +
          "$(#{ commands.battery }):::" +
          "$(#{ commands.ischarging }):::"
 
-refreshFrequency: false
+refreshFrequency: '1m'
 
 render: ( ) ->
   """
     <div class="container">
-        <div class="widg" id="weather">
-          <div class="icon-container" id="weather-icon-container">
-            <i class="weather-icon"></i>
-          </div>
-          <span class="output" id="weather-output">Loading</span>
-        </div>
 
           <div class="widg" id="cpu">
           <div class="icon-container" id='cpu-icon-container'>
