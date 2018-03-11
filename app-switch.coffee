@@ -16,11 +16,6 @@ render: ( ) ->
     <div class="container" id="task-container">
     </div>
 
-    <div class="widg" id="refresh">
-      <div class="icon-container" id="browser-icon-container">
-      <i class="fa fa-sync-alt"></i>
-      </div>
-    </div>
   """
 
 getIcon: ( processName ) -> # No spaces, no numbers in the app name.
@@ -73,7 +68,7 @@ update: ( output, domEl ) ->
     <div class="icon-container" id="#{ process }-icon-container">
       <i class="#{ processIcon }"></i>
     </div>
-    
+    <span class="link" id="#{ process }-link">#{ process }</span>
   </div>
     """)
   if focus[0].trim()=='?'
@@ -98,6 +93,7 @@ highlight: (domEl, e) ->
 afterRender: (domEl) ->
   $(domEl).on 'click', ".widg", (e) -> run $(e.target).parent().parent().attr('id')
   $(domEl).on 'click', ".link", (e) -> run $(e.target).parent().attr('id')
+  $(domEl).on 'click', ".icon-container", (e) -> run $(e.target).parent().attr('id')
 
   $(domEl).on 'click', ".widg", (e) => @highlight(domEl, e)
 

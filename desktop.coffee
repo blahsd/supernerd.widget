@@ -24,6 +24,6 @@ update: ( output, domEl ) ->
   $(domEl).find("#desktop-output").text("#{activedesk}")
   #$(domEl).on 'click', "#home-icon-container", (e) -> #switch to desktop 1??
 
-  
+
   #$(domEl).find(".active").removeClass("active")
   #$(domEl).find("#desk"+activedesk).addClass('active')
