@@ -24,7 +24,6 @@
   margin-left: 4px;
 }
 
-
 .bar-container {
   background-color:var(--background);
   height:var(--line-size);
@@ -32,6 +31,7 @@
   z-index:-1;
   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);
   border-radius: 2px;
+  opacity:0.8;
 }
 
 .icon-container {
@@ -69,10 +69,11 @@
 }
 
 
+
 /* ––––––––––––––––
 ––––––––––––––––––– BEHAVIOUR (pinned, open, alt)
 ––––––––––––––––––– */
-.pinned {
+.pinned .icon-container {
   color:var(--background);
   background-color: var(--foreground);
   box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
@@ -117,32 +118,31 @@ color:var(--color2);
 .black {
   color:var(--background);
 }
-/*
-.icon-container.pinned.red {
+
+.pinned.red .icon-container {
   color:var(--background) !important;
   background-color:var(--color1);
 }
-.icon-container.pinned.green {
+.pinned.green .icon-container {
   color:var(--background) !important;
   background-color:var(--color2);
 }
-.icon-container.pinned.yellow {
+.pinned.yellow .icon-container {
   color:var(--background) !important;
   background-color:var(--color3);
 }
-.icon-container.pinned.blue {
+.pinned.blue .icon-container {
   color:var(--background) !important;
   background-color:var(--color4);
 }
-.pinned.cyan {
+.pinned.cyan .icon-container {
   color:var(--background) !important;
   background-color:var(--color5);
 }
-.pinned.magenta {
+.pinned.magenta .icon-container {
   color:var(--background) !important;
   background-color:var(--color6);
 }
-*/
 
 
 
@@ -200,6 +200,11 @@ the script. So don't think of sanitizing them to classes */
   right:var(--global_margin);
 }
 
+#supernerd-widget-desktop-coffee {
+  left:var(--global_margin);
+  top:var(--global_margin);
+}
+
 #supernerd-widget-music-player-coffee {
   bottom:var(--global_margin);
   left:var(--global_margin);
@@ -252,7 +257,6 @@ the script. So don't think of sanitizing them to classes */
   right:33%;
   display:flex;
   justify-content: center;
-
 }
 
 /* ––––––––––––––––
@@ -262,4 +266,8 @@ the script. So don't think of sanitizing them to classes */
 @keyframes slideout {
   from { width:1px; }
   to { width:24px; }
+}
+
+.output {
+  color:var(--foreground); /*what*/
 }

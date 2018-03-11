@@ -2,14 +2,14 @@
 commands =
   cpu : "ps -A -o %cpu | awk '{s+=$1} END {printf(\"%.2f\",s/8);}'"
   mem : "ps -A -o %mem | awk '{s+=$1} END {print s \"%\"}' "
-  hdd : "df -hl | awk '{s+=$5} END {print s \"%\"}'"
+  hdd : "df / | awk 'END{print $5}'"
 
 
 command: "echo " +
          "$(#{ commands.cpu }):::" +
          "$(#{ commands.mem }):::" +
          "$(#{ commands.hdd }):::"
-refreshFrequency: '1m'
+refreshFrequency: '10m'
 
 render: ( ) ->
   """
@@ -29,7 +29,7 @@ render: ( ) ->
             <span class="output" id="mem-output"></span>
           </div>
 
-          <div class="widg" id="hdd">
+          <div class="widg open" id="hdd">
           <div class="icon-container" id='hdd-icon-container'>
             <i class="fas fa-hdd"></i>
             </div>
@@ -47,8 +47,9 @@ update: ( output, domEl ) ->
   mem = output[ 1 ]
   hdd = output[ 2 ]
 
-  $( "#cpu-output") .text("#{ cpu }")
-  $( "#mem-output") .text("#{ mem }")
+  $( "#cpu-output").text("#{ cpu }")
+  $( "#mem-output").text("#{ mem }")
+  $( "#hdd-output").text("#{ hdd }")
 
   @handleSysmon( domEl, Number( cpu ), '#cpu' )
   @handleSysmon( domEl, Number( mem.replace( /%/g, "") ), '#mem' )

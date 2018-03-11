@@ -8,9 +8,9 @@ refreshFrequency: '1s'
 
 render: ( ) ->
   """
-    <div class="container" id="desktop">
-      <div class="widg open" id="home">
-        <div class="icon-container pinned" id="home-icon-container">
+    <div class="container pinned" id="desktop">
+      <div class="widg " id="home">
+        <div class="icon-container" id="home-icon-container">
          <i class="far fa-home"></i>
         </div>
         <span class="output" id="desktop-output">1</span>

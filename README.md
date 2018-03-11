@@ -58,6 +58,11 @@ Currently Supernerd ships with only one alternative to the default theme:
 
 Select it by Find+Replace `default.css` in `bar-top.coffee` with the name of the theme you'd like to load – or make your own css.
 
+![1](./demo/theme1.png)
+![2](./demo/theme2.png)
+![3](./demo/theme3.png)
+![4](./demo/theme4.png)
+
 # Installation
 (You know you want it.)
 1. Install Brew. In a terminal, run:
@@ -81,7 +86,7 @@ All of the following are optional.
 
 ```brew install brightness```
 
-* **Weather**     Even more unfortunately, DarkSky's free version (which is what I use) only allows a limited number of calls to the API. This means that if enough of you fucks use my widget the way it was setup before (which is with my private API key) I myself don't get to use it no more. So you're gonna need to get your own private API key (free) here: https://darksky.net/dev and put it in scripts/weather-update.sh. You'll see where. 
+* **Weather**     Even more unfortunately, DarkSky's free version (which is what I use) only allows a limited number of calls to the API. This means that if enough of you fucks use my widget the way it was setup before (which is with my private API key) I myself don't get to use it no more. So you're gonna need to get your own private API key (free) here: https://darksky.net/dev and put it in scripts/weather-update.sh. You'll see where.
 
 
 # Credits

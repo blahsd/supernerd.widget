@@ -77,7 +77,7 @@ render: ( ) ->
       </div>
 
 
-      <div class="widg" id="battery">
+      <div class="widg pinned" id="battery">
         <div class="icon-container" id='battery-icon-container'>
         <i class="battery-icon"></i>
         </div>
@@ -91,6 +91,8 @@ render: ( ) ->
         </div>
         <span class="output" id='time-output'></span>
       </div>
+
+
       <div class="widg" id="date">
         <div class="icon-container" id='date-icon-container'>
         <i class="far fa-calendar-alt"></i>
@@ -121,7 +123,6 @@ update: ( output, domEl ) ->
   weatherdata = output[ 9 ]
 
 
-  $( "#wifi-output").text("#{ wifi }")
   $( "#time-output").text("#{ time }")
   $( "#date-output").text("#{ date }")
   $( "#battery-output") .text("#{ battery }")
@@ -269,7 +270,9 @@ makeCommand: (apiKey, location) ->
 #
 
 handleWifi: (domEl, wifi ) ->
-  if wifi == 'NULL'
+  $( "#wifi-output").text("#{ wifi }")
+
+  if wifi == ''
     wifiIcon = 'fas fa-exclamation-circle'
   else
     wifiIcon = 'fa fa-wifi'

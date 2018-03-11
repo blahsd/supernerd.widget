@@ -9,7 +9,7 @@ command: "echo " +
       "$(#{ commands.running }):::" +
       "$(#{ commands.focus })"
 
-refreshFrequency: '1s'
+refreshFrequency: false
 
 render: ( ) ->
   """
@@ -64,6 +64,9 @@ update: ( output, domEl ) ->
 
   processes = output[ 0 ].split( /, / )
   focus = output[ 1 ].split( /-/g )
+
+  processes = ['Atom','Hyper','Safari','iTunes']    #Get rid of this to get a task manager
+#  instead of an app launcher
 
   for process in processes
     process = process.replace(/ /g, "")
