@@ -1,0 +1,266 @@
+/* ––––––––––––––––
+––––––––––––––––––– GLOBAL VALUES
+––––––––––––––––––– */
+
+:root {
+  --width: 100%;
+  --global_margin: 0px;
+  --line-size: 24px;
+}
+
+/* ––––––––––––––––
+––––––––––––––––––– GENERAL
+––––––––––––––––––– */
+
+.widg {
+  color:var(--foreground);
+  font-family:'Menlo', Bold;
+  font-size:12px;
+  font-smoothing:antialiasing;
+  z-index:1;
+  float:left;
+  display:flex;
+  align-items: center;
+  margin-left: 4px;
+}
+
+
+.bar-container {
+  background-color:var(--background);
+  height:var(--line-size);
+  opacity:0.8;
+  position:relative;
+  z-index:-1;
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);
+  border-radius: 2px;
+}
+
+.icon-container {
+  display: inline;
+  float:left;
+  height:var(--line-size);
+  width:var(--line-size);
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.output {
+  overflow:hidden;
+  white-space: nowrap;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: none;
+}
+
+.bar-output {
+  width:60px;
+  height:4px;
+  background-color: var(--color1);
+  display:block
+}
+
+.alt {
+  display:none;
+}
+
+.link {
+  padding:8px;
+  display:none;
+}
+
+
+/* ––––––––––––––––
+––––––––––––––––––– BEHAVIOUR (pinned, open, alt)
+––––––––––––––––––– */
+.pinned {
+  color:var(--background);
+  background-color: var(--foreground);
+  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
+}
+
+.pinned .output {
+  display: inline;
+  animation: none !important;
+}
+
+.open .output {
+  display: inline;
+  animation: slideout 0.2s;
+}
+
+.alt {
+  display:none;
+}
+
+
+.red {
+  color:var(--color1);
+}
+.green {
+color:var(--color2);
+}
+.yellow {
+  color:var(--color3);
+}
+.blue {
+  color:var(--color4);
+}
+.cyan {
+  color:var(--color5);
+}
+.magenta {
+  color:var(--color6);
+}
+.white {
+  color:var(--foreground);
+}
+.black {
+  color:var(--background);
+}
+/*
+.icon-container.pinned.red {
+  color:var(--background) !important;
+  background-color:var(--color1);
+}
+.icon-container.pinned.green {
+  color:var(--background) !important;
+  background-color:var(--color2);
+}
+.icon-container.pinned.yellow {
+  color:var(--background) !important;
+  background-color:var(--color3);
+}
+.icon-container.pinned.blue {
+  color:var(--background) !important;
+  background-color:var(--color4);
+}
+.pinned.cyan {
+  color:var(--background) !important;
+  background-color:var(--color5);
+}
+.pinned.magenta {
+  color:var(--background) !important;
+  background-color:var(--color6);
+}
+*/
+
+
+
+
+/* ––––––––––––––––
+––––––––––––––––––– SPECIAL BEHAVIOR (PER WIDGET)
+––––––––––––––––––– */
+
+#play {
+  width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#play .pinned {
+  color:var(--foreground);
+  background-color: var(--background);
+  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
+}
+
+/* These have to be defined by ID because they are acted upon individually by
+the script. So don't think of sanitizing them to classes */
+
+#volume-bar-color-output {
+  opacity:1;
+  width:50%;
+  background-color: var(--foreground);
+}
+
+#brightness-bar-color-output {
+  opacity:1;
+  width:50%;
+  background-color: var(--foreground);
+}
+
+
+#task-container {
+  height:32px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ––––––––––––––––
+––––––––––––––––––– POSITIONS & SIZE
+––––––––––––––––––– */
+#supernerd-widget-bar-top-coffee {
+  top:var(--global_margin);
+}
+#supernerd-widget-bar-bottom-coffee {
+  bottom:var(--global_margin);
+}
+#supernerd-widget-bar-top-coffee, #supernerd-widget-bar-bottom-coffee {
+  left:var(--global_margin);
+  right:var(--global_margin);
+}
+
+#supernerd-widget-music-player-coffee {
+  bottom:var(--global_margin);
+  left:var(--global_margin);
+  display:inline;
+  white-space: nowrap;
+  text-overflow:ellipsis;
+  overflow: hidden;
+}
+#play .output {
+  width:80px;
+}
+#play .bar-output {
+  width:124px;
+  height:4px;
+}
+
+#supernerd-widget-window-coffee {
+  top:var(--global_margin);
+  width:var(--width);
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#supernerd-widget-base-monitor-coffee {
+  top:var(--global_margin);
+  right:var(--global_margin);
+  width:auto;
+}
+#wifi .output {
+  width:60px;
+}
+#time .output {
+  width:40px;
+}
+#date .output {
+  width:80px;
+}
+
+#supernerd-widget-system-monitor-coffee {
+  bottom:var(--global_margin);
+  right:var(--global_margin);
+  width:auto;
+}
+
+#supernerd-widget-app-switch-coffee {
+  top:var(--global_margin);
+  width:auto;
+  left:33%;
+  right:33%;
+  display:flex;
+  justify-content: center;
+
+}
+
+/* ––––––––––––––––
+––––––––––––––––––– ANIMATIONS
+––––––––––––––––––– */
+
+@keyframes slideout {
+  from { width:1px; }
+  to { width:24px; }
+}
