@@ -1,6 +1,4 @@
 commands =
-  volume : "osascript -e 'output volume of (get volume settings)'"
-  ismuted : "osascript -e 'output muted of (get volume settings)'"
   isitunesrunning: "osascript -e 'if application \"iTunes\" is running then return true'"
   isspotifyrunning: "osascript -e 'if application \"Spotify\" is running then return true'"
   isitunesplaying: "osascript -e 'if application \"iTunes\" is running then tell application \"iTunes\" to if player state is playing then return true'"
@@ -9,8 +7,6 @@ commands =
   spotify: "osascript -e 'if application \"Spotify\" is running then tell application \"Spotify\" to artist of current track & \" - \" & name of current track '"
 
 command: "echo " +
-        "$(#{ commands.volume }):::" +
-        "$(#{ commands.ismuted }):::" +
          "$(#{ commands.isitunesrunning}):::" +
          "$(#{ commands.isspotifyrunning}):::" +
          "$(#{ commands.isitunesplaying}):::" +
@@ -33,35 +29,17 @@ render: ( ) ->
           <span class="static-output" id='play-output'></span>
         </div>
 
-        <div class="widg open" id="volume">
-          <div class="icon-container" id='volume-icon-container'>
-            <i id="volume-icon"></i>
-          </div>
-
-          <div class="bar-output" id="volume-bar-output">
-            <div class="bar-output" id="volume-bar-color-output">
-
-            </div>
-          </div>
-
-          <span class="output" id='volume-output'>Paused</span>
-
-        </div>
     </div>
   """
 
 update: ( output, domEl ) ->
   output = output.split( /:::/g )
-  volume = output[0]
-  ismuted = output[1]
-  isitunesrunning = output[2]
-  isspotifyrunning = output[3]
-  isitunesplaying = output[4]
-  isspotifyplaying = output[5]
-  itunes = output[6]
-  spotify = output[7]
-
-  @handleVolume( domEl, Number( volume ), ismuted )
+  isitunesrunning = output[0]
+  isspotifyrunning = output[1]
+  isitunesplaying = output[2]
+  isspotifyplaying = output[3]
+  itunes = output[4]
+  spotify = output[5]
 
 
   if isspotifyplaying
@@ -76,28 +54,6 @@ update: ( output, domEl ) ->
 #
 # ─── HANDLES  ─────────────────────────────────────────────────────────
 #
-handleVolume: ( domEl, volume, ismuted ) ->
-  div = $( domEl )
-
-  volumeIcon = switch
-    when volume ==   0 then "fa-volume-off"
-    when volume <=  50 then "fa-volume-down"
-    when volume <= 100 then "fa-volume-up"
-
-  div.find("#volume").removeClass('blue')
-  div.find("#volume").removeClass('red')
-  if ismuted != 'true'
-    div.find( "#volume-output").text("#{ volume }")
-    div.find('#volume').addClass('blue')
-    div.find('#volume-icon-container').addClass('blue')
-  else
-    div.find( "#volume-output").text("Muted")
-    volumeIcon = "fa-volume-off"
-    div.find('#volume').addClass('red')
-    div.find('#volume-icon-container').addClass('red')
-
-  $( "#volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
-  $( "#volume-bar-color-output" ).width( "#{volume}%" )
 
 handlePlay: (domEl, status) ->
   @run "osascript -e 'tell application \"iTunes\" to playpause'"

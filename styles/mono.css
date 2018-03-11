@@ -55,7 +55,7 @@
 .bar-output {
   width:60px;
   height:4px;
-  background-color: var(--foreground);
+  background-color: var(--color1);
   display:block
 }
 
@@ -163,14 +163,21 @@ color:var(--color2);
   box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
 }
 
-#volume-bar-output {
-  opacity:0.4;
-}
+/* These have to be defined by ID because they are acted upon individually by
+the script. So don't think of sanitizing them to classes */
+
 #volume-bar-color-output {
   opacity:1;
   width:50%;
-  background-color: var(--color1);
+  background-color: var(--foreground);
 }
+
+#brightness-bar-color-output {
+  opacity:1;
+  width:50%;
+  background-color: var(--foreground);
+}
+
 
 #task-container {
   height:32px;

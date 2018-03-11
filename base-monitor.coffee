@@ -1,16 +1,16 @@
-apiKey: '103d3850d574a558eb1e11905de4a047' # put your forcast.io api key inside the quotes here
-svgNs: 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"'
-
 commands =
-  time: "date +\"%H:%M\""
+  volume : "osascript -e 'output volume of (get volume settings)'"
+  ismuted : "osascript -e 'output muted of (get volume settings)'"
+  brightness: "sh ./supernerd.widget/scripts/getbrightness.sh"
+  battery : "pmset -g batt | egrep '([0-9]+\%).*' -o --colour=auto | cut -f1 -d';'"
+  ischarging : "sh ./supernerd.widget/scripts/ischarging.sh"
   wifi: "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | sed -e \"s/^ *SSID: //p\" -e d"
-  cpu : "ps -A -o %cpu | awk '{s+=$1} END {printf(\"%.2f\",s/8);}'"
-  mem : "ps -A -o %mem | awk '{s+=$1} END {print s \"%\"}' "
-  hdd : "df -hl | awk '{s+=$5} END {print s \"%\"}'"
+  isconnected: "echo true"
+  time: "date +\"%H:%M\""
   date  : "date +\"%a %d %b\""
   focus : "/usr/local/bin/chunkc tiling::query --window name"
   playing: "osascript -e 'tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
-  #weather : "sh ./supernerd.widget/scripts/getweather.sh '103d3850d574a558eb1e11905de4a047' '45.4391,8.8855'"
+  weather: "cat ./supernerd.widget/lib/weather.txt"
 
 
 iconMapping:
@@ -27,16 +27,47 @@ iconMapping:
   "unknown"             :"fas fa-question"
 
 command: "echo " +
-         "$(#{ commands.time }):::" +
+         "$(#{ commands.volume }):::" +
+         "$(#{ commands.ismuted }):::" +
+         "$(#{ commands.brightness }):::" +
+         "$(#{ commands.battery }):::" +
+         "$(#{ commands.ischarging }):::" +
          "$(#{ commands.wifi }):::" +
-         "$(#{ commands.date }):::"
+         "$(#{ commands.isconnected }):::" +
+         "$(#{ commands.time }):::" +
+         "$(#{ commands.date }):::" +
+         "$(#{ commands.weather }):::"
 
-
-refreshFrequency: '30m'
+refreshFrequency: '30s'
 
 render: ( ) ->
   """
     <div class="container">
+
+      <div class="widg" id="volume">
+        <div class="icon-container" id='volume-icon-container'>
+          <i id="volume-icon"></i>
+        </div>
+        <span class='output'>
+          <div class="bar-output" id="volume-bar-output">
+            <div class="bar-output" id="volume-bar-color-output"></div>
+          </div>
+        </span>
+        <span class="output" id='volume-output'></span>
+      </div>
+
+
+      <div class="widg " id="brightness">
+        <div class="icon-container" id='brightness-icon-container'>
+          <i class="fas fa-sun"></i>
+        </div>
+        <span class='output'>
+          <div class="bar-output" id="brightness-bar-output">
+            <div class="bar-output" id="brightness-bar-color-output"></div>
+          </div>
+        </span>
+        <span class="output" id='brightness-output'></span>
+      </div>
 
       <div class="widg" id="wifi">
         <div class="icon-container" id='wifi-icon-container'>
@@ -44,7 +75,17 @@ render: ( ) ->
         </div>
         <span class="output" id='wifi-output'></span>
       </div>
-      <div class="widg" id="time">
+
+
+      <div class="widg" id="battery">
+        <div class="icon-container" id='battery-icon-container'>
+        <i class="battery-icon"></i>
+        </div>
+        <span class="output" id='battery-output'></span>
+      </div>
+
+
+      <div class="widg pinned" id="time">
         <div class="icon-container" id='time-icon-container'>
           <i class="far fa-clock"></i>
         </div>
@@ -68,18 +109,101 @@ render: ( ) ->
 update: ( output, domEl ) ->
   output = output.split( /:::/g )
 
-  time   = output[ 0 ]
-  wifi = output[ 1 ]
-  date = output[ 2 ]
-  #weatherdata = output[ 7 ]
+  volume   = output[ 0 ]
+  ismuted  = output[ 1 ]
+  brightness = output[ 2 ]
+  battery = output[ 3 ]
+  ischarging  = output[ 4 ]
+  wifi = output[ 5 ]
+  isconnected = output[ 6 ]
+  time = output[ 7 ]
+  date = output[ 8 ]
+  weatherdata = output[ 9 ]
 
 
-  $(domEl).find( "#time-output" ).text( "#{ time }" )
-  $(domEl).find( "#date-output" ).text( "#{ date }" )
-  $(domEl).find( "#wifi-output").text("#{ wifi }")
+  $( "#wifi-output").text("#{ wifi }")
+  $( "#time-output").text("#{ time }")
+  $( "#date-output").text("#{ date }")
+  $( "#battery-output") .text("#{ battery }")
 
+  @handleBattery( domEl, Number( battery.replace( /%/g, "" ) ), ischarging )
   @handleWifi( domEl, wifi )
+  @handleVolume( domEl, Number( volume ), ismuted )
+  @handleBrightness( domEl, brightness )
+
   #@handleWeather( domEl, weatherdata )
+
+#
+# ─── HANDLE BRIGHTNESS ─────────────────────────────────────────────────────────
+handleBrightness: (domEl, brightness ) ->
+  brightness = Math.round(100*brightness) + 2
+  $("#brightness-output").text("#{brightness}")
+  $( "#brightness-bar-color-output" ).width( "#{brightness}%" )
+
+#
+#
+# ─── HANDLE VOLUME ─────────────────────────────────────────────────────────
+#
+
+handleVolume: ( domEl, volume, ismuted ) ->
+  div = $( domEl )
+
+  volumeIcon = switch
+    when volume ==   0 then "fa-volume-off"
+    when volume <=  50 then "fa-volume-down"
+    when volume <= 100 then "fa-volume-up"
+
+  #
+  # div.find("#volume").removeClass('blue')
+  # div.find("#volume").removeClass('red')
+  #
+  # if ismuted != 'true'
+  #   div.find( "#volume-output").text("#{ volume }")
+  #   div.find('#volume').addClass('blue')
+  #   div.find('#volume-icon-container').addClass('blue')
+  # else
+  #   div.find( "#volume-output").text("Muted")
+  #   volumeIcon = "fa-volume-off"
+  #   div.find('#volume').addClass('red')
+  #   div.find('#volume-icon-container').addClass('red')
+
+  $("#volume-output").text("#{volume}")
+  $( "#volume-icon" ).html( "<i class=\"fa #{ volumeIcon }\"></i>" )
+  $( "#volume-bar-color-output" ).width( "#{volume}%" )
+
+
+#
+# ─── HANDLE BATTERY ─────────────────────────────────────────────────────────
+#
+
+handleBattery: ( domEl, percentage, ischarging ) ->
+  div = $( domEl )
+
+  batteryIcon = switch
+    when percentage <=  12 then "fa-battery-empty"
+    when percentage <=  25 then "fa-battery-quarter"
+    when percentage <=  50 then "fa-battery-half"
+    when percentage <=  75 then "fa-battery-three-quarters"
+    when percentage <= 100 then "fa-battery-full"
+
+
+  div.find("#battery").removeClass('green')
+  div.find("#battery").removeClass('yellow')
+  div.find("#battery").removeClass('red')
+
+  if percentage >= 35
+    div.find('#battery').addClass('green')
+    div.find('#battery-icon-container').addClass('green')
+  else if percentage >= 15
+    div.find('#battery').addClass('yellow')
+    div.find('#battery-icon-container').addClass('yellow')
+  else
+    div.find('#battery').addClass('red')
+    div.find('#battery-icon-container').addClass('red')
+
+  if ischarging == "true"
+    batteryIcon = "fas fa-bolt"
+  $( ".battery-icon" ).html( "<i class=\"fa #{ batteryIcon }\"></i>" )
 
 #
 # ─── HANDLE WEATHER ─────────────────────────────────────────────────────────
