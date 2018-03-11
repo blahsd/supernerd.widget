@@ -3,17 +3,12 @@ commands =
   cpu : "ps -A -o %cpu | awk '{s+=$1} END {printf(\"%.2f\",s/8);}'"
   mem : "ps -A -o %mem | awk '{s+=$1} END {print s \"%\"}' "
   hdd : "df -hl | awk '{s+=$5} END {print s \"%\"}'"
-  battery : "pmset -g batt | egrep '([0-9]+\%).*' -o --colour=auto | cut -f1 -d';'"
-  ischarging : "sh ./supernerd.widget/scripts/ischarging.sh"
 
 
 command: "echo " +
          "$(#{ commands.cpu }):::" +
          "$(#{ commands.mem }):::" +
-         "$(#{ commands.hdd }):::" +
-         "$(#{ commands.battery }):::" +
-         "$(#{ commands.ischarging }):::"
-
+         "$(#{ commands.hdd }):::"
 refreshFrequency: '1m'
 
 render: ( ) ->
@@ -41,12 +36,6 @@ render: ( ) ->
               <span class="output" id="hdd-output"></span>
           </div>
 
-          <div class="widg" id="battery">
-            <div class="icon-container" id='battery-icon-container'>
-            <i class="battery-icon"></i>
-            </div>
-            <span class="output" id='battery-output'></span>
-          </div>
 
     </div>
   """
@@ -57,52 +46,14 @@ update: ( output, domEl ) ->
   cpu = output[ 0 ]
   mem = output[ 1 ]
   hdd = output[ 2 ]
-  battery = output[ 3 ]
-  ischarging = output[ 4 ]
 
   $( "#cpu-output") .text("#{ cpu }")
   $( "#mem-output") .text("#{ mem }")
-  $( "#hdd-output") .text("#{ hdd }")
-  $( "#battery-output") .text("#{ battery }")
 
   @handleSysmon( domEl, Number( cpu ), '#cpu' )
   @handleSysmon( domEl, Number( mem.replace( /%/g, "") ), '#mem' )
   @handleSysmon( domEl, Number( hdd.replace( /%/g, "") ), '#hdd' )
 
-  @handleBattery( domEl, Number( battery.replace( /%/g, "" ) ), ischarging )
-
-#
-# ─── HANDLE BATTERY ─────────────────────────────────────────────────────────
-#
-
-handleBattery: ( domEl, percentage, ischarging ) ->
-  div = $( domEl )
-
-  batteryIcon = switch
-    when percentage <=  12 then "fa-battery-empty"
-    when percentage <=  25 then "fa-battery-quarter"
-    when percentage <=  50 then "fa-battery-half"
-    when percentage <=  75 then "fa-battery-three-quarters"
-    when percentage <= 100 then "fa-battery-full"
-
-
-  div.find("#battery").removeClass('green')
-  div.find("#battery").removeClass('yellow')
-  div.find("#battery").removeClass('red')
-
-  if percentage >= 35
-    div.find('#battery').addClass('green')
-    div.find('#battery-icon-container').addClass('green')
-  else if percentage >= 15
-    div.find('#battery').addClass('yellow')
-    div.find('#battery-icon-container').addClass('yellow')
-  else
-    div.find('#battery').addClass('red')
-    div.find('#battery-icon-container').addClass('red')
-
-  if ischarging == "true"
-    batteryIcon = "fas fa-bolt"
-  $( ".battery-icon" ).html( "<i class=\"fa #{ batteryIcon }\"></i>" )
 
 #
 # ─── HANDLE SYSMON –─────────────────────────────────────────────────────────

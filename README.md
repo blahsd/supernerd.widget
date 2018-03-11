@@ -60,14 +60,29 @@ Select it by Find+Replace `default.css` in `bar-top.coffee` with the name of the
 
 # Installation
 (You know you want it.)
+1. Install Brew. In a terminal, run:
+```ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null 2>  /dev/null ; brew install caskroom/cask/brew-cask 2> /dev/null```
 
-1. [Install Übersicht](http://tracesof.net/uebersicht/).
+2. Install Übersicht. Run:
+```brew cask install ubersicht```
 
-2. Clone this repository to your Übersicht widgets:
+Alternatively, you can download it from [its own website](http://tracesof.net/uebersicht/), which I don't recommend. Learn to use brew. Brew is love, brew is life.
+
+3. Install Supernerd. Run:
 
 ```bash
 git clone https://github.com/blahsd/supernerd.widget $HOME/Library/Application\ Support/Übersicht/widgets
 ```
+
+## Some more setup for some specific shit
+All of the following are optional.
+
+* **Brightness**    Unfortunately there is no native support for what I wanted to do with brightness. Therefore, if you want the relative widget to actually work, you'll have to run the following:
+
+```brew install brightness```
+
+* **Weather**     Even more unfortunately, DarkSky's free version (which is what I use) only allows a limited number of calls to the API. This means that if enough of you fucks use my widget the way it was setup before (which is with my private API key) I myself don't get to use it no more. So you're gonna need to get your own private API key (free) here: https://darksky.net/dev and put it in scripts/weather-update.sh. You'll see where. 
+
 
 # Credits
 * [davidlday](https://github.com/davidlday/): this man gave us CSS separated from the code logic. He made it possible to have each widget split in a different file while maintaining the level of customisability we're used to. No way to thank him enough.

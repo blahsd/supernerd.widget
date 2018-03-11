@@ -13,7 +13,9 @@ refreshFrequency: '1s'
 
 render: ( ) ->
   """
-    <div class="container" id="task-container">
+    <div class='widg open' id='task'>
+      <div class="container " id="task-container">
+      </div>
     </div>
 
   """
@@ -49,6 +51,11 @@ getIcon: ( processName ) -> # No spaces, no numbers in the app name.
     when processName == "Airmail" then "far fa-envelope"
     when processName == "Spark" then "far fa-envelope"
     else "far fa-window-maximize"
+
+  if icon == "far fa-window-maximize"
+    if processName.search("Win") > -1 || processName.search("prl") > -1 #parallels apps
+      icon = "fab fa-windows"
+
   return icon
 
 update: ( output, domEl ) ->
@@ -64,7 +71,7 @@ update: ( output, domEl ) ->
     process = process.trim()
     processIcon = @getIcon(process)
     $( "#task-container" ).append("""
-  <div class="widg " id="open /Applications/#{ process }.app">
+  <div class="widg" id="open /Applications/#{ process }.app">
     <div class="icon-container" id="#{ process }-icon-container">
       <i class="#{ processIcon }"></i>
     </div>
