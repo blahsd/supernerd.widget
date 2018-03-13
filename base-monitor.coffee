@@ -38,11 +38,12 @@ command: "echo " +
          "$(#{ commands.date }):::" +
          "$(#{ commands.weather }):::"
 
-refreshFrequency: '30s'
+refreshFrequency: '1s'
 
 render: ( ) ->
   """
     <div class="container">
+    <span id="valueHolder" value="10"></span>
 
       <div class="widg" id="volume">
         <div class="icon-container" id='volume-icon-container'>
@@ -111,26 +112,34 @@ render: ( ) ->
 update: ( output, domEl ) ->
   output = output.split( /:::/g )
 
-  volume   = output[ 0 ]
-  ismuted  = output[ 1 ]
-  brightness = output[ 2 ]
-  battery = output[ 3 ]
-  ischarging  = output[ 4 ]
-  wifi = output[ 5 ]
-  isconnected = output[ 6 ]
-  time = output[ 7 ]
-  date = output[ 8 ]
-  weatherdata = output[ 9 ]
+  values = []
+
+  values.volume   = output[ 0 ]
+  values.ismuted  = output[ 1 ]
+  values.brightness = output[ 2 ]
+  values.battery = output[ 3 ]
+  values.ischarging  = output[ 4 ]
+  values.wifi = output[ 5 ]
+  values.isconnected = output[ 6 ]
+  values.time = output[ 7 ]
+  values.date = output[ 8 ]
+  values.weatherdata = output[ 9 ]
 
 
-  $( "#time-output").text("#{ time }")
-  $( "#date-output").text("#{ date }")
-  $( "#battery-output") .text("#{ battery }")
+  controls = ['time','date','battery','volume','wifi']
+  for control in controls
+    outputId = "#"+control+"-output"
+    currentValue = $("#{outputId}").value
+    updatedValue = values[control]
 
-  @handleBattery( domEl, Number( battery.replace( /%/g, "" ) ), ischarging )
-  @handleWifi( domEl, wifi )
-  @handleVolume( domEl, Number( volume ), ismuted )
-  @handleBrightness( domEl, brightness )
+    if updatedValue != currentValue
+      $("#{ outputId }").text("#{ updatedValue }")
+
+      if control is 'battery'
+         @handleBattery( domEl, Number( values["battery"].replace( /%/g, "" ) ), values["ischarging"] )
+      else if control is 'wifi' then @handleWifi( domEl, values["wifi"] )
+      else if control is  'volume' then @handleVolume( domEl, Number( values["volume"]), values["ismuted"] )
+      else if control is 'brightness' then @handleBrightness( domEl, values["brightness"] )
 
   #@handleWeather( domEl, weatherdata )
 

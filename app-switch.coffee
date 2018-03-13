@@ -84,7 +84,7 @@ update: ( output, domEl ) ->
   if focus[0].trim()=='?'
     return
   else
-    $(domEl).find("#"+"#{focus[0].trim()}-link").parent().addClass('pinned')
+    #$(domEl).find("#"+"#{focus[0].trim()}-link").parent().addClass('pinned')   #comment out this for the task manager
 
 toggleRefresh: (domEl, e) -> #doesnt work
   if $(e).hasClass('pinned')

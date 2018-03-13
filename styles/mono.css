@@ -5,7 +5,7 @@
 :root {
   --width: 100%;
   --global_margin: 0px;
-  --line-size: 32px;
+  --line-size: 24px;
 }
 
 /* ––––––––––––––––
@@ -66,9 +66,8 @@
 .link {
   padding:8px;
   display:none;
+
 }
-
-
 
 /* ––––––––––––––––
 ––––––––––––––––––– BEHAVIOUR (pinned, open, alt)
