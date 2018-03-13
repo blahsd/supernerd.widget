@@ -20,8 +20,19 @@ render: ( ) ->
   """
 
 update: ( output, domEl ) ->
-  activedesk = output.split( /:::/g )[ 0 ]
-  $(domEl).find("#desktop-output").text("#{activedesk}")
+  values = []
+  values.desktop = output.split( /:::/g )[ 0 ]
+
+  controls = ['desktop']
+  for control in controls
+    outputId = "#"+control+"-output"
+    currentValue = $("#{outputId}").value
+    updatedValue = values[control]
+
+    if updatedValue != currentValue
+      $("#{ outputId }").text("#{ updatedValue }")
+
+  #$(domEl).find("#desktop-output").text("#{activedesk}")
   #$(domEl).on 'click', "#home-icon-container", (e) -> #switch to desktop 1??
 
 
