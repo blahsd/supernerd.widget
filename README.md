@@ -74,10 +74,7 @@ Select it by Find+Replace `default.css` in `bar-top.coffee` with the name of the
 Alternatively, you can download it from [its own website](http://tracesof.net/uebersicht/), which I don't recommend. Learn to use brew. Brew is love, brew is life.
 
 3. Install Supernerd. Run:
-
-```bash
-git clone https://github.com/blahsd/supernerd.widget $HOME/Library/Application\ Support/Übersicht/widgets
-```
+```git clone https://github.com/blahsd/supernerd.widget $HOME/Library/Application\ Support/Übersicht/widgets/supernerd.widget```
 
 ## Some more setup for some specific shit
 All of the following are optional.
