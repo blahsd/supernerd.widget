@@ -66,6 +66,16 @@
 .link {
   padding:8px;
   display:none;
+<<<<<<< HEAD
+=======
+
+}
+
+i {
+  filter:grayscale();
+  font-style: normal;
+}
+>>>>>>> greendev
 
 }
 
