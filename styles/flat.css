@@ -3,7 +3,7 @@
 ––––––––––––––––––– */
 
 :root {
-  --width: 40%;
+  --width: 100%;
   --global_margin: 0px;
   --line-size: 24px;
 }
@@ -35,7 +35,7 @@
   z-index:-1;
   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);
   border-radius: 2px;
-  opacity:0.8;
+
 }
 
 .icon-container {
@@ -79,7 +79,7 @@
 .pinned .icon-container {
   color:var(--background);
   background-color: var(--foreground);
-  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
+
 }
 
 .pinned .output {
@@ -163,7 +163,6 @@ color:var(--color2);
 #play .pinned {
   color:var(--foreground);
   background-color: var(--background);
-  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
 }
 
 /* These have to be defined by ID because they are acted upon individually by

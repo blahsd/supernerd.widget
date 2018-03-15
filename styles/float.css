@@ -3,18 +3,16 @@
 ––––––––––––––––––– */
 
 :root {
-  --width: 40%;
-  --global_margin: 0px;
-  --line-size: 24px;
+  --global_margin: 16px;
+  --left-margin: 32px;
+  --right-margin: 1024px;
+  --line-size: 48px;
+  --central_widget_size: 72px;
 }
 
 /* ––––––––––––––––
 ––––––––––––––––––– GENERAL
 ––––––––––––––––––– */
-
-.divider {
-  width:40px;
-}
 
 .widg {
   color:var(--foreground);
@@ -33,9 +31,8 @@
   height:var(--line-size);
   position:relative;
   z-index:-1;
-  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.4);
   border-radius: 2px;
-  opacity:0.8;
 }
 
 .icon-container {
@@ -52,8 +49,10 @@
   overflow:hidden;
   white-space: nowrap;
   display: none;
-  margin-left:4px;
-  margin-right: 4px;
+  width:var(--line-size);
+  padding-left:4px;
+  padding-right: 4px;
+  color:var(--foreground) !important;
 }
 
 .bar-output {
@@ -79,7 +78,7 @@
 .pinned .icon-container {
   color:var(--background);
   background-color: var(--foreground);
-  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
+
 }
 
 .pinned .output {
@@ -163,7 +162,6 @@ color:var(--color2);
 #play .pinned {
   color:var(--foreground);
   background-color: var(--background);
-  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
 }
 
 /* These have to be defined by ID because they are acted upon individually by
@@ -199,18 +197,18 @@ the script. So don't think of sanitizing them to classes */
   bottom:var(--global_margin);
 }
 #supernerd-widget-bar-top-coffee, #supernerd-widget-bar-bottom-coffee {
-  left:var(--global_margin);
-  right:var(--global_margin);
+  left:var(--left-margin);
+  right:var(--right-margin);
 }
 
 #supernerd-widget-desktop-coffee {
-  left:var(--global_margin);
+  left:var(--left-margin);
   top:var(--global_margin);
 }
 
 #supernerd-widget-music-player-coffee {
   bottom:var(--global_margin);
-  left:var(--global_margin);
+  left:var(--left-margin);
   display:inline;
   white-space: nowrap;
   text-overflow:ellipsis;
@@ -226,7 +224,7 @@ the script. So don't think of sanitizing them to classes */
 
 #supernerd-widget-window-coffee {
   top:var(--global_margin);
-  width:var(--width);
+  width:auto;
   display:flex;
   align-items: center;
   justify-content: center;
@@ -234,7 +232,7 @@ the script. So don't think of sanitizing them to classes */
 
 #supernerd-widget-base-monitor-coffee {
   top:var(--global_margin);
-  right:var(--global_margin);
+  right:var(--right-margin);
   width:auto;
 }
 #wifi .output {
@@ -249,15 +247,13 @@ the script. So don't think of sanitizing them to classes */
 
 #supernerd-widget-system-monitor-coffee {
   bottom:var(--global_margin);
-  right:var(--global_margin);
-  width:auto;
+  right:var(--right-margin);
+
 }
 
 #supernerd-widget-app-switch-coffee {
   top:var(--global_margin);
   width:auto;
-  left:33%;
-  right:33%;
   display:flex;
   justify-content: center;
 }
@@ -265,13 +261,13 @@ the script. So don't think of sanitizing them to classes */
 #supernerd-widget-time-date-coffee {
   top:var(--global_margin);
   width:auto;
-  left:33%;
-  right:33%;
+  left:calc( 1.1 * var(--left-margin));
+  right:calc( 1.1 * var(--right-margin));
   display:flex;
   justify-content: center;
 }
 #supernerd-widget-time-date-coffee .output {
-width: 72px;
+  width: var(--central_widget_size);
 }
 #supernerd-widget-time-date-coffee #time-output {
   justify-content: right;
@@ -286,8 +282,4 @@ width: 72px;
 @keyframes slideout {
   from { width:1px; }
   to { width:24px; }
-}
-
-.output {
-  color:var(--foreground); /*what*/
 }

@@ -1,13 +1,10 @@
 commands =
   volume : "osascript -e 'output volume of (get volume settings)'"
   ismuted : "osascript -e 'output muted of (get volume settings)'"
-  brightness: "sh ./supernerd.widget/scripts/getbrightness.sh"
   battery : "pmset -g batt | egrep '([0-9]+\%).*' -o --colour=auto | cut -f1 -d';'"
   ischarging : "sh ./supernerd.widget/scripts/ischarging.sh"
   wifi: "/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -I | sed -e \"s/^ *SSID: //p\" -e d"
   isconnected: "echo true"
-  time: "date +\"%H:%M\""
-  date  : "date +\"%a %d %b\""
   focus : "/usr/local/bin/chunkc tiling::query --window name"
   playing: "osascript -e 'tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
   weather: "cat ./supernerd.widget/lib/weather.txt"
@@ -29,16 +26,13 @@ iconMapping:
 command: "echo " +
          "$(#{ commands.volume }):::" +
          "$(#{ commands.ismuted }):::" +
-         "$(#{ commands.brightness }):::" +
          "$(#{ commands.battery }):::" +
          "$(#{ commands.ischarging }):::" +
          "$(#{ commands.wifi }):::" +
          "$(#{ commands.isconnected }):::" +
-         "$(#{ commands.time }):::" +
-         "$(#{ commands.date }):::" +
          "$(#{ commands.weather }):::"
 
-refreshFrequency: '1s'
+refreshFrequency: '10s'
 
 render: ( ) ->
   """
@@ -57,19 +51,6 @@ render: ( ) ->
         <span class="output" id='volume-output'></span>
       </div>
 
-
-      <div class="widg " id="brightness">
-        <div class="icon-container" id='brightness-icon-container'>
-          <i class="fas fa-sun"></i>
-        </div>
-        <span class='output'>
-          <div class="bar-output" id="brightness-bar-output">
-            <div class="bar-output" id="brightness-bar-color-output"></div>
-          </div>
-        </span>
-        <span class="output" id='brightness-output'></span>
-      </div>
-
       <div class="widg" id="wifi">
         <div class="icon-container" id='wifi-icon-container'>
           <i class="fa fa-wifi"></i>
@@ -86,20 +67,6 @@ render: ( ) ->
       </div>
 
 
-      <div class="widg pinned" id="time">
-        <div class="icon-container" id='time-icon-container'>
-          <i class="far fa-clock"></i>
-        </div>
-        <span class="output" id='time-output'></span>
-      </div>
-
-
-      <div class="widg" id="date">
-        <div class="icon-container" id='date-icon-container'>
-        <i class="far fa-calendar-alt"></i>
-        </div>
-        <span class="output" id='date-output'></span>
-      </div>
       <div class="widg" id="weather">
         <div class="icon-container" id="weather-icon-container">
           <i class="weather-icon"></i>
@@ -116,17 +83,14 @@ update: ( output, domEl ) ->
 
   values.volume   = output[ 0 ]
   values.ismuted  = output[ 1 ]
-  values.brightness = output[ 2 ]
-  values.battery = output[ 3 ]
-  values.ischarging  = output[ 4 ]
-  values.wifi = output[ 5 ]
-  values.isconnected = output[ 6 ]
-  values.time = output[ 7 ]
-  values.date = output[ 8 ]
-  values.weatherdata = output[ 9 ]
+  values.battery = output[ 2 ]
+  values.ischarging  = output[ 3 ]
+  values.wifi = output[ 4 ]
+  values.isconnected = output[ 5 ]
+  values.weatherdata = output[ 6 ]
 
 
-  controls = ['time','date','battery','volume','wifi']
+  controls = ['battery','volume','wifi']
   for control in controls
     outputId = "#"+control+"-output"
     currentValue = $("#{outputId}").value

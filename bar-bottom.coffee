@@ -1,3 +1,4 @@
+refreshFrequency: false
 
 render: ( ) ->
   """
@@ -6,4 +7,3 @@ render: ( ) ->
     </div>
   </div>
   """
-

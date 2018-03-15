@@ -9,7 +9,8 @@ command: "echo " +
          "$(#{ commands.cpu }):::" +
          "$(#{ commands.mem }):::" +
          "$(#{ commands.hdd }):::"
-refreshFrequency: '10m'
+
+refreshFrequency: false
 
 render: ( ) ->
   """

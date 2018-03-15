@@ -14,7 +14,7 @@ command: "echo " +
          "$(#{ commands.itunes}):::" +
          "$(#{ commands.spotify})"
 
-refreshFrequency: '2s'
+refreshFrequency: false
 
 render: ( ) ->
   """
@@ -44,10 +44,14 @@ update: ( output, domEl ) ->
 
   if isspotifyplaying
     @handlePlayIcon(domEl, true)
-    $( "#play-output").text("#{ spotify }")
+    @handlePlayIcon(domEl, true)
+    @run "osascript -e 'if application \"Spotify\" is running then tell application \"Spotify\" to if player state is playing then artist of current track & \" - \" & name of current track'", (err, output) ->
+      $(domEl).find('#play-output').text(output)
   else if isitunesplaying
     @handlePlayIcon(domEl, true)
-    $( "#play-output").text("#{ itunes }")
+    @handlePlayIcon(domEl, true)
+    @run "osascript -e 'if application \"iTunes\" is running then tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'", (err, output) ->
+      $(domEl).find('#play-output').text(output)
   else if not isspotifyplaying && not isitunesplaying
     @handlePlayIcon(domEl, false)
     $( "#play-output").text("Paused")
@@ -58,6 +62,7 @@ update: ( output, domEl ) ->
 handlePlay: (domEl, status) ->
   @run "osascript -e 'tell application \"iTunes\" to playpause'"
   @handlePlayIcon(domEl, status)
+  @refresh()
 
 handlePlayIcon: (domEl, status) ->
   if status == 'NULL'
@@ -79,6 +84,7 @@ handleNext: (domEl) ->
   @run "osascript -e 'tell application \"iTunes\" to next track'"
   $(domEl).find('#play-button').removeClass()
   $(domEl).find('#play-button').addClass('fas fa-pause')
+  @refresh()
 
 afterRender: (domEl) ->
   $(domEl).on 'click', '#home', => @run "open ~/"
