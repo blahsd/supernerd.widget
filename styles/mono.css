@@ -3,10 +3,10 @@
 ––––––––––––––––––– */
 
 :root {
-  --global_margin: 0px;
-  --left-margin: 0px;
-  --right-margin: 0px;
-  --line-size: 24px;
+  --global_margin: 8px;
+  --left-margin: 256px;
+  --right-margin: 256px;
+  --line-size: 48px;
 
   --shadow_opacity:1;
   --bar_opacity:1;
@@ -33,7 +33,7 @@
   height:var(--line-size);
   position:relative;
   z-index:-1;
-  /*box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);*/
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
   border-radius: 1px;
   opacity:var(--bar_opacity)
 }
@@ -52,11 +52,9 @@
   overflow:hidden;
   white-space: nowrap;
   display: none;
-  min-width:var(--line-size);
-  width:auto;
-  padding-left:4px;
-  padding-right: 4px;
-  color:var(--foreground) !important;
+  margin-left:8px;
+  margin-right:8px;
+  color:var(--foreground);
 }
 
 .bar-output {
@@ -66,42 +64,39 @@
   display:block
 }
 
-.alt {
-  display:none;
-}
-
 .link {
   padding:8px;
   display:none;
+}
+
+.overflow-container {
+  width:210px;
 }
 
 
 /* ––––––––––––––––
 ––––––––––––––––––– BEHAVIOUR (pinned, open, alt)
 ––––––––––––––––––– */
+
 .pinned .icon-container {
   color:var(--background);
   background-color: var(--foreground);
-  /*box-shadow: inset 0px 1px 2px 0px rgba(0,0,0, 0 );*/
+  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0, 0 );
 }
 
 .open .output {
-  display: inline;
-  animation: slideout 0.2s;
+  display: flex;
+  /*animation: slideout 0.2s;*/
 }
 
 .pinned .output {
-  display: inline;
+  display: flex;
   animation: none;
 }
 
-.nohidden .output {
-  display: inline;
+.output.nohidden {
+  display: flex;
 }
-.alt {
-  display:none;
-}
-
 
 .red {
   color:var(--color1);
@@ -126,6 +121,9 @@ color:var(--color2);
 }
 .black {
   color:var(--background);
+}
+.output {
+  color:var(--foreground);
 }
 
 .pinned.red .icon-container {
@@ -153,22 +151,19 @@ color:var(--color2);
   background-color:var(--color6);
 }
 
-
-
-
 /* ––––––––––––––––
 ––––––––––––––––––– SPECIAL BEHAVIOR (PER WIDGET)
 ––––––––––––––––––– */
-
-#play {
-  width: 240px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 #play .pinned {
   color:var(--foreground);
   background-color: var(--background);
+}
+
+#time{
+  background-color: var(--color3);
+}
+#time-output {
+  color:var(--background);
 }
 
 /* These have to be defined by ID because they are acted upon individually by
@@ -191,11 +186,6 @@ the script. So don't think of sanitizing them to classes */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-#time {
-  color:var(--background);
-  background-color:var(--color4);
 }
 
 /* ––––––––––––––––
@@ -226,11 +216,7 @@ the script. So don't think of sanitizing them to classes */
   overflow: hidden;
 }
 #play .output {
-  width:80px;
-}
-#play .bar-output {
-  width:124px;
-  height:4px;
+  width:auto;
 }
 
 #supernerd-widget-window-coffee {
@@ -265,11 +251,14 @@ the script. So don't think of sanitizing them to classes */
 
 #supernerd-widget-time-date-coffee {
   top:var(--global_margin);
-
   left:calc( 1.1 * var(--left-margin));
   right:calc( 1.1 * var(--right-margin));
   display:flex;
   justify-content: center;
+}
+#supernerd-widget-time-date-coffee .output {
+  justify-content: center;
+  width: 70px;
 }
 
 /* ––––––––––––––––

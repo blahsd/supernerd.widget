@@ -19,15 +19,24 @@ refreshFrequency: false
 render: ( ) ->
   """
     <div class="container">
-        <div class="widg" id="play">
-          <div class="icon-container" id="play-icon-container">
-            <i class="fas fa-play" id="play-button"></i>
-          </div>
-          <div class="icon-container" id="next-icon-container">
-            <i class="fas fa-step-forward" id="next-button"></i>
-          </div>
-          <span class="static-output" id='play-output'></span>
+
+      <div class="widg pinned" id="home">
+        <div class="icon-container" id="home-icon-container">
+         <i class="far fa-home"></i>
         </div>
+      </div>
+
+      <div class="widg" id="play">
+        <div class="icon-container" id="play-icon-container">
+          <i class="fas fa-play" id="play-button"></i>
+        </div>
+        <div class="icon-container" id="next-icon-container">
+          <i class="fas fa-step-forward" id="next-button"></i>
+        </div>
+        <div class="overflow-container">
+          <span class="output nohidden" id='play-output'></span>
+        </div>
+      </div>
 
     </div>
   """
@@ -54,7 +63,7 @@ update: ( output, domEl ) ->
       $(domEl).find('#play-output').text(output)
   else if not isspotifyplaying && not isitunesplaying
     @handlePlayIcon(domEl, false)
-    $( "#play-output").text("Paused")
+    $( "#play-output").text("")
 #
 # ─── HANDLES  ─────────────────────────────────────────────────────────
 #
@@ -74,11 +83,10 @@ handlePlayIcon: (domEl, status) ->
   if status == true
     $(domEl).find('#play-button').removeClass()
     $(domEl).find('#play-button').addClass('fas fa-pause')
-    $(domEl).find('#play').addClass('open')
   else
     $(domEl).find('#play-button').removeClass()
     $(domEl).find('#play-button').addClass('fas fa-play')
-    $(domEl).find('#play').removeClass('open')
+
 
 handleNext: (domEl) ->
   @run "osascript -e 'tell application \"iTunes\" to next track'"
@@ -95,16 +103,6 @@ afterRender: (domEl) ->
 #
 # ─── ANIMATION  ─────────────────────────────────────────────────────────
 #
-  # ---- OPEN
-  $(domEl).on 'mouseover', ".widg", (e) => $(domEl).find( $($(e.target))).addClass('open')
-  $(domEl).on 'mouseover', ".icon-container", (e) => $(domEl).find( $($(e.target))).parent().addClass('open')
-  $(domEl).on 'mouseover', ".output", (e) => $(domEl).find( $($(e.target))).parent().addClass('open')
-
-  $(domEl).on 'mouseout', ".widg", (e) => $(domEl).find( $($(e.target))).removeClass('open')
-  $(domEl).on 'mouseout', ".icon-container", (e) => $(domEl).find( $($(e.target))).parent().removeClass('open')
-  $(domEl).on 'mouseout', ".output", (e) => $(domEl).find( $($(e.target))).parent().removeClass('open')
-
-  #$(domEl).on 'click', ".widg", (e) => @toggleOption( domEl, e, 'pinned')
 #
 # ─── CLICKS  ─────────────────────────────────────────────────────────
 #

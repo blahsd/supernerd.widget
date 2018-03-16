@@ -6,6 +6,8 @@ apiKey: "[API KEY]"
 # I'M NOT SURE IF THIS IS ACTUALLY WORKING. PLEASE LET ME KNOW IF IT SHOWS THE
 # THE CORRECT WEATHER FOR YOUR LOCATION.
 
+# Powered by: DARKSKY   https://darksky.net/poweredby/
+
 commands =
   date  : "date +\"%a %d %b\""
   weather : "sh ./supernerd.widget/scripts/getweather.sh '[API KEY]' '45.4391,8.8855'"
@@ -14,9 +16,9 @@ iconMapping:
   "rain"                :"fas fa-tint"
   "snow"                :"fas fa-snowflake"
   "fog"                 :"fas fa-braille"
-  "cloudy"              :"fas fa-cloud"
+  "cloudy"              :"fas fa-sun"
   "wind"                :"fas fa-align-left"
-  "clear-day"           :"fas fa-sun"
+  "clear-day"           :"fas fa-cloud"
   "mostly-clear-day"    :"fas fa-adjust"
   "partly-cloudy-day"   :"fas fa-cloud"
   "clear-night"         :"fas fa-star"
@@ -32,8 +34,8 @@ refreshFrequency: '30m'
 render: ( ) ->
   """
     <div class="container">
-          <div class="widg nohidden" id="date">
-            <span class="output" id="date-output"></span>
+          <div class="widg" id="date">
+            <span class="output nohidden" id="date-output"></span>
           </div>
           <div class="widg" id="weather">
             <div class="icon-container" id="weather-icon-container">
@@ -78,7 +80,7 @@ handleWeather: ( domEl, weatherdata ) ->
 
   $(domEl).find('#weather-output').text(String (Math.round(today.temperatureMax)+'°'))
   $(domEl).find('#weather-ext-output').text(String(today.summary))
-  $(domEl).find( ".weather-icon" ).html( "<i class=\"fa #{ @getIcon(today) }\"></i>" )
+  $(domEl).find( "#weather-icon-container" ).html( "<i class=\"fa #{ @getIcon(today) }\"></i>" )
 
 
   $(domEl).find("#weather").removeClass('red')

@@ -48,7 +48,7 @@ update: ( output, domEl ) ->
   mem = output[ 1 ]
   hdd = output[ 2 ]
 
-  $( "#cpu-output").text("#{ cpu }")
+  $( "#cpu-output").text("#{ cpu }%")
   $( "#mem-output").text("#{ mem }")
   $( "#hdd-output").text("#{ hdd }")
 

@@ -15,7 +15,6 @@ render: ( ) ->
         </div>
         <span class="output" id="desktop-output">1</span>
       </div>
-
     </div>
   """
 
