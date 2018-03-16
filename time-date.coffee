@@ -10,7 +10,7 @@ apiKey: "[API KEY]"
 
 commands =
   date  : "date +\"%a %d %b\""
-  weather : "sh ./supernerd.widget/scripts/getweather.sh '[API KEY]' '45.4391,8.8855'"
+  weather : "sh ./supernerd.widget/scripts/getweather.sh '[API KEY]' '25.4391,63.8855'"
 
 iconMapping:
   "rain"                :"fas fa-tint"
