@@ -1,4 +1,4 @@
-apiKey: "2cce4b1c672a629683665a70e987fcde"
+apiKey: "[API KEY]"
 
 # [API KEY] : Get it for free at forecast.io. You'll need a (free) developer account.
 #             IT LOOKS LIKE THIS: 2cce4b1c672a119283665a74e987fcde (this one's fake)
@@ -8,7 +8,7 @@ apiKey: "2cce4b1c672a629683665a70e987fcde"
 
 commands =
   date  : "date +\"%a %d %b\""
-  weather : "sh ./supernerd.widget/scripts/getweather.sh '2cce4b1c672a629683665a70e987fcde' '45.4391,8.8855'"
+  weather : "sh ./supernerd.widget/scripts/getweather.sh '[API KEY]' '45.4391,8.8855'"
 
 iconMapping:
   "rain"                :"fas fa-tint"
