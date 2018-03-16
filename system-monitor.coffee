@@ -30,7 +30,7 @@ render: ( ) ->
             <span class="output" id="mem-output"></span>
           </div>
 
-          <div class="widg open" id="hdd">
+          <div class="widg" id="hdd">
           <div class="icon-container" id='hdd-icon-container'>
             <i class="fas fa-hdd"></i>
             </div>

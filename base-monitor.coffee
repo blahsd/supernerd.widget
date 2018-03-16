@@ -7,21 +7,8 @@ commands =
   isconnected: "echo true"
   focus : "/usr/local/bin/chunkc tiling::query --window name"
   playing: "osascript -e 'tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
-  weather: "cat ./supernerd.widget/lib/weather.txt"
+  time: "date +\"%H:%M\""
 
-
-iconMapping:
-  "rain"                :"fas fa-tint"
-  "snow"                :"fas fa-snowflake"
-  "fog"                 :"fas fa-braille"
-  "cloudy"              :"fas fa-cloud"
-  "wind"                :"fas fa-align-left"
-  "clear-day"           :"fas fa-sun"
-  "mostly-clear-day"    :"fas fa-adjust"
-  "partly-cloudy-day"   :"fas fa-cloud"
-  "clear-night"         :"fas fa-star"
-  "partly-cloudy-night" :"fal fa-adjust"
-  "unknown"             :"fas fa-question"
 
 command: "echo " +
          "$(#{ commands.volume }):::" +
@@ -30,7 +17,7 @@ command: "echo " +
          "$(#{ commands.ischarging }):::" +
          "$(#{ commands.wifi }):::" +
          "$(#{ commands.isconnected }):::" +
-         "$(#{ commands.weather }):::"
+         "$(#{ commands.time }):::"
 
 refreshFrequency: '10s'
 
@@ -58,7 +45,6 @@ render: ( ) ->
         <span class="output" id='wifi-output'></span>
       </div>
 
-
       <div class="widg pinned" id="battery">
         <div class="icon-container" id='battery-icon-container'>
         <i class="battery-icon"></i>
@@ -66,13 +52,10 @@ render: ( ) ->
         <span class="output" id='battery-output'></span>
       </div>
 
-
-      <div class="widg" id="weather">
-        <div class="icon-container" id="weather-icon-container">
-          <i class="weather-icon"></i>
-        </div>
-        <span class="output" id="weather-output">Loading</span>
+      <div class="widg pinned red" id="time">
+        <span class="output pinned" id="time-output"></span>
       </div>
+
     </div>
   """
 
@@ -87,10 +70,10 @@ update: ( output, domEl ) ->
   values.ischarging  = output[ 3 ]
   values.wifi = output[ 4 ]
   values.isconnected = output[ 5 ]
-  values.weatherdata = output[ 6 ]
+  values.time = output[ 6 ]
 
 
-  controls = ['battery','volume','wifi']
+  controls = ['battery','volume','wifi','time']
   for control in controls
     outputId = "#"+control+"-output"
     currentValue = $("#{outputId}").value
@@ -104,8 +87,6 @@ update: ( output, domEl ) ->
       else if control is 'wifi' then @handleWifi( domEl, values["wifi"] )
       else if control is  'volume' then @handleVolume( domEl, Number( values["volume"]), values["ismuted"] )
       else if control is 'brightness' then @handleBrightness( domEl, values["brightness"] )
-
-  #@handleWeather( domEl, weatherdata )
 
 #
 # ─── HANDLE BRIGHTNESS ─────────────────────────────────────────────────────────
@@ -179,63 +160,6 @@ handleBattery: ( domEl, percentage, ischarging ) ->
     batteryIcon = "fas fa-bolt"
   $( ".battery-icon" ).html( "<i class=\"fa #{ batteryIcon }\"></i>" )
 
-#
-# ─── HANDLE WEATHER ─────────────────────────────────────────────────────────
-#
-handleWeather: ( domEl, weatherdata ) ->
-  geolocation.getCurrentPosition (e) =>
-    coords     = e.position.coords
-    [lat, lon] = [coords.latitude, coords.longitude]
-    @commands.weather = @makeCommand(@apiKey, "#{lat},#{lon}")
-
-
-  data  = JSON.parse(weatherdata)
-  $(domEl).find('#weather-output').text(weatherdata)
-  today = data.daily?.data[0]
-
-  return unless today?
-  date  = @getDate today.time
-
-  $(domEl).find('#weather-output').text(String (Math.round(today.temperatureMax)+'°'))
-  $(domEl).find('#weather-ext-output').text(String(today.summary))
-  $(domEl).find( ".weather-icon" ).html( "<i class=\"fa #{ @getIcon(today) }\"></i>" )
-
-
-  $(domEl).find("#weather").removeClass('red')
-  $(domEl).find("#weather").removeClass('white')
-  $(domEl).find("#weather").removeClass('cyan')
-  if data.temperatureMax >= 26
-    $(domEl).find('#weather').addClass('red')
-    $(domEl).find('#weather-icon-container').addClass('red')
-  else if data.temperatureMax >= 6
-    $(domEl).find('#weather').addClass('white')
-    $(domEl).find('#weather-icon-container').addClass('white')
-  else
-    $(domEl).find('#weather').addClass('cyan')
-    $(domEl).find('#weather-icon-container').addClass('cyan')
-
-getIcon: (data) ->
-  return @iconMapping['unknown'] unless data
-
-  if data.icon.indexOf('cloudy') > -1
-    if data.cloudCover < 0.25
-      @iconMapping["clear-day"]
-    else if data.cloudCover < 0.5
-      @iconMapping["mostly-clear-day"]
-    else if data.cloudCover < 0.75
-      @iconMapping["partly-cloudy-day"]
-    else
-      @iconMapping["cloudy"]
-  else
-    @iconMapping[data.icon]
-
-getDate: (utcTime) ->
-  date  = new Date(0)
-  date.setUTCSeconds(utcTime)
-  date
-
-makeCommand: (apiKey, location) ->
-  exclude  = "minutely,hourly,alerts,flags"
 
 
 #
@@ -265,9 +189,6 @@ afterRender: (domEl) ->
   $(domEl).on 'mouseout', ".output", (e) => $(domEl).find( $($(e.target))).parent().removeClass('open')
 
   $(domEl).on 'click', ".widg", (e) => @toggleOption( domEl, e, 'pinned')
-#
-# ─── CLICKS  ─────────────────────────────────────────────────────────
-#
 
 toggleOption: (domEl, e, option) ->
   target = $(domEl).find( $($(e.target))).parent()

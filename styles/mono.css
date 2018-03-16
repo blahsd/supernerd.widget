@@ -3,18 +3,18 @@
 ––––––––––––––––––– */
 
 :root {
-  --width: 40%;
   --global_margin: 0px;
+  --left-margin: 0px;
+  --right-margin: 0px;
   --line-size: 24px;
+
+  --shadow_opacity:1;
+  --bar_opacity:1;
 }
 
 /* ––––––––––––––––
 ––––––––––––––––––– GENERAL
 ––––––––––––––––––– */
-
-.divider {
-  width:40px;
-}
 
 .widg {
   color:var(--foreground);
@@ -33,9 +33,9 @@
   height:var(--line-size);
   position:relative;
   z-index:-1;
-  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);
-  border-radius: 2px;
-  opacity:0.8;
+  /*box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.8);*/
+  border-radius: 1px;
+  opacity:var(--bar_opacity)
 }
 
 .icon-container {
@@ -52,8 +52,11 @@
   overflow:hidden;
   white-space: nowrap;
   display: none;
-  margin-left:4px;
-  margin-right: 4px;
+  min-width:var(--line-size);
+  width:auto;
+  padding-left:4px;
+  padding-right: 4px;
+  color:var(--foreground) !important;
 }
 
 .bar-output {
@@ -79,19 +82,22 @@
 .pinned .icon-container {
   color:var(--background);
   background-color: var(--foreground);
-  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
-}
-
-.pinned .output {
-  display: inline;
-  animation: none !important;
+  /*box-shadow: inset 0px 1px 2px 0px rgba(0,0,0, 0 );*/
 }
 
 .open .output {
   display: inline;
-  animation: slideout 0.1s;
+  animation: slideout 0.2s;
 }
 
+.pinned .output {
+  display: inline;
+  animation: none;
+}
+
+.nohidden .output {
+  display: inline;
+}
 .alt {
   display:none;
 }
@@ -163,7 +169,6 @@ color:var(--color2);
 #play .pinned {
   color:var(--foreground);
   background-color: var(--background);
-  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0,0.8);
 }
 
 /* These have to be defined by ID because they are acted upon individually by
@@ -181,12 +186,16 @@ the script. So don't think of sanitizing them to classes */
   background-color: var(--foreground);
 }
 
-
 #task-container {
   height:32px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+#time {
+  color:var(--background);
+  background-color:var(--color4);
 }
 
 /* ––––––––––––––––
@@ -199,18 +208,18 @@ the script. So don't think of sanitizing them to classes */
   bottom:var(--global_margin);
 }
 #supernerd-widget-bar-top-coffee, #supernerd-widget-bar-bottom-coffee {
-  left:var(--global_margin);
-  right:var(--global_margin);
+  left:var(--left-margin);
+  right:var(--right-margin);
 }
 
 #supernerd-widget-desktop-coffee {
-  left:var(--global_margin);
+  left:var(--left-margin);
   top:var(--global_margin);
 }
 
 #supernerd-widget-music-player-coffee {
   bottom:var(--global_margin);
-  left:var(--global_margin);
+  left:var(--left-margin);
   display:inline;
   white-space: nowrap;
   text-overflow:ellipsis;
@@ -226,7 +235,7 @@ the script. So don't think of sanitizing them to classes */
 
 #supernerd-widget-window-coffee {
   top:var(--global_margin);
-  width:var(--width);
+  width:auto;
   display:flex;
   align-items: center;
   justify-content: center;
@@ -234,51 +243,35 @@ the script. So don't think of sanitizing them to classes */
 
 #supernerd-widget-base-monitor-coffee {
   top:var(--global_margin);
-  right:var(--global_margin);
+  right:var(--right-margin);
   width:auto;
 }
 #wifi .output {
   width:60px;
 }
-#time .output {
-  width:40px;
-}
-#date .output {
-  width:80px;
-}
 
 #supernerd-widget-system-monitor-coffee {
   bottom:var(--global_margin);
-  right:var(--global_margin);
-  width:auto;
+  right:var(--right-margin);
+
 }
 
 #supernerd-widget-app-switch-coffee {
   top:var(--global_margin);
   width:auto;
-  left:33%;
-  right:33%;
   display:flex;
   justify-content: center;
 }
 
 #supernerd-widget-time-date-coffee {
   top:var(--global_margin);
-  width:auto;
-  left:33%;
-  right:33%;
+
+  left:calc( 1.1 * var(--left-margin));
+  right:calc( 1.1 * var(--right-margin));
   display:flex;
   justify-content: center;
 }
-#supernerd-widget-time-date-coffee .output {
-width: 72px;
-}
-#supernerd-widget-time-date-coffee #time-output {
-  justify-content: right;
-}
-#supernerd-widget-time-date-coffee #date-output {
-  justify-content: left;
-}
+
 /* ––––––––––––––––
 ––––––––––––––––––– ANIMATIONS
 ––––––––––––––––––– */
@@ -286,8 +279,4 @@ width: 72px;
 @keyframes slideout {
   from { width:1px; }
   to { width:24px; }
-}
-
-.output {
-  color:var(--foreground); /*what*/
 }
