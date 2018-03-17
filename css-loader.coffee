@@ -20,4 +20,5 @@ style: """
     @import url(supernerd.widget/styles/mono.css);
 """
 
+
 refreshFrequency: false

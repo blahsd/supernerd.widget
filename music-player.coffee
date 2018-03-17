@@ -15,76 +15,65 @@ command: "echo " +
          "$(#{ commands.itunes}):::" +
          "$(#{ commands.spotify})"
 
-refreshFrequency: '30s'
+refreshFrequency: false
 
 render: ( ) ->
   """
-    <div class="container" >
+    <div class="container">
 
-    <div class="widg" id="app-launcher">
-      <div class="widg pinned red" id="home">
+      <div class="widg pinned" id="home">
         <div class="icon-container" id="home-icon-container">
-         <i class="fab fa-apple"></i>
+         <i class="far fa-home"></i>
+        </div>
+      </div>
+          <div class="container">
+            <div class="widg" id="browser">
+              <div class="icon-container" id="browser-icon-container">
+              <i class="far fa-compass"></i>
+              </div>
+              <span id="browser-link" class="link closed">web</span>
+            </div>
+            <div class="widg" id="mail">
+              <div class="icon-container" id="music-icon-container">
+              <i class="far fa-envelope"></i>
+              </div>
+              <span id="mail-link" class="link closed">mail</span>
+            </div>
+            <div class="widg" id="messages">
+              <div class="icon-container" id="music-icon-container">
+              <i class="far fa-comments"></i>
+              </div>
+              <span id="messages-link" class="link closed">msg</span>
+            </div>
+            <div class="widg" id="terminal">
+              <div class="icon-container" id="music-icon-container">
+              <i class="far fa-terminal"></i>
+              </div>
+              <span id="terminal-link" class="link closed">zsh</span>
+            </div>
+            <div class="widg" id="editor">
+              <div class="icon-container" id="music-icon-container">
+              <i class="far fa-code"></i>
+              </div>
+              <span id="editor-link" class="link closed">atom</span>
+            </div>
+          </div>
+
+      </div>
+
+      <div class="widg" id="play">
+        <div class="icon-container" id="play-icon-container">
+          <i class="fas fa-play" id="play-button"></i>
+        </div>
+        <div class="icon-container" id="next-icon-container">
+          <i class="fas fa-step-forward" id="next-button"></i>
+        </div>
+        <div class="overflow-container">
+          <span class="output nohidden" id='play-output'></span>
         </div>
       </div>
 
-      <div class="container hidden" id="app-list">
-
-        <div class="widg launcher" id="open /Applications/Safari.app">
-          <div class="icon-container" id="browser-icon-container">
-            <i class="icon far fa-compass"></i>
-          </div>
-        </div>
-
-        <div class="widg launcher" id="open /Applications/AirMail.app">
-          <div class="icon-container" id="mail-icon-container">
-            <i class="icon far fa-envelope"></i>
-          </div>
-        </div>
-
-        <div class="widg launcher" id="open /Applications/WhatsApp.app">
-          <div class="icon-container" id="messages-icon-container">
-            <i class="icon far fa-comments"></i>
-          </div>
-        </div>
-
-        <div class="widg launcher" id="open /Applications/Hyper.app">
-          <div class="icon-container" id="terminal-icon-container">
-            <i class="icon far fa-terminal"></i>
-          </div>
-        </div>
-
-        <div class="widg launcher" id="open /Applications/Atom.app">
-          <div class="icon-container" id="editor-icon-container">
-            <i class="icon far fa-code"></i>
-          </div>
-        </div>
-
-      </div>
     </div>
-
-    <div class="widg" id="play">
-
-      <div class="icon-container" id="play-icon-container">
-        <i class="fas fa-play" id="play-button"></i>
-      </div>
-
-    </div>
-
-    <div class="widg" id="next">
-
-      <div class="icon-container" id="next-icon-container">
-        <i class="fas fa-step-forward" id="next-button"></i>
-      </div>
-
-    </div>
-
-    <div class="widg" id="playing">
-      <span class="output nohidden" id='play-output'></span>
-    </div>
-
-  </div>
-
   """
 
 update: ( output, domEl ) ->
@@ -141,13 +130,24 @@ handleNext: (domEl) ->
   @refresh()
 
 afterRender: (domEl) ->
-  $(domEl).on 'click', "#home", => $(domEl).find("#app-list").toggleClass('open')
-  $(domEl).on 'click', "#home", => $(domEl).find("#play").toggleClass('pinned')
+  $(domEl).on 'click', '#home', => @run "open ~/"
 
-  $(domEl).on 'click', ".launcher", (e) -> run $(e.target).attr('id')
-  $(domEl).on 'click', ".launcher", (e) -> run $(e.target).removeClass('pinned')
-  $(domEl).on 'mouseover', ".launcher", (e) => $(domEl).find($($(e.target))).addClass('pinned')
-  $(domEl).on 'mouseout', ".launcher", (e) => $(domEl).find($($(e.target))).removeClass('pinned')
+  $(domEl).on 'click', '#play-button', => @handlePlay(domEl, 'NULL')
+  $(domEl).on 'click', '#next-button', => @handleNext(domEl)
 
-  $(domEl).on 'click', '#play', => @handlePlay(domEl, 'NULL')
-  $(domEl).on 'click', '#next', => @handleNext(domEl)
+#
+# ─── ANIMATION  ─────────────────────────────────────────────────────────
+#
+#
+# ─── CLICKS  ─────────────────────────────────────────────────────────
+#
+
+toggleOption: (domEl, e, option) ->
+  target = $(domEl).find( $($(e.target))).parent()
+
+  if target.hasClass("#{ option }")
+    $(target).removeClass("#{ option }")
+    $(output).removeClass("#{ option }")
+  else
+    $(target).addClass("#{ option }")
+    $(output).addClass("#{ option }")
