@@ -15,7 +15,7 @@ command: "echo " +
          "$(#{ commands.itunes}):::" +
          "$(#{ commands.spotify})"
 
-refreshFrequency: '30s'
+refreshFrequency: '10s'
 
 render: ( ) ->
   """
@@ -36,7 +36,7 @@ render: ( ) ->
           </div>
         </div>
 
-        <div class="widg launcher" id="open /Applications/AirMail.app">
+        <div class="widg launcher" id="open '/Applications/Airmail 3.app'">
           <div class="icon-container" id="mail-icon-container">
             <i class="icon far fa-envelope"></i>
           </div>

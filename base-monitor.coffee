@@ -30,11 +30,11 @@ render: ( ) ->
         <div class="icon-container" id='volume-icon-container'>
           <i id="volume-icon"></i>
         </div>
-        <span class='output'>
+        <!-- <span class='output'>
           <div class="bar-output" id="volume-bar-output">
             <div class="bar-output" id="volume-bar-color-output"></div>
           </div>
-        </span>
+        </span> -->
         <span class="output" id='volume-output'></span>
       </div>
 

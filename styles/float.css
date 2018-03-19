@@ -6,21 +6,23 @@
   --global_margin: 8px;
   --left-margin: 8px;
   --right-margin: 8px;
-  --line-size: 32px;
+  --line-size: 48px;
+
+  --shadow_opacity:1;
+  --bar_opacity:1;
 }
 
 
 /* ––––––––––––––––
 ––––––––––––––––––– POSITIONS & SIZE
 ––––––––––––––––––– */
-
 #supernerd-widget-bar-top-coffee {
   top:var(--global_margin);
-  z-index: -1;
+  display:none;
 }
 #supernerd-widget-bar-bottom-coffee {
   bottom:var(--global_margin);
-  z-index: -1;
+  display:none;
 }
 #supernerd-widget-bar-top-coffee, #supernerd-widget-bar-bottom-coffee {
   left:var(--left-margin);
@@ -51,8 +53,8 @@
 }
 
 #supernerd-widget-base-monitor-coffee {
-  top:var(--global_margin);
-  right:var(--right-margin);
+  top:calc(var(--global_margin)*2 + var(--line-size) );
+  left:var(--left-margin);
   width:auto;
 }
 #wifi .output {
@@ -73,12 +75,12 @@
 }
 
 #supernerd-widget-time-date-coffee {
-  top:var(--global_margin);
-  left:33%;
-  right:33%;
+  top:calc(var(--global_margin)*3 + var(--line-size) * 2 );
+  left:var(--left-margin);
   display:flex;
-  justify-content: center;
+  justify-content: left;
 }
+
 #supernerd-widget-time-date-coffee .output {
   justify-content: center;
   width: 70px;
@@ -87,4 +89,17 @@
 #supernerd-widget-settings-coffee {
   top:calc(var(--global_margin) * 2 +var(--line-size));
   right:var(--right-margin);
+}
+
+/* ––––––––––––––––
+––––––––––––––––––– ANIMATIONS
+––––––––––––––––––– */
+
+@keyframes slideout {
+  from { width:1px; }
+  to { width:24px; }
+}
+
+.set {
+  background-color: var(--background)
 }
