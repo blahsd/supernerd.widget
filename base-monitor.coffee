@@ -57,6 +57,7 @@ render: ( ) ->
       </div>
 
     </div>
+
   """
 
 update: ( output, domEl ) ->
@@ -184,4 +185,4 @@ afterRender: (domEl) ->
 
   $(domEl).on 'mouseout', ".widg", (e) => $(domEl).find( $($(e.target))).removeClass('open')
 
-  $(domEl).on 'click', ".widg", (e) => $(domEl).find( $($(e.target))).toggleClass('pinned')
+  $(domEl).on 'click', ".widg", (e) => if $(domEl).find( $($(e.target))).attr('id') != "time" then $(domEl).find( $($(e.target))).toggleClass('pinned')

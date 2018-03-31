@@ -13,10 +13,24 @@ refreshFrequency: false
 
 render: ( ) ->
   """
-    <div class='widg open' id='task'>
-      <div class="container " id="task-container">
+  <div class="container launcher">
+    <div class="widg" id="app-launcher">
+
+      <div class="widg pinned red" id="home">
+        <div class="icon-container" id="home-icon-container">
+         <i class="fab fa-apple" id="focus-icon"></i>
+        </div>
       </div>
+
+      <div class="container hidden" id="app-list">
+        <div class='widg open' id='task'>
+          <div class="widg container" id="task-container">
+          </div>
+        </div>
+      </div>
+
     </div>
+  </div>
 
   """
 
@@ -78,7 +92,7 @@ update: ( output, domEl ) ->
     <div class="icon-container" id="#{ process }-icon-container">
       <i class="#{ processIcon }"></i>
     </div>
-    <span class="link" id="#{ process }-link">#{ process }</span>
+    <span class="link hidden textonly" id="#{ process }-link">#{ process }</span>
   </div>
     """)
   if focus[0].trim()=='?'
@@ -101,10 +115,9 @@ highlight: (domEl, e) ->
   refresh().delay(1000)
 
 afterRender: (domEl) ->
-  $(domEl).on 'click', ".widg", (e) -> run $(e.target).parent().parent().attr('id')
-  $(domEl).on 'click', ".link", (e) -> run $(e.target).parent().attr('id')
-  $(domEl).on 'click', ".icon-container", (e) -> run $(e.target).parent().attr('id')
+  $(domEl).on 'click', "#home", => $(domEl).find("#app-list").toggleClass('open')
 
-  $(domEl).on 'click', ".widg", (e) => @highlight(domEl, e)
+  $(domEl).on 'click', ".launcher", (e) -> run $(e.target).attr('id')
 
-  $(domEl).on 'click', "#refresh", (e) => $(domEl).find("#refresh").removeClass('pinned')
+  $(domEl).on 'mouseover', "#app-list", (e) => $(domEl).find($($(e.target))).addClass('pinned')
+  $(domEl).on 'mouseout', "#app-list", (e) => $(domEl).find($($(e.target))).removeClass('pinned')
