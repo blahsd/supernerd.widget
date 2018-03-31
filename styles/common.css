@@ -1,0 +1,190 @@
+
+/* ––––––––––––––––
+––––––––––––––––––– GENERAL
+––––––––––––––––––– */
+i, .icon-container, .output {
+  pointer-events: none;
+}
+
+.widg {
+  color:var(--foreground);
+  background-color: var(--background);
+  font-family:  "Lucida Grande", sans-serif;
+  font-size:12px;
+  font-smoothing:antialiasing;
+  z-index:1;
+  float:left;
+  display:flex;
+  align-items: center;
+  height: var(--line-size);
+}
+
+.bar-container {
+  background-color:var(--background);
+  height:var(--line-size);
+  opacity:var(--bar-opacity);
+  position:relative;
+  z-index:-1;
+  box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.2);
+  border-radius: 1px;
+}
+
+.icon-container {
+  display: inline;
+  float:left;
+  height:var(--line-size);
+  width:var(--line-size);
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.output {
+  overflow:hidden;
+  white-space: nowrap;
+  display: none;
+  margin-left:16px;
+  margin-right:16px;
+  color:var(--foreground);
+}
+
+.bar-output {
+  width:60px;
+  height:4px;
+  background-color: var(--color1);
+  display:block
+}
+
+.hidden {
+  display: none;
+}
+.hidden.open {
+  display:flex;
+}
+
+
+/* ––––––––––––––––
+––––––––––––––––––– BEHAVIOUR (pinned, open, alt)
+––––––––––––––––––– */
+
+.pinned .icon-container {
+  color:var(--background);
+  background-color: var(--foreground);
+  box-shadow: inset 0px 1px 2px 0px rgba(0,0,0, 0 );
+}
+
+.open .output {
+  display: flex;
+}
+
+.pinned .output {
+  display: flex;
+  animation: none;
+}
+
+.output.nohidden {
+  display: flex;
+}
+
+.red {
+  color:var(--color1);
+}
+.green {
+color:var(--color2);
+}
+.yellow {
+  color:var(--color3);
+}
+.blue {
+  color:var(--color4);
+}
+.cyan {
+  color:var(--color5);
+}
+.magenta {
+  color:var(--color6);
+}
+.white {
+  color:var(--foreground);
+}
+.black {
+  color:var(--background);
+}
+.output {
+  color:var(--foreground);
+}
+
+.pinned.red .icon-container {
+  color:var(--background) !important;
+  background-color:var(--color1);
+}
+.pinned.green .icon-container {
+  color:var(--background) !important;
+  background-color:var(--color2);
+}
+.pinned.yellow .icon-container {
+  color:var(--background) !important;
+  background-color:var(--color3);
+}
+.pinned.blue .icon-container {
+  color:var(--background) !important;
+  background-color:var(--color4);
+}
+.pinned.cyan .icon-container {
+  color:var(--background) !important;
+  background-color:var(--color5);
+}
+.pinned.magenta .icon-container {
+  color:var(--background) !important;
+  background-color:var(--color6);
+}
+
+
+/* ––––––––––––––––
+––––––––––––––––––– SPECIAL BEHAVIOR (PER WIDGET)
+––––––––––––––––––– */
+#playing {
+  max-width: 220px;
+}
+
+#time{
+  background-color: var(--color3);
+}
+#time-output {
+  color:var(--background);
+}
+
+/* These have to be defined by ID because they are acted upon individually by
+the script. So don't think of sanitizing them to classes */
+
+#volume-bar-color-output {
+  opacity:1;
+  width:50%;
+  background-color: var(--foreground);
+}
+
+#brightness-bar-color-output {
+  opacity:1;
+  width:50%;
+  background-color: var(--foreground);
+}
+
+#task-container {
+  height:32px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+
+/* ––––––––––––––––
+––––––––––––––––––– ANIMATIONS
+––––––––––––––––––– */
+
+@keyframes slideout {
+  from { width:1px; }
+  to { width:24px; }
+}
+
+.set {
+  background-color: var(--background)
+}

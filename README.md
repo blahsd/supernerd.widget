@@ -1,6 +1,6 @@
-# Supernerd
+# Cashew
 
-Sweet-ass (double!) menu bar replacement / widget pack for  [Übersicht](http://tracesof.net/uebersicht/). Originally built on top of  splintah/[nerdbar.widget](https://github.com/splintah/nerdbar.widget), it spiralled out of control and has grown to be a beast of its own. Anyways, Nerdbar is amazing, Supernerd sucks pretty bad. But it does look *pretty damn sweet*.
+Cashew is an extensible, customisable menubar replacement for macOS. Built with Ubersicht.
 
 ![supernerd_img](./demo/demo-standard.png)
 

@@ -17,7 +17,9 @@ render: ( ) ->
 style: """
     @import url(https://use.fontawesome.com/releases/v5.0.6/css/all.css);
     @import url(supernerd.widget/styles/colors-wal.css);
-    @import url(supernerd.widget/styles/mono.css);
+    @import url(supernerd.widget/styles/common.css);
+    @import url(supernerd.widget/styles/applied.css);
 """
+
 
 refreshFrequency: false

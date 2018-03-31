@@ -30,11 +30,11 @@ render: ( ) ->
         <div class="icon-container" id='volume-icon-container'>
           <i id="volume-icon"></i>
         </div>
-        <span class='output'>
+        <!-- <span class='output'>
           <div class="bar-output" id="volume-bar-output">
             <div class="bar-output" id="volume-bar-color-output"></div>
           </div>
-        </span>
+        </span> -->
         <span class="output" id='volume-output'></span>
       </div>
 
@@ -57,6 +57,7 @@ render: ( ) ->
       </div>
 
     </div>
+
   """
 
 update: ( output, domEl ) ->
@@ -181,21 +182,7 @@ handleWifi: (domEl, wifi ) ->
 #
 afterRender: (domEl) ->
   $(domEl).on 'mouseover', ".widg", (e) => $(domEl).find( $($(e.target))).addClass('open')
-  $(domEl).on 'mouseover', ".icon-container", (e) => $(domEl).find( $($(e.target))).parent().addClass('open')
-  $(domEl).on 'mouseover', ".output", (e) => $(domEl).find( $($(e.target))).parent().addClass('open')
 
   $(domEl).on 'mouseout', ".widg", (e) => $(domEl).find( $($(e.target))).removeClass('open')
-  $(domEl).on 'mouseout', ".icon-container", (e) => $(domEl).find( $($(e.target))).parent().removeClass('open')
-  $(domEl).on 'mouseout', ".output", (e) => $(domEl).find( $($(e.target))).parent().removeClass('open')
 
-  $(domEl).on 'click', ".widg", (e) => @toggleOption( domEl, e, 'pinned')
-
-toggleOption: (domEl, e, option) ->
-  target = $(domEl).find( $($(e.target))).parent()
-
-  if target.hasClass("#{ option }")
-    $(target).removeClass("#{ option }")
-    $(output).removeClass("#{ option }")
-  else
-    $(target).addClass("#{ option }")
-    $(output).addClass("#{ option }")
+  $(domEl).on 'click', ".widg", (e) => if $(domEl).find( $($(e.target))).attr('id') != "time" then $(domEl).find( $($(e.target))).toggleClass('pinned')
