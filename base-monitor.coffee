@@ -225,6 +225,9 @@ afterRender: (domEl) ->
 
 
   $(domEl).on 'click', ".opt", (e)  => $(domEl).find($($(e.target))).toggleClass('pinned')
-  $(domEl).on 'click', ".opt", (e) => @run "$HOME/Library/Application\\ Support/Übersicht/widgets/supernerd.widget/scripts/selectstyle.sh #{ $(domEl).find($($(e.target))).attr('id') }"
+
+  $(domEl).on 'click', ".opt", (e) => @run "./supernerd.widget/scripts/selectstyle #{ $(domEl).find($($(e.target))).attr('id') }"
+
   $(domEl).on 'mouseover', ".opt", (e) => $(domEl).find($($(e.target))).addClass('pinned')
+
   $(domEl).on 'mouseout', ".opt", (e) => $(domEl).find($($(e.target))).removeClass('pinned')
