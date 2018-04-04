@@ -73,6 +73,9 @@ i, .icon-container, .output {
 .hidden {
   display: none !important;
 }
+.nohidden {
+  display: inline !important;
+}
 
 .opt {
   padding-right:calc(var(--line-size)/4);

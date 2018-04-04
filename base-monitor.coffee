@@ -24,11 +24,11 @@ refreshFrequency: '10s'
 render: ( ) ->
   """
 <div class="container">
-<div class="tray" id="time-tray">
-  <div class="widg" id="settings">
-    <div class="icon-container" id='settings-icon-container'>
+<div class="tray" id="tray">
+  <div class="widg" id="mode">
+    <div class="icon-container" id='mode-icon-container'>
       <i class="fas fa-cog"></i>
-      <span class="alt-text">OPT</span>
+      <span class="alt-text">CHU</span>
     </div>
   </div>
 
@@ -70,20 +70,40 @@ render: ( ) ->
 </div>
 </div>
 
-<div class="container hidden" id="settings-tray">
-  <div class="widg opt" id="mono">
+<div class="container hidden" id="time-tray">
+  <div class="widg theme-opt opt" id="mono">
     <div class="icon-container">
       Mono
     </div>
   </div>
 
-  <div class="widg opt" id="flat">
+  <div class="widg theme-opt opt" id="flat">
     <div class="icon-container">
       Flat
     </div>
   </div>
 
-  <div class="widg opt" id="float">
+  <div class="widg theme-opt opt" id="float">
+    <div class="icon-container">
+      Float
+    </div>
+  </div>
+</div>
+
+<div class="container hidden" id="mode-tray">
+  <div class="widg mode-opt opt" id="bsp">
+    <div class="icon-container">
+      BSP
+    </div>
+  </div>
+
+  <div class="widg mode-opt opt" id="monocle">
+    <div class="icon-container">
+      Monocle
+    </div>
+  </div>
+
+  <div class="widg mode-opt opt" id="float">
     <div class="icon-container">
       Float
     </div>
@@ -217,17 +237,11 @@ afterRender: (domEl) ->
 
   $(domEl).on 'mouseout', ".widg", (e) => $(domEl).find( $($(e.target))).removeClass('open')
 
-  $(domEl).on 'click', ".widg", (e) => if not $(domEl).find( $($(e.target))).hasClass('tray-button') then $(domEl).find( $($(e.target))).toggleClass('pinned')
-
-  $(domEl).on 'click', ".tray-button", (e) => $(domEl).find(".tray").toggleClass('hidden')
-
-  $(domEl).on 'click', "#settings", (e) => $(domEl).find("#settings-tray").toggleClass('hidden')
-
-
-  $(domEl).on 'click', ".opt", (e)  => $(domEl).find($($(e.target))).toggleClass('pinned')
-
-  $(domEl).on 'click', ".opt", (e) => @run "./supernerd.widget/scripts/selectstyle #{ $(domEl).find($($(e.target))).attr('id') }"
+  $(domEl).on 'click', ".widg", (e) => $(domEl).find("##{$($(e.target)).attr('id')}-tray").toggleClass('hidden') && if not $(domEl).find( $($(e.target))).hasClass('tray-button') then $(domEl).find( $($(e.target))).toggleClass('pinned')
 
   $(domEl).on 'mouseover', ".opt", (e) => $(domEl).find($($(e.target))).addClass('pinned')
 
   $(domEl).on 'mouseout', ".opt", (e) => $(domEl).find($($(e.target))).removeClass('pinned')
+
+  $(domEl).on 'click', ".theme-opt", (e) => @run "./supernerd.widget/scripts/selectstyle #{ $(domEl).find($($(e.target))).attr('id') }"
+  $(domEl).on 'click', ".mode-opt", (e) => @run "./supernerd.widget/scripts/selectmode #{ $(domEl).find($($(e.target))).attr('id') }"

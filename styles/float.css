@@ -33,7 +33,7 @@
   white-space: nowrap;
 }
 
-#supernerd-widget-date-coffee {
+#supernerd-widget-date-weather-coffee {
   top:calc(var(--global_margin)*3 + var(--line-size) * 2 );
   left:var(--left-margin);
   display:flex;

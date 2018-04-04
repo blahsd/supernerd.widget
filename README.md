@@ -1,17 +1,16 @@
 # Cashew
 
-Cashew is an extensible, customisable menubar replacement for macOS. Built with Ubersicht.
+Cashew is an extensible, customisable menubar replacement for macOS.
+Built with Ubersicht.
 
 ![supernerd_img](./demo/demo-standard.png)
 
 # Indicators
-* **Player**    displays information about the track that is currently playing in either Spotify or iTunes. Easy to extend for your favourite music player.
-* **Focus**     shows the title of the window currently focused. You need this mostly only if you have removed titlebars like I did. Why did I do it? Because it looks cool af, that's why. Also saves screen real estate.
-* **Info**      Volume, wifi, battery, time and date
-* **Links**     Handy app/location launcher. Comes set up with home folder, Safari, Mail, WhatsApp, Hyper and Atom, but can be configured very easily – take a look in `app-launcher.coffee` and Find+Replace any of those apps with the name of your favorite. It's that easy.
-* **Desktop**   Graphically displays which desktop you are in. Goes up to four desktops by default. Look at this lil bitch:
-![demo-desktop](./demo/demo-desktop.gif)
-* **Sysmon**    Displays cpu, ram, and hard disk usage, with cool colours which reflect the load.
+* **Desktop**   Which desktop is active. Pretty straightforward. Hides a nifty app/location launcher if you click on it. Comes set up with home folder, Safari, Mail, WhatsApp, Hyper and Atom, but can be configured very easily – take a look in `app-launcher.coffee` and Find+Replace any of those apps with the name of your favorite. It's that easy.
+* **Player**    Artist and title of the track currently playing in either Spotify or iTunes. Easy to extend for your favourite music player.
+* **Date**      Day and date. When selected, also displays current weather and temperature.
+* **Info**      Volume, wifi, battery, and clock. Your basic system usage monitors. If you click on the time you get the theme picker!
+* **Resources** Displays cpu, ram, and hard disk usage, and up and down network traffic. It's got cool colours which reflect the load.
 
 ## Cool Shit
 I honestly have not seen any other menubar widget that is has this level of pointless and cool eye candy.
@@ -24,7 +23,6 @@ I honestly have not seen any other menubar widget that is has this level of poin
 
 Does this really work? No! I'm still working on making it go off correctly.
 
-
 If you're worried about resources, disabling any of these animations is a matter of deleting one .css block, so do it or ask me do to it. I probably will.
 
 ## Interactive Shit
@@ -35,7 +33,6 @@ If you're worried about resources, disabling any of these animations is a matter
 What??? WOW! And check this out:
 
 * **Pinnable Buttons**          Click on a collapsible indicator to pin it open.
-
 ![demo-pin](./demo/demo-pin.gif)
 
 Lucky for you, in order to use all of the interactive shit, you must renounce interacting with your desktop icons. I know, I know. But since using your desktop like a 'put shit here' folder is not a good idea, this might actually help you. Do so:

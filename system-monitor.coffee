@@ -17,45 +17,50 @@ refreshFrequency: '1s'
 
 render: ( ) ->
   """
-    <div class="container">
+<div class="tray hidden" id="time-tray">
 
-          <div class="widg red" id="upl">
-          <div class="icon-container" id='upl-icon-container'>
-            <i class="fa fa-upload"></i>
-          </div>
-            <span class="output" id="upl-output"></span>
-          </div>
+  <div class="widg red" id="upl">
+  <div class="icon-container" id='upl-icon-container'>
+    <i class="fa fa-upload"></i>
+  </div>
+    <span class="output" id="upl-output"></span>
+  </div>
 
-          <div class="widg blue" id="dwl">
-          <div class="icon-container" id='dwl-icon-container'>
-            <i class="fa fa-download"></i>
-          </div>
-            <span class="output" id="dwl-output"></span>
-          </div>
+  <div class="widg blue" id="dwl">
+  <div class="icon-container" id='dwl-icon-container'>
+    <i class="fa fa-download"></i>
+  </div>
+    <span class="output" id="dwl-output"></span>
+  </div>
 
-          <div class="widg" id="cpu">
-          <div class="icon-container" id='cpu-icon-container'>
-            <i class="fa fa-spinner"></i>
-          </div>
-            <span class="output" id="cpu-output"></span>
-          </div>
+  <div class="widg" id="cpu">
+  <div class="icon-container" id='cpu-icon-container'>
+    <i class="fa fa-spinner"></i>
+  </div>
+    <span class="output" id="cpu-output"></span>
+  </div>
 
-          <div class="widg" id="mem">
-          <div class="icon-container" id='mem-icon-container'>
-            <i class="fas fa-server"></i>
-            </div>
-            <span class="output" id="mem-output"></span>
-          </div>
-
-          <div class="widg" id="hdd">
-          <div class="icon-container" id='hdd-icon-container'>
-            <i class="fas fa-hdd"></i>
-            </div>
-              <span class="output" id="hdd-output"></span>
-          </div>
-
-
+  <div class="widg" id="mem">
+  <div class="icon-container" id='mem-icon-container'>
+    <i class="fas fa-server"></i>
     </div>
+    <span class="output" id="mem-output"></span>
+  </div>
+
+  <div class="widg" id="hdd">
+  <div class="icon-container" id='hdd-icon-container'>
+    <i class="fas fa-hdd"></i>
+    </div>
+      <span class="output" id="hdd-output"></span>
+  </div>
+</div>
+
+<div class="widg green tray-button" id="sysmon">
+    <div class="icon-container" id='sysmon-icon-container'>
+      <i class="fa fa-power-off"></i>
+    </div>
+</div>
+
   """
 
 convertBytes: (bytes) ->
@@ -122,3 +127,5 @@ afterRender: (domEl) ->
   $(domEl).on 'mouseout', ".widg", (e) => $(domEl).find( $($(e.target))).removeClass('open')
 
   $(domEl).on 'click', ".widg", (e) => $(domEl).find( $($(e.target))).toggleClass('pinned')
+
+  $(domEl).on 'click', ".tray-button", (e) => $(domEl).find(".tray").toggleClass('hidden')

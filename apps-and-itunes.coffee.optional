@@ -4,14 +4,23 @@ options =
 
 
 commands =
+  isitunesrunning: "osascript -e 'if application \"iTunes\" is running then return true'"
+  isspotifyrunning: "osascript -e 'if application \"Spotify\" is running then return true'"
+  isitunesplaying: "osascript -e 'if application \"iTunes\" is running then tell application \"iTunes\" to if player state is playing then return true'"
+  isspotifyplaying: "osascript -e 'if application \"Spotify\" is running then tell application \"Spotify\" to if player state is playing then return true'"
+  itunes: "osascript -e 'if application \"iTunes\" is running then tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
+  spotify: "osascript -e 'if application \"Spotify\" is running then tell application \"Spotify\" to artist of current track & \" - \" & name of current track '"
   activedesk: "echo $(/usr/local/bin/chunkc tiling::query -d id)"
-  playing: "echo $(sh ./supernerd.widget/scripts/gettrack.sh)"
-  isplaying: "echo $(sh ./supernerd.widget/scripts/ismpcplaying.sh)"
+
 
 command: "echo " +
          "$(#{ commands.activedesk }):::" +
-         "$(#{ commands.playing}):::" +
-         "$(#{ commands.isplaying}):::"
+         "$(#{ commands.isitunesrunning}):::" +
+         "$(#{ commands.isspotifyrunning}):::" +
+         "$(#{ commands.isitunesplaying}):::" +
+         "$(#{ commands.isspotifyplaying}):::" +
+         "$(#{ commands.itunes}):::" +
+         "$(#{ commands.spotify})"
 
 refreshFrequency: '10s'
 
@@ -134,15 +143,26 @@ render: ( ) ->
 update: ( output, domEl ) ->
   output = output.split( /:::/g )
   activedesk = output[0]
-  playing = output[1]
-  isplaying = output[2]
+  isitunesrunning = output[1]
+  isspotifyrunning = output[2]
+  isitunesplaying = output[3]
+  isspotifyplaying = output[4]
+  itunes = output[5]
+  spotify = output[6]
 
-  if isplaying == "true"
+  if isspotifyplaying
     @handlePlayIcon(domEl, true)
-  else
+    @handlePlayIcon(domEl, true)
+    @run "osascript -e 'if application \"Spotify\" is running then tell application \"Spotify\" to if player state is playing then artist of current track & \" - \" & name of current track'", (err, output) ->
+      $(domEl).find('#play-output').text(output)
+  else if isitunesplaying
+    @handlePlayIcon(domEl, true)
+    @handlePlayIcon(domEl, true)
+    @run "osascript -e 'if application \"iTunes\" is running then tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'", (err, output) ->
+      $(domEl).find('#play-output').text(output)
+  else if not isspotifyplaying && not isitunesplaying
     @handlePlayIcon(domEl, false)
-
-  $(domEl).find('#play-output').text(playing)
+    $("#play-output").text("")
 
   if options.desktop is true
     #$("#home").removeClass()
@@ -165,7 +185,7 @@ getDesktopColor: (activedesk) ->
   return color
 
 handlePlay: (domEl, status) ->
-  @run "sh ./supernerd.widget/scripts/mcpplaypause.sh"
+  @run "osascript -e 'tell application \"iTunes\" to playpause'"
   @handlePlayIcon(domEl, status)
   @refresh()
 
