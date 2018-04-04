@@ -10,16 +10,18 @@ i, .icon-container, .output {
   color:var(--foreground);
   background-color: var(--background);
   font-family:  "Lucida Grande", sans-serif;
-  font-size:12px;
+  font-size:10px;
   font-smoothing:antialiasing;
   z-index:1;
   float:left;
   display:flex;
   align-items: center;
   height: var(--line-size);
+  opacity: 0.8;
 }
 
 .bar-container {
+  display:block;
   background-color:var(--background);
   height:var(--line-size);
   opacity:var(--bar-opacity);
@@ -43,8 +45,9 @@ i, .icon-container, .output {
   overflow:hidden;
   white-space: nowrap;
   display: none;
-  margin-left:16px;
-  margin-right:16px;
+  margin-left:calc(var(--line-size)/2);
+  margin-right:calc(var(--line-size)/2);
+  width:auto;
   color:var(--foreground);
 }
 
@@ -55,11 +58,25 @@ i, .icon-container, .output {
   display:block
 }
 
-.hidden {
-  display: none;
+.container {
+  display:block;
 }
-.hidden.open {
-  display:flex;
+
+.tray {
+  display:inline;
+}
+
+.alt-text {
+  display:none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.opt {
+  padding-right:calc(var(--line-size)/4);
+  padding-left:calc(var(--line-size)/4);
 }
 
 
@@ -187,4 +204,63 @@ the script. So don't think of sanitizing them to classes */
 
 .set {
   background-color: var(--background)
+}
+
+
+/* ––––––––––––––––
+––––––––––––––––––– DEFAULT POSITIONS
+––––––––––––––––––– */
+
+#supernerd-widget-bar-top-coffee {
+  top:var(--global_margin);
+  z-index: -1;
+}
+#supernerd-widget-bar-bottom-coffee {
+  bottom:var(--global_margin);
+  z-index: -1;
+}
+#supernerd-widget-bar-top-coffee, #supernerd-widget-bar-bottom-coffee {
+  left:var(--left-margin);
+  right:var(--right-margin);
+}
+
+/* ––––––––––––––– TOP LEFT */
+#supernerd-widget-apps-and-music-coffee {
+  top:var(--global_margin);
+  left:var(--left-margin);
+  display:inline;
+  white-space: nowrap;
+}
+
+/* ––––––––––––––– CENTER */
+#supernerd-widget-date-coffee, #supernerd-widget-date-weather-coffee {
+  top:var(--global_margin);
+  left:33%;
+  right:33%;
+  display:flex;
+  justify-content: center;
+}
+
+#supernerd-widget-time-date-coffee .output {
+  justify-content: center;
+  width: 70px;
+}
+
+/* ––––––––––––––– TOP RIGHT */
+#supernerd-widget-base-monitor-coffee {
+  top:var(--global_margin);
+  right:var(--right-margin);
+  width:auto;
+}
+
+#supernerd-widget-settings-coffee {
+  top:calc(var(--global_margin) * 2 +var(--line-size));
+  right:var(--right-margin);
+}
+
+
+/* ––––––––––––––– BOTTOM RIGHT */
+#supernerd-widget-system-monitor-coffee {
+  bottom:var(--global_margin);
+  right:var(--right-margin);
 }

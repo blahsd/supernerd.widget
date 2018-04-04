@@ -23,40 +23,72 @@ refreshFrequency: '10s'
 
 render: ( ) ->
   """
-    <div class="container">
-    <span id="valueHolder" value="10"></span>
-
-      <div class="widg" id="volume">
-        <div class="icon-container" id='volume-icon-container'>
-          <i id="volume-icon"></i>
-        </div>
-        <!-- <span class='output'>
-          <div class="bar-output" id="volume-bar-output">
-            <div class="bar-output" id="volume-bar-color-output"></div>
-          </div>
-        </span> -->
-        <span class="output" id='volume-output'></span>
-      </div>
-
-      <div class="widg" id="wifi">
-        <div class="icon-container" id='wifi-icon-container'>
-          <i class="fa fa-wifi"></i>
-        </div>
-        <span class="output" id='wifi-output'></span>
-      </div>
-
-      <div class="widg pinned" id="battery">
-        <div class="icon-container" id='battery-icon-container'>
-        <i class="battery-icon"></i>
-        </div>
-        <span class="output" id='battery-output'></span>
-      </div>
-
-      <div class="widg pinned red" id="time">
-        <span class="output pinned" id="time-output"></span>
-      </div>
-
+<div class="container">
+<div class="tray" id="time-tray">
+  <div class="widg" id="settings">
+    <div class="icon-container" id='settings-icon-container'>
+      <i class="fas fa-cog"></i>
+      <span class="alt-text">OPT</span>
     </div>
+  </div>
+
+  <div class="widg" id="volume">
+    <div class="icon-container" id='volume-icon-container'>
+      <i id="volume-icon"></i>
+      <span class="alt-text">VOL</span>
+    </div>
+
+
+    <!-- <span class='output'>
+      <div class="bar-output" id="volume-bar-output">
+        <div class="bar-output" id="volume-bar-color-output"></div>
+      </div>
+    </span> -->
+
+    <span class="output" id='volume-output'></span>
+  </div>
+
+  <div class="widg" id="wifi">
+    <div class="icon-container" id='wifi-icon-container'>
+      <i class="fa fa-wifi"></i>
+      <span class="alt-text">WFI</span>
+    </div>
+    <span class="output" id='wifi-output'></span>
+  </div>
+
+  <div class="widg" id="battery">
+    <div class="icon-container" id='battery-icon-container'>
+    <i class="battery-icon">BAT</i>
+    <span class="alt-text">BAT</span>
+    </div>
+    <span class="output" id='battery-output'></span>
+  </div>
+</div>
+
+<div class="widg pinned red tray-button" id="time">
+  <span class="output pinned" id="time-output"></span>
+</div>
+</div>
+
+<div class="container hidden" id="settings-tray">
+  <div class="widg opt" id="mono">
+    <div class="icon-container">
+      Mono
+    </div>
+  </div>
+
+  <div class="widg opt" id="flat">
+    <div class="icon-container">
+      Flat
+    </div>
+  </div>
+
+  <div class="widg opt" id="float">
+    <div class="icon-container">
+      Float
+    </div>
+  </div>
+</div>
 
   """
 
@@ -185,4 +217,14 @@ afterRender: (domEl) ->
 
   $(domEl).on 'mouseout', ".widg", (e) => $(domEl).find( $($(e.target))).removeClass('open')
 
-  $(domEl).on 'click', ".widg", (e) => if $(domEl).find( $($(e.target))).attr('id') != "time" then $(domEl).find( $($(e.target))).toggleClass('pinned')
+  $(domEl).on 'click', ".widg", (e) => if not $(domEl).find( $($(e.target))).hasClass('tray-button') then $(domEl).find( $($(e.target))).toggleClass('pinned')
+
+  $(domEl).on 'click', ".tray-button", (e) => $(domEl).find(".tray").toggleClass('hidden')
+
+  $(domEl).on 'click', "#settings", (e) => $(domEl).find("#settings-tray").toggleClass('hidden')
+
+
+  $(domEl).on 'click', ".opt", (e)  => $(domEl).find($($(e.target))).toggleClass('pinned')
+  $(domEl).on 'click', ".opt", (e) => @run "$HOME/Library/Application\\ Support/Übersicht/widgets/supernerd.widget/scripts/selectstyle.sh #{ $(domEl).find($($(e.target))).attr('id') }"
+  $(domEl).on 'mouseover', ".opt", (e) => $(domEl).find($($(e.target))).addClass('pinned')
+  $(domEl).on 'mouseout', ".opt", (e) => $(domEl).find($($(e.target))).removeClass('pinned')

@@ -3,6 +3,7 @@
 ––––––––––––––––––– */
 
 :root {
+
   --global_margin: 0px;
   --left-margin: 0px;
   --right-margin: 0px;
@@ -11,85 +12,9 @@
 
 
 /* ––––––––––––––––
-––––––––––––––––––– POSITIONS & SIZE
+––––––––––––––––––– GENERAL
 ––––––––––––––––––– */
 
-#supernerd-widget-bar-top-coffee {
-  top:var(--global_margin);
-  z-index: -1;
-}
-#supernerd-widget-bar-bottom-coffee {
-  bottom:var(--global_margin);
-  z-index: -1;
-}
-#supernerd-widget-bar-top-coffee, #supernerd-widget-bar-bottom-coffee {
-  left:var(--left-margin);
-  right:var(--right-margin);
-}
+.widg {
 
-#supernerd-widget-desktop-coffee {
-  left:var(--left-margin);
-  top:var(--global_margin);
-}
-
-#supernerd-widget-music-player-coffee {
-  left:var(--left-margin);
-  bottom:var(--global_margin);
-}
-
-#supernerd-widget-apps-and-music-coffee {
-  top:var(--global_margin);
-  left:var(--left-margin);
-  display:inline;
-  white-space: nowrap;
-}
-#play .output {
-  width:auto;
-}
-
-#supernerd-widget-window-coffee {
-  top:var(--global_margin);
-  width:auto;
-  display:flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#supernerd-widget-base-monitor-coffee {
-  top:var(--global_margin);
-  right:var(--right-margin);
-  width:auto;
-}
-#wifi .output {
-  width:60px;
-}
-
-#supernerd-widget-system-monitor-coffee {
-  bottom:var(--global_margin);
-  right:var(--right-margin);
-
-}
-
-#supernerd-widget-app-switch-coffee {
-  top:var(--global_margin);
-  width:auto;
-  display:flex;
-  justify-content: center;
-}
-
-#supernerd-widget-time-date-coffee {
-  top:var(--global_margin);
-  left:33%;
-  right:33%;
-  display:flex;
-  justify-content: center;
-}
-#supernerd-widget-time-date-coffee .output {
-  justify-content: center;
-  width: 70px;
-}
-
-#supernerd-widget-settings-coffee {
-  top:calc(var(--global_margin) * 2 +var(--line-size));
-  right:var(--right-margin);
 }

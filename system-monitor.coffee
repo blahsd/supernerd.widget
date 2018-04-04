@@ -3,18 +3,35 @@ commands =
   cpu : "ps -A -o %cpu | awk '{s+=$1} END {printf(\"%.2f\",s/8);}'"
   mem : "ps -A -o %mem | awk '{s+=$1} END {print s \"%\"}' "
   hdd : "df / | awk 'END{print $5}'"
+  net : "sh ./supernerd.widget/scripts/getnetwork.sh"
+
 
 
 command: "echo " +
          "$(#{ commands.cpu }):::" +
          "$(#{ commands.mem }):::" +
-         "$(#{ commands.hdd }):::"
+         "$(#{ commands.hdd }):::" +
+         "$(#{ commands.net }):::"
 
-refreshFrequency: false
+refreshFrequency: '1s'
 
 render: ( ) ->
   """
     <div class="container">
+
+          <div class="widg red" id="upl">
+          <div class="icon-container" id='upl-icon-container'>
+            <i class="fa fa-upload"></i>
+          </div>
+            <span class="output" id="upl-output"></span>
+          </div>
+
+          <div class="widg blue" id="dwl">
+          <div class="icon-container" id='dwl-icon-container'>
+            <i class="fa fa-download"></i>
+          </div>
+            <span class="output" id="dwl-output"></span>
+          </div>
 
           <div class="widg" id="cpu">
           <div class="icon-container" id='cpu-icon-container'>
@@ -41,21 +58,34 @@ render: ( ) ->
     </div>
   """
 
+convertBytes: (bytes) ->
+  kb = bytes / 1024
+  mb = kb / 1024
+  if mb < 0.01
+    return "0.00mb"
+  return "#{parseFloat(mb.toFixed(2))}MB"
+
 update: ( output, domEl ) ->
   output = output.split( /:::/g )
 
   cpu = output[ 0 ]
   mem = output[ 1 ]
   hdd = output[ 2 ]
+  net = output[ 3 ].split( /@/g )
+  upl = net[ 0 ]
+  dwl = net[ 1 ]
+
 
   $( "#cpu-output").text("#{ cpu }%")
   $( "#mem-output").text("#{ mem }")
   $( "#hdd-output").text("#{ hdd }")
+  $( "#upl-output").text("#{ @convertBytes(upl) }")
+  $( "#dwl-output").text("#{ @convertBytes(dwl) }")
+
 
   @handleSysmon( domEl, Number( cpu ), '#cpu' )
   @handleSysmon( domEl, Number( mem.replace( /%/g, "") ), '#mem' )
   @handleSysmon( domEl, Number( hdd.replace( /%/g, "") ), '#hdd' )
-
 
 #
 # ─── HANDLE SYSMON –─────────────────────────────────────────────────────────
