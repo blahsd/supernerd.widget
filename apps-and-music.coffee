@@ -10,14 +10,10 @@ commands =
   isspotifyplaying: "osascript -e 'if application \"Spotify\" is running then tell application \"Spotify\" to if player state is playing then return true'"
   itunes: "osascript -e 'if application \"iTunes\" is running then tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
   spotify: "osascript -e 'if application \"Spotify\" is running then tell application \"Spotify\" to artist of current track & \" - \" & name of current track '"
-  running: "osascript -e 'tell application \"System Events\" to name of every process whose background only is false'"
-  focus: "echo $(/usr/local/bin/chunkc tiling::query --window owner)"
   activedesk: "echo $(/usr/local/bin/chunkc tiling::query -d id)"
 
 
 command: "echo " +
-         "$(#{ commands.running }):::" +
-         "$(#{ commands.focus }):::" +
          "$(#{ commands.activedesk }):::" +
          "$(#{ commands.isitunesrunning}):::" +
          "$(#{ commands.isspotifyrunning}):::" +
@@ -132,20 +128,17 @@ render: ( ) ->
 </div>
 </div>
 
-
   """
 
 update: ( output, domEl ) ->
   output = output.split( /:::/g )
-  running = output[0]
-  focus = output[1]
-  activedesk = output[2]
-  isitunesrunning = output[3]
-  isspotifyrunning = output[4]
-  isitunesplaying = output[5]
-  isspotifyplaying = output[6]
-  itunes = output[7]
-  spotify = output[8]
+  activedesk = output[0]
+  isitunesrunning = output[1]
+  isspotifyrunning = output[2]
+  isitunesplaying = output[3]
+  isspotifyplaying = output[4]
+  itunes = output[5]
+  spotify = output[6]
 
   if isspotifyplaying
     @handlePlayIcon(domEl, true)
@@ -161,14 +154,13 @@ update: ( output, domEl ) ->
     @handlePlayIcon(domEl, false)
     $("#play-output").text("")
 
-  if options.focus is true
-    $("#focus-icon").removeClass()
-    $("#focus-icon").addClass("#{@getIcon(focus)}")
-
   if options.desktop is true
     #$("#home").removeClass()
     #$("#home").addClass("widg pinned tray-button #{ @getDesktopColor(activedesk) }")
-    $("#active-desktop").text(activedesk)
+    if $("#active-desktop").text != activedesk
+      $("#active-desktop").text(activedesk)
+
+
 #
 # ─── HANDLES  ─────────────────────────────────────────────────────────
 #
