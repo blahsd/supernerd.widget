@@ -187,9 +187,7 @@ handlePlayIcon: (domEl, status) ->
 
 
 handleNext: (domEl) ->
-  @run "osascript -e 'tell application \"iTunes\" to next track'"
-  $(domEl).find('#play-button').removeClass()
-  $(domEl).find('#play-button').addClass('fas fa-pause')
+  @run "sh ./supernerd.widget/scripts/mcpnext.sh"
   @refresh()
 
 afterRender: (domEl) ->

@@ -1,6 +1,6 @@
 # Cashew
 
-Cashew is an extensible, customisable menubar replacement for macOS.
+Cashew the second release of Supernerd, an extensible, customisable menubar replacement for macOS.
 Built with Ubersicht.
 
 ![supernerd_img](./demo/demo-standard.png)
