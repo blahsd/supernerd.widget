@@ -25,14 +25,7 @@ render: ( ) ->
   """
 <div class="container">
 <div class="tray" id="tray">
-  <div class="widg" id="mode">
-    <div class="icon-container" id='mode-icon-container'>
-      <i class="fas fa-cog"></i>
-      <span class="alt-text">CHU</span>
-    </div>
-  </div>
-
-  <div class="widg" id="volume">
+  <div class="widg toggleable" id="volume">
     <div class="icon-container" id='volume-icon-container'>
       <i id="volume-icon"></i>
       <span class="alt-text">VOL</span>
@@ -40,7 +33,7 @@ render: ( ) ->
 
 
     <!-- <span class='output'>
-      <div class="bar-output" id="volume-bar-output">
+      <div class="bar-output toggleable" id="volume-bar-output">
         <div class="bar-output" id="volume-bar-color-output"></div>
       </div>
     </span> -->
@@ -48,7 +41,7 @@ render: ( ) ->
     <span class="output" id='volume-output'></span>
   </div>
 
-  <div class="widg" id="wifi">
+  <div class="widg toggleable" id="wifi">
     <div class="icon-container" id='wifi-icon-container'>
       <i class="fa fa-wifi"></i>
       <span class="alt-text">WFI</span>
@@ -56,7 +49,7 @@ render: ( ) ->
     <span class="output" id='wifi-output'></span>
   </div>
 
-  <div class="widg" id="battery">
+  <div class="widg toggleable" id="battery">
     <div class="icon-container" id='battery-icon-container'>
     <i class="battery-icon">BAT</i>
     <span class="alt-text">BAT</span>
@@ -70,12 +63,13 @@ render: ( ) ->
 </div>
 </div>
 
-<div class="container hidden" id="time-tray">
-  <div class="widg theme-opt opt" id="mono">
-    <div class="icon-container">
-      Mono
+<div class="popup container hidden" id="time-tray">
+
+    <div class="widg theme-opt opt" id="flat">
+      <div class="icon-container">
+        Flat
+      </div>
     </div>
-  </div>
 
   <div class="widg theme-opt opt" id="flat">
     <div class="icon-container">
@@ -88,24 +82,30 @@ render: ( ) ->
       Float
     </div>
   </div>
+
+  <div class="widg theme-opt opt" id="middle">
+    <div class="icon-container">
+      Middle
+    </div>
+  </div>
 </div>
 
-<div class="container hidden" id="mode-tray">
-  <div class="widg mode-opt opt" id="bsp">
+<div class="popup container hidden" id="time-tray">
+  <div class="widg mode-opt opt" id="volume">
     <div class="icon-container">
-      BSP
+    Volume
     </div>
   </div>
 
-  <div class="widg mode-opt opt" id="monocle">
+  <div class="widg mode-opt opt" id="wifi">
     <div class="icon-container">
-      Monocle
+    Wifi
     </div>
   </div>
 
-  <div class="widg mode-opt opt" id="float">
+  <div class="widg mode-opt opt" id="battery">
     <div class="icon-container">
-      Float
+    Battery
     </div>
   </div>
 </div>
@@ -143,12 +143,12 @@ update: ( output, domEl ) ->
 
 #
 # ─── HANDLE BRIGHTNESS ─────────────────────────────────────────────────────────
+#
 handleBrightness: (domEl, brightness ) ->
   brightness = Math.round(100*brightness) + 2
   $("#brightness-output").text("#{brightness}")
   $( "#brightness-bar-color-output" ).width( "#{brightness}%" )
 
-#
 #
 # ─── HANDLE VOLUME ─────────────────────────────────────────────────────────
 #
@@ -244,4 +244,5 @@ afterRender: (domEl) ->
   $(domEl).on 'mouseout', ".opt", (e) => $(domEl).find($($(e.target))).removeClass('pinned')
 
   $(domEl).on 'click', ".theme-opt", (e) => @run "./supernerd.widget/scripts/selectstyle #{ $(domEl).find($($(e.target))).attr('id') }"
-  $(domEl).on 'click', ".mode-opt", (e) => @run "./supernerd.widget/scripts/selectmode #{ $(domEl).find($($(e.target))).attr('id') }"
+
+  $(domEl).on 'click', ".mode-opt", (e) => $(domEl).find("##{$($(e.target)).attr('id')}").toggleClass('toggle-close')

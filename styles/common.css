@@ -17,7 +17,6 @@ i, .icon-container, .output {
   display:flex;
   align-items: center;
   height: var(--line-size);
-  opacity: 0.8;
 }
 
 .bar-container {
@@ -62,6 +61,10 @@ i, .icon-container, .output {
   display:block;
 }
 
+.popup {
+  display: block;
+}
+
 .tray {
   display:inline;
 }
@@ -104,6 +107,10 @@ i, .icon-container, .output {
 
 .output.nohidden {
   display: flex;
+}
+
+.toggleable.toggle-close {
+  display: none;
 }
 
 .red {

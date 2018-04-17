@@ -13,7 +13,7 @@ command: "echo " +
          "$(#{ commands.playing}):::" +
          "$(#{ commands.isplaying}):::"
 
-refreshFrequency: '10s'
+refreshFrequency: '2s'
 
 getIcon: ( processName ) -> # No spaces, no numbers in the app name.
   icon = switch
