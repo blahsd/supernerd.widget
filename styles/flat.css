@@ -25,6 +25,10 @@
   opacity: 0.8;
 }
 
+.opt {
+  background-color: var(--background);
+}
+
 /* ––––––––––––––––
 ––––––––––––––––––– BEHAVIOUR (pinned, open, alt)
 ––––––––––––––––––– */

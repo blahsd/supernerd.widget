@@ -67,7 +67,7 @@ convertBytes: (bytes) ->
   kb = bytes / 1024
   mb = kb / 1024
   if mb < 0.01
-    return "0.00mb"
+    return "0.00MB"
   return "#{parseFloat(mb.toFixed(2))}MB"
 
 update: ( output, domEl ) ->

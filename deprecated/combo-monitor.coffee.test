@@ -8,6 +8,10 @@ commands =
   focus : "/usr/local/bin/chunkc tiling::query --window name"
   playing: "osascript -e 'tell application \"iTunes\" to if player state is playing then artist of current track & \" - \" & name of current track'"
   time: "date +\"%H:%M\""
+  cpu : "ps -A -o %cpu | awk '{s+=$1} END {printf(\"%.2f\",s/8);}'"
+  mem : "ps -A -o %mem | awk '{s+=$1} END {print s \"%\"}' "
+  hdd : "df / | awk 'END{print $5}'"
+
 
 
 command: "echo " +
@@ -17,98 +21,77 @@ command: "echo " +
          "$(#{ commands.ischarging }):::" +
          "$(#{ commands.wifi }):::" +
          "$(#{ commands.isconnected }):::" +
-         "$(#{ commands.time }):::"
+         "$(#{ commands.time }):::" +
+          "$(#{ commands.cpu }):::" +
+          "$(#{ commands.mem }):::" +
+          "$(#{ commands.hdd }):::"
 
 refreshFrequency: '10s'
 
 render: ( ) ->
   """
-<div class="container">
-<div class="tray" id="tray">
-  <div class="widg toggleable" id="volume">
-    <div class="icon-container" id='volume-icon-container'>
-      <i id="volume-icon"></i>
-      <span class="alt-text">VOL</span>
-    </div>
+    <div class="container">
 
-
-    <!-- <span class='output'>
-      <div class="bar-output toggleable" id="volume-bar-output">
-        <div class="bar-output" id="volume-bar-color-output"></div>
+      <div class="widg" id="volume">
+        <div class="icon-container" id='volume-icon-container'>
+          <i id="volume-icon"></i>
+        </div>
+        <!-- <span class='output'>
+          <div class="bar-output" id="volume-bar-output">
+            <div class="bar-output" id="volume-bar-color-output"></div>
+          </div>
+        </span> -->
+        <span class="output" id='volume-output'></span>
       </div>
-    </span> -->
 
-    <span class="output" id='volume-output'></span>
-  </div>
-
-  <div class="widg toggleable" id="wifi">
-    <div class="icon-container" id='wifi-icon-container'>
-      <i class="fa fa-wifi"></i>
-      <span class="alt-text">WFI</span>
-    </div>
-    <span class="output" id='wifi-output'></span>
-  </div>
-
-  <div class="widg toggleable" id="battery">
-    <div class="icon-container" id='battery-icon-container'>
-    <i class="battery-icon">BAT</i>
-    <span class="alt-text">BAT</span>
-    </div>
-    <span class="output" id='battery-output'></span>
-  </div>
-</div>
-
-<div class="widg pinned red tray-button" id="time">
-  <span class="output pinned" id="time-output"></span>
-</div>
-</div>
-
-<div class="popup container hidden" id="time-tray">
-
-    <div class="widg theme-opt opt" id="mono">
-      <div class="icon-container">
-        Mono
+      <div class="widg" id="wifi">
+        <div class="icon-container" id='wifi-icon-container'>
+          <i class="fa fa-wifi"></i>
+        </div>
+        <span class="output" id='wifi-output'></span>
       </div>
-    </div>
 
-  <div class="widg theme-opt opt" id="flat">
-    <div class="icon-container">
-      Flat
-    </div>
-  </div>
+      <div class="widg pinned" id="battery">
+        <div class="icon-container" id='battery-icon-container'>
+        <i class="battery-icon"></i>
+        </div>
+        <span class="output" id='battery-output'></span>
+      </div>
 
-  <div class="widg theme-opt opt" id="float">
-    <div class="icon-container">
-      Float
-    </div>
-  </div>
+      <div class="widg pinned red" id="time">
+        <span class="output pinned" id="time-output"></span>
+      </div>
 
-  <div class="widg theme-opt opt" id="middle">
-    <div class="icon-container">
-      Middle
-    </div>
-  </div>
-</div>
+      <div class="widg tray" id="system-monitor">
 
-<div class="popup container hidden" id="time-tray">
-  <div class="widg mode-opt opt" id="volume">
-    <div class="icon-container">
-    Volume
-    </div>
-  </div>
+        <div class="widg" id="cpu">
+          <div class="icon-container" id='cpu-icon-container'>
+            <i class="fa fa-spinner"></i>
+          </div>
+          <span class="output" id="cpu-output"></span>
+        </div>
 
-  <div class="widg mode-opt opt" id="wifi">
-    <div class="icon-container">
-    Wifi
-    </div>
-  </div>
+        <div class="widg" id="mem">
+          <div class="icon-container" id='mem-icon-container'>
+            <i class="fas fa-server"></i>
+          </div>
+          <span class="output" id="mem-output"></span>
+        </div>
 
-  <div class="widg mode-opt opt" id="battery">
-    <div class="icon-container">
-    Battery
+        <div class="widg" id="hdd">
+          <div class="icon-container" id='hdd-icon-container'>
+            <i class="fas fa-hdd"></i>
+          </div>
+          <span class="output" id="hdd-output"></span>
+        </div>
+
+        <div class="icon-container" id="system-icon-container">
+         <i class="fas fa-power-off" id="focus-icon"></i>
+        </div>
+
+      </div>
+
     </div>
-  </div>
-</div>
 
   """
 
@@ -124,7 +107,9 @@ update: ( output, domEl ) ->
   values.wifi = output[ 4 ]
   values.isconnected = output[ 5 ]
   values.time = output[ 6 ]
-
+  values.cpu = output[ 7 ]
+  values.mem = output[ 8 ]
+  values.hdd = output[ 9 ]
 
   controls = ['battery','volume','wifi','time']
   for control in controls
@@ -141,14 +126,49 @@ update: ( output, domEl ) ->
       else if control is  'volume' then @handleVolume( domEl, Number( values["volume"]), values["ismuted"] )
       else if control is 'brightness' then @handleBrightness( domEl, values["brightness"] )
 
+  $( "#cpu-output").text("# }%")
+  $( "#mem-output").text("#{ values.mem }")
+  $( "#hdd-output").text("#{ values.hdd }")
+
+  @handleSysmon( domEl, Number( values.cpu ), '#cpu' )
+  @handleSysmon( domEl, Number( values.mem.replace( /%/g, "") ), '#mem' )
+  @handleSysmon( domEl, Number( values.hdd.replace( /%/g, "") ), '#hdd' )
+
+
+#
+# ─── HANDLE SYSMON –─────────────────────────────────────────────────────────
+#
+handleSysmon: ( domEl, sysmon, monid ) ->
+  div = $(domEl)
+
+  div.find(monid).removeClass('blue')
+  div.find(monid).removeClass('cyan')
+  div.find(monid).removeClass('green')
+  div.find(monid).removeClass('yellow')
+  div.find(monid).removeClass('magenta')
+  div.find(monid).removeClass('red')
+
+  if sysmon <= 10
+    div.find(monid).addClass('blue')
+  else if sysmon <= 20
+    div.find(monid).addClass('blue')
+  else if sysmon <= 40
+    div.find(monid).addClass('cyan')
+  else if sysmon <= 50
+    div.find(monid).addClass('green')
+  else if sysmon <= 75
+    div.find(monid).addClass('yellow')
+  else
+    div.find(monid).addClass('red')
+
 #
 # ─── HANDLE BRIGHTNESS ─────────────────────────────────────────────────────────
-#
 handleBrightness: (domEl, brightness ) ->
   brightness = Math.round(100*brightness) + 2
   $("#brightness-output").text("#{brightness}")
   $( "#brightness-bar-color-output" ).width( "#{brightness}%" )
 
+#
 #
 # ─── HANDLE VOLUME ─────────────────────────────────────────────────────────
 #
@@ -213,8 +233,6 @@ handleBattery: ( domEl, percentage, ischarging ) ->
     batteryIcon = "fas fa-bolt"
   $( ".battery-icon" ).html( "<i class=\"fa #{ batteryIcon }\"></i>" )
 
-
-
 #
 # ─── HANDLE WIFI ─────────────────────────────────────────────────────────
 #
@@ -237,12 +255,4 @@ afterRender: (domEl) ->
 
   $(domEl).on 'mouseout', ".widg", (e) => $(domEl).find( $($(e.target))).removeClass('open')
 
-  $(domEl).on 'click', ".widg", (e) => $(domEl).find("##{$($(e.target)).attr('id')}-tray").toggleClass('hidden') && if not $(domEl).find( $($(e.target))).hasClass('tray-button') then $(domEl).find( $($(e.target))).toggleClass('pinned')
-
-  $(domEl).on 'mouseover', ".opt", (e) => $(domEl).find($($(e.target))).addClass('pinned')
-
-  $(domEl).on 'mouseout', ".opt", (e) => $(domEl).find($($(e.target))).removeClass('pinned')
-
-  $(domEl).on 'click', ".theme-opt", (e) => @run "./supernerd.widget/scripts/selectstyle #{ $(domEl).find($($(e.target))).attr('id') }"
-
-  # $(domEl).on 'click', ".mode-opt", (e) => $(domEl).find("##{$($(e.target)).attr('id')}").toggleClass('toggle-close')
+  $(domEl).on 'click', ".widg", (e) => if $(domEl).find( $($(e.target))).attr('id') != "time" then $(domEl).find( $($(e.target))).toggleClass('pinned')

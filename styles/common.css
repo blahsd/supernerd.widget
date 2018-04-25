@@ -85,7 +85,6 @@ i, .icon-container, .output {
   padding-left:calc(var(--line-size)/4);
 }
 
-
 /* ––––––––––––––––
 ––––––––––––––––––– BEHAVIOUR (pinned, open, alt)
 ––––––––––––––––––– */
@@ -98,6 +97,7 @@ i, .icon-container, .output {
 
 .open .output {
   display: flex;
+  animation: slideout 0.1s;
 }
 
 .pinned .output {
@@ -245,8 +245,8 @@ the script. So don't think of sanitizing them to classes */
 /* ––––––––––––––– CENTER */
 #supernerd-widget-date-coffee, #supernerd-widget-date-weather-coffee {
   top:var(--global_margin);
-  left:33%;
-  right:33%;
+  left:42%;
+  right:42%;
   display:flex;
   justify-content: center;
 }
@@ -274,3 +274,7 @@ the script. So don't think of sanitizing them to classes */
   bottom:var(--global_margin);
   right:var(--right-margin);
 }
+
+/* ––––––––––––––––
+––––––––––––––––––– DEFAULT SIZING
+––––––––––––––––––– */

@@ -7,7 +7,7 @@
   --global_margin: 8px;
   --left-margin: 512px;
   --right-margin: 512px;
-  --line-size: 30px;
+  --line-size: 42px;
 }
 
 
@@ -16,5 +16,9 @@
 ––––––––––––––––––– */
 
 #supernerd-widget-system-monitor-coffee {
-	right:var(--globar-margin);
+  bottom:var(--global_margin);
+  left:33%;
+  right:33%;
+  display:flex;
+  justify-content: center;
 }

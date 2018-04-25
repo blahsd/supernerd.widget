@@ -1,0 +1,52 @@
+commands =
+  nrhn: "sh ./supernerd.widget/scripts/getnewshackernews.sh"
+
+command: "echo " +
+         "$(#{ commands.nrhn }):::"
+
+refreshFrequency: false
+
+render: ( ) ->
+  """
+<div class="widg panel" id="panel">
+
+  <div class="panel-header-container" id="panel-title">
+    <div class="panel-header" id="header-1">
+      <div class="icon-container" id='mail-icon-container'>
+        <i class="far fa-envelope"></i>
+        Mail
+      </div>
+    </div>
+    <div class="panel-header" id="header-2">
+      <div class="icon-container" id='mail-icon-container'>
+        <i class="far fa-envelope"><    /i>
+        Mail
+      </div>
+    </div>
+    <div class="panel-header" id="header-3">
+      <div class="icon-container" id='mail-icon-container'>
+        <i class="far fa-envelope"></i>
+        Mail
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-body-container" id="panel-body">
+    <div class="panel-body" id="body-1">
+    Lorem ipsum dolor sit amet
+    </div>
+    <div class="panel-body" id="body-2">
+    Lorem ipsum
+    </div>
+    <div class="panel-body" id="body-3">
+    Lorem ipsum
+    </div>
+  </div>
+
+</div>
+  """
+
+update: ( output, domEl ) ->
+  output = output.split( /:::/g )
+  mail = output[0]
+  $( "#body-1" ).text("asdhs")

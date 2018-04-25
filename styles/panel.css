@@ -1,0 +1,38 @@
+.panel {
+  display:block;
+  color: var(--foreground);
+  background-color: var(--background);
+  width:2400px;
+}
+
+.panel-header-container, .panel-body-container {
+  display:inline;
+  left:33%;
+  right:33%;
+  display:flex;
+  justify-content: center;
+}
+
+.panel-header-container {
+  background-color: var(--color4);
+  height:var(--line-size);
+}
+
+.panel-body-container {
+  background-color: var(--background);
+  height:calc(10*var(--line-size));
+}
+
+.panel-header, .panel-body {
+  width:33%;
+  margin-right: 15%;
+  margin-left: 15%;
+}
+
+#supernerd-widget-panel-coffee {
+  top:60px;
+  left:10%;
+  right:10%;
+  display:flex;
+  justify-content: center;
+}
