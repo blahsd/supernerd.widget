@@ -34,10 +34,15 @@ Since tools like this one are most useful if you set it and forget it, making it
 (By this point we both know you want it.)
 Please note that you might already have Brew, Ubersicht, or both, installed. In this case you can skip a step!
 
-1. Install Brew. In a terminal, run:
+1. Install Brew. In a terminal,
+
+run:
 ```ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null 2>  /dev/null ; brew install caskroom/cask/brew-cask 2> /dev/null```
 
-2. Install Übersicht. Run:
+2. Install Übersicht.
+
+Run:
+
 ```brew tap caskroom/cask```
 
 ```brew cask install ubersicht```
@@ -45,8 +50,34 @@ Please note that you might already have Brew, Ubersicht, or both, installed. In 
 
 Alternatively, you can download it from [its own website](http://tracesof.net/uebersicht/), which I don't recommend. Learn to use brew. Brew is love, brew is life.
 
-3. Install Supernerd. Run:
+3. Install Supernerd.
+
+Run:
 ```git clone https://github.com/blahsd/supernerd.widget $HOME/Library/Application\ Support/Übersicht/widgets/supernerd.widget```
+
+## Desktop indicator setup
+The desktop indicator and switcher relies on chunkwm. You can find all the necessary information here: https://github.com/koekeishiya/chunkwm
+
+You can install it quickly through Homebrew, but I don't recommend installing it if you don't know what you are getting into, so check out the link above and take a reasoned decision. These are the homebrew commands:
+```# clone tap
+brew tap crisidev/homebrew-chunkwm
+
+# install latest stable version
+brew install chunkwm
+
+# install from git repo
+brew install --HEAD chunkwm
+```
+
+## Music indicator setup
+The music indicator by default uses mpd/mpc. These are both installed easily through:
+```brew install mpd
+
+brew install mpc
+```
+
+If you don't want to use mpc/mcp, but would rather have the music indicator point to your iTunes or Spotify music, you should disable apps-and-music.coffee (for instance by renaming it to apps-and-music.coffee.optional) and enable apps-and-itunes.coffee.optional (by renaming it to apps-and-itunes.coffee).
+
 
 ## Weather widget setup
 The weather widget needs further steps in order for them to work correctly. Skip it if you don't care for it.  DarkSky's free version (which is what the widget uses to fetch the weather information) only allows a limited number of calls to the API per day. This means that if enough of you fucks use my widget the way it was setup before (which is with my private API key) I myself don't get to use it no more. So you're gonna need to get your own private API key (free) here: https://darksky.net/dev and put it in scripts/weather-update.sh. You'll see where.
