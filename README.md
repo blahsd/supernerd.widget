@@ -38,7 +38,10 @@ Please note that you might already have Brew, Ubersicht, or both, installed. In 
 ```ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" < /dev/null 2>  /dev/null ; brew install caskroom/cask/brew-cask 2> /dev/null```
 
 2. Install Übersicht. Run:
+```brew tap caskroom/cask```
+
 ```brew cask install ubersicht```
+
 
 Alternatively, you can download it from [its own website](http://tracesof.net/uebersicht/), which I don't recommend. Learn to use brew. Brew is love, brew is life.
 
