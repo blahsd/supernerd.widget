@@ -235,7 +235,7 @@ the script. So don't think of sanitizing them to classes */
 }
 
 /* ––––––––––––––– TOP LEFT */
-#supernerd-widget-apps-and-music-coffee {
+#supernerd-widget-apps-and-music-coffee, #supernerd-widget-apps-and-itunes-coffee {
   top:var(--global_margin);
   left:var(--left-margin);
   display:inline;

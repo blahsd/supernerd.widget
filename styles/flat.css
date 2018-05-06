@@ -15,7 +15,7 @@
 
 .bar-container {
   box-shadow: 0px 1px 5px 0px rgba(0,0,0,0.6);
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .widg {
@@ -43,4 +43,8 @@
 
 .textonly {
   display: inline;
+}
+
+.output {
+  display: inline !important;
 }
