@@ -1,3 +1,5 @@
+** ⚠️ Development has definitively shifted to [snwe](https://github.com/blahsd/snwe) ** a standalone verison of this widget, which works without Ubersicht and has a lot more capabilities.
+
 An extensible, customisable menubar replacement for macOS.
 Built with Ubersicht.
 
